@@ -34,6 +34,7 @@ async fn main() {
     let mut velocity_y: f32 = 0.0;
     let gravity: f32 = 1.0;
     let jump_force: f32 = 15.0;
+    let mut rotation: f32 = 0.0;
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
@@ -69,7 +70,8 @@ async fn main() {
                     &mut velocity_y,
                     gravity,
                     jump_force,
-                    &mut on_ground
+                    &mut on_ground,
+                    &mut rotation
                 );
             }
         }
@@ -130,8 +132,8 @@ async fn main() {
                     player.w,
                     player.h,
                     DrawRectangleParams {
-                        offset: Vec2 { x: 0.0, y: 0.0 },
-                        rotation: 0.0,
+                        offset: vec2(0.5, 0.5),
+                        rotation,
                         color: GREEN
                     }
                 );
