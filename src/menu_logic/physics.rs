@@ -15,8 +15,8 @@ pub fn physics_handle(
         *on_ground = false;
     }
 
-    if player.y > screen_height() / 1.15 {
-        player.y = screen_height() / 1.15;
+    if player.y > screen_height() / 1.15 - 50.0 {
+        player.y = screen_height() / 1.15 - 50.0;
         *velocity_y = 0.0;
         *on_ground = true
     }

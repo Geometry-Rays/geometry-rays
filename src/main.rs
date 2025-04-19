@@ -27,13 +27,13 @@ async fn main() {
 
     // Important game variables
     let mut game_state: GameState = GameState::Menu;
-    let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15 - 50.0, w: 50.0, h: 50.0 };
+    let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
     let mut on_ground: bool = true;
 
     // Physics values
     let mut velocity_y: f32 = 0.0;
     let gravity: f32 = 1.0;
-    let jump_force: f32 = 1.0;
+    let jump_force: f32 = 15.0;
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
