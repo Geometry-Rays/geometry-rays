@@ -2,7 +2,8 @@ use macroquad::prelude::{Rect, Color};
 
 pub enum GameState {
     Menu,
-    LevelSelect
+    LevelSelect,
+    Playing
 }
 
 

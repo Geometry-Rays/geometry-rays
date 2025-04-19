@@ -23,7 +23,8 @@ async fn main() {
     );
 
     // Important game variables
-    let game_state: GameState = GameState::Menu;
+    let mut game_state: GameState = GameState::Menu;
+    let mut player: Rect = Rect { x: 200.0, y: 480.0, w: 50.0, h: 50.0 };
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
@@ -41,9 +42,19 @@ async fn main() {
                 play_button.update(delta_time);
                 play_button.rect.x = screen_width() as f32 / 2.0 - 100.0;
                 play_button.rect.y = screen_height() as f32 / 2.0 - 50.0;
+
+                if play_button.is_clicked() {
+                    game_state = GameState::LevelSelect
+                }
             }
 
-            GameState::LevelSelect => {}
+            GameState::LevelSelect => {
+                if is_key_pressed(KeyCode::Enter) {
+                    game_state = GameState::Playing
+                }
+            }
+
+            GameState::Playing => {}
         }
 
         // Drawing
@@ -91,6 +102,30 @@ async fn main() {
 
             GameState::LevelSelect => {
                 clear_background(BLACK);
+            }
+
+            GameState::Playing => {
+                clear_background(BLACK);
+
+                draw_rectangle_ex(
+                    player.x,
+                    player.y,
+                    player.w,
+                    player.h,
+                    DrawRectangleParams {
+                        offset: Vec2 { x: 0.0, y: 0.0 },
+                        rotation: 0.0,
+                        color: GREEN
+                    }
+                );
+
+                draw_rectangle(
+                    0.0,
+                    screen_height() / 1.15,
+                    screen_width(),
+                    200.0,
+                    WHITE
+                );
             }
         }
 
