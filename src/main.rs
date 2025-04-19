@@ -13,8 +13,8 @@ async fn main() {
 
     // Buttons
     let mut play_button = Button::new(
-        get_screen_data().width() as f32 / 2.0 - 100.0,
-        300.0,
+        screen_width() as f32 / 2.0 - 100.0,
+        screen_height() as f32 / 2.0 - 50.0,
         200.0,
         100.0,
         "Play",
@@ -39,8 +39,8 @@ async fn main() {
         match game_state {
             GameState::Menu => {
                 play_button.update(delta_time);
-                play_button.rect.x = get_screen_data().width() as f32 / 2.0 - 100.0;
-                play_button.rect.y = 300.0;
+                play_button.rect.x = screen_width() as f32 / 2.0 - 100.0;
+                play_button.rect.y = screen_height() as f32 / 2.0 - 50.0;
             }
 
             GameState::LevelSelect => {}
@@ -57,8 +57,8 @@ async fn main() {
                     Color::from_rgba(20, 20, 20, 255),
                     DrawTextureParams {
                         dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * get_screen_data().width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * get_screen_data().width() as f32 * 0.0008
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
                         }),
                         source: None,
                         rotation: 0.0,
@@ -70,10 +70,19 @@ async fn main() {
 
                 draw_text_pro(
                     "Geometry Rays",
-                    get_screen_data().width() as f32 / 2.0 - measure_text_ex("Geometry Rays", 40, &font) / 2.0,
-                    100.0 + get_screen_data().height() as f32 / 7.0,
+                    screen_width() as f32 / 2.0 - measure_text_ex("Geometry Rays", 40, &font) / 2.0,
+                    100.0 + screen_height() as f32 / 7.0,
                     40,
                     RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    "Fyre",
+                    screen_width() as f32 / 2.0 - measure_text_ex("Fyre", 20, &font) / 2.0,
+                    150.0 + screen_height() as f32 / 7.0,
+                    20,
+                    ORANGE,
                     &font
                 );
 
