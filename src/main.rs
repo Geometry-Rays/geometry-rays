@@ -35,7 +35,7 @@ async fn main() {
     // Physics values
     let mut velocity_y: f32 = 0.0;
     let gravity: f32 = 1.0;
-    let jump_force: f32 = 15.0;
+    let jump_force: f32 = 16.0;
     let mut rotation: f32 = 0.0;
 
     // More variables
