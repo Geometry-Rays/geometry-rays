@@ -39,6 +39,8 @@ async fn main() {
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
         .await.expect("Failed to load background texture");
+    let default_bg = load_texture("./Resources/default-bg.png")
+        .await.expect("Failed to load background texture");
 
     loop {
         if is_key_pressed(KeyCode::Escape) {
@@ -125,6 +127,20 @@ async fn main() {
 
             GameState::Playing => {
                 clear_background(BLACK);
+                draw_texture_ex(
+                    &default_bg,
+                    0.0,
+                    0.0,
+                    Color::from_rgba(0, 0, 50, 255),
+                    DrawTextureParams {
+                        dest_size: None,
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
 
                 draw_rectangle_ex(
                     player.x,
@@ -143,7 +159,7 @@ async fn main() {
                     screen_height() / 1.15,
                     screen_width(),
                     200.0,
-                    WHITE
+                    Color::from_rgba(0, 0, 100, 255)
                 );
             }
         }
