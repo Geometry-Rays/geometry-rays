@@ -25,6 +25,10 @@ async fn main() {
     // Important game variables
     let game_state: GameState = GameState::Menu;
 
+    // Textures
+    let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
+        .await.expect("Failed to load background texture");
+
     loop {
         if is_key_pressed(KeyCode::Escape) {
             exit(0)
@@ -46,6 +50,23 @@ async fn main() {
         match game_state {
             GameState::Menu => {
                 clear_background(BLACK);
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * get_screen_data().width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * get_screen_data().width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
 
                 draw_text_pro(
                     "Geometry Rays",
