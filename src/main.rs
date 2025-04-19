@@ -50,7 +50,7 @@ async fn main() {
     // Sounds
     let menu_loop_sound = macroquad::audio::load_sound("./Resources/menu-music.ogg").await.unwrap();
 
-    play_sound(&menu_loop_sound, PlaySoundParams { looped: true, volume: 3.0 });
+    play_sound(&menu_loop_sound, PlaySoundParams { looped: true, volume: 2.0 });
     loop {
         if is_key_pressed(KeyCode::Escape) {
             exit(0)
