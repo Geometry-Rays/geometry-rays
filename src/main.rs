@@ -31,9 +31,9 @@ async fn main() {
     let mut on_ground: bool = true;
 
     // Physics values
-    let mut velocity_y: i16 = 0;
+    let mut velocity_y: f32 = 0.0;
     let gravity: f32 = 1.0;
-    let jump_force: i16 = 1;
+    let jump_force: f32 = 1.0;
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")

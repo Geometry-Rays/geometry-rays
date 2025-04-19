@@ -2,13 +2,13 @@ use macroquad::prelude::*;
 
 pub fn physics_handle(
     player: &mut Rect,
-    velocity_y: &mut i16,
+    velocity_y: &mut f32,
     gravity: f32,
-    jump_force: i16,
+    jump_force: f32,
     on_ground: &mut bool,
 ) {
-    player.y += *velocity_y as f32;
-    *velocity_y += gravity as i16;
+    player.y += *velocity_y;
+    *velocity_y += gravity;
 
     if is_mouse_button_down(MouseButton::Left) && *on_ground {
         *velocity_y -= jump_force;
@@ -17,7 +17,7 @@ pub fn physics_handle(
 
     if player.y > screen_height() / 1.15 {
         player.y = screen_height() / 1.15;
-        *velocity_y = 0;
+        *velocity_y = 0.0;
         *on_ground = true
     }
 }
