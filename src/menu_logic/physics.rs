@@ -21,7 +21,7 @@ pub fn physics_handle(
         *velocity_y = 0.0;
         *on_ground = true;
         *rotation = 0.0
-    } else {
+    } else if player.y < screen_height() / 1.15 - 26.0 {
         *rotation += 0.1
     }
 }
