@@ -1,6 +1,8 @@
 use std::process::exit;
 
 use macroquad::prelude::*;
+use macroquad::audio::play_sound;
+use macroquad::audio::PlaySoundParams;
 
 mod funcs;
 mod types;
@@ -12,7 +14,7 @@ use menu_logic::*;
 
 #[macroquad::main("Geometry Rays")]
 async fn main() {
-    let font = load_ttf_font("./Resources/Acme 9 Regular.ttf").await.unwrap();
+    let font: Font = load_ttf_font("./Resources/Acme 9 Regular.ttf").await.unwrap();
 
     // Buttons
     let mut play_button = Button::new(
@@ -45,6 +47,10 @@ async fn main() {
     let default_bg = load_texture("./Resources/default-bg.png")
         .await.expect("Failed to load background texture");
 
+    // Sounds
+    let menu_loop_sound = macroquad::audio::load_sound("./Resources/menu-music.ogg").await.unwrap();
+
+    play_sound(&menu_loop_sound, PlaySoundParams { looped: true, volume: 3.0 });
     loop {
         if is_key_pressed(KeyCode::Escape) {
             exit(0)
