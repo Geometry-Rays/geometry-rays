@@ -36,6 +36,9 @@ async fn main() {
     let jump_force: f32 = 15.0;
     let mut rotation: f32 = 0.0;
 
+    // More variables
+    let version: &str = "F-ALPHA";
+
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
         .await.expect("Failed to load background texture");
@@ -115,6 +118,15 @@ async fn main() {
                     150.0 + screen_height() as f32 / 7.0,
                     20,
                     ORANGE,
+                    &font
+                );
+
+                draw_text_pro(
+                    &format!("Version: {}", version),
+                    20.0,
+                    40.0,
+                    20,
+                    RED,
                     &font
                 );
 
