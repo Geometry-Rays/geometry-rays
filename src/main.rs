@@ -1,5 +1,3 @@
-use std::process::exit;
-
 use macroquad::prelude::*;
 use macroquad::audio::play_sound;
 use macroquad::audio::PlaySoundParams;
@@ -47,6 +45,10 @@ async fn main() {
         false
     );
 
+    // Url's for server requests
+    let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
+    let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
+
     // Important game variables
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
@@ -60,6 +62,13 @@ async fn main() {
 
     // More variables
     let version: &str = "F-ALPHA";
+    let latest_version: String = ureq::get(latest_version_url)
+        .query("fyre", "fyre")
+        .call()
+        .unwrap()
+        .into_body()
+        .read_to_string()
+        .unwrap();
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
@@ -73,7 +82,7 @@ async fn main() {
     play_sound(&menu_loop_sound, PlaySoundParams { looped: true, volume: 2.0 });
     loop {
         if is_key_pressed(KeyCode::Escape) {
-            exit(0)
+            break;
         }
 
         let delta_time: f32 = get_frame_time();
@@ -177,6 +186,15 @@ async fn main() {
                     &format!("Version: {}", version),
                     20.0,
                     40.0,
+                    20,
+                    RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    &format!("Latest Version: {}", latest_version),
+                    20.0,
+                    80.0,
                     20,
                     RED,
                     &font

@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 macroquad = { version = "0.4.14", features = ["audio"] }
+ureq = "3.0.11"
