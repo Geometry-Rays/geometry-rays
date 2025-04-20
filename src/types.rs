@@ -4,9 +4,9 @@ pub enum GameState {
     Menu,
     LevelSelect,
     Playing,
-    CreatorMenu
+    CreatorMenu,
+    Editor
 }
-
 
 pub struct Button {
     pub rect: Rect,

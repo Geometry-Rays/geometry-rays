@@ -182,6 +182,18 @@ async fn main() {
                 if back_button.is_clicked() {
                     game_state = GameState::Menu
                 }
+
+                if create_button.is_clicked() {
+                    game_state = GameState::Editor
+                }
+            }
+
+            GameState::Editor => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state = GameState::CreatorMenu
+                }
             }
         }
 
@@ -334,6 +346,27 @@ async fn main() {
                 featured_button.draw(false, None, 1.0, false, &font);
                 create_button.draw(false, None, 1.0, false, &font);
                 search_button.draw(false, None, 1.0, false, &font);
+            }
+
+            GameState::Editor => {
+                clear_background(BLACK);
+
+                draw_texture_ex(
+                    &default_bg,
+                    0.0,
+                    0.0,
+                    Color::from_rgba(0, 0, 50, 255),
+                    DrawTextureParams {
+                        dest_size: None,
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
