@@ -37,6 +37,16 @@ async fn main() {
         false
     );
 
+    let mut back_button = Button::new(
+        20.0,
+        20.0,
+        150.0,
+        75.0,
+        "Back",
+        15,
+        false
+    );
+
     // Important game variables
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
@@ -88,8 +98,14 @@ async fn main() {
             }
 
             GameState::LevelSelect => {
+                back_button.update(delta_time);
+
                 if is_key_pressed(KeyCode::Enter) {
                     game_state = GameState::Playing
+                }
+
+                if back_button.is_clicked() {
+                    game_state = GameState::Menu
                 }
             }
 
@@ -102,9 +118,19 @@ async fn main() {
                     &mut on_ground,
                     &mut rotation
                 );
+
+                if is_key_pressed(KeyCode::Backspace) {
+                    game_state = GameState::LevelSelect
+                }
             }
 
-            GameState::CreatorMenu => {}
+            GameState::CreatorMenu => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state = GameState::Menu
+                }
+            }
         }
 
         // Drawing
@@ -162,6 +188,8 @@ async fn main() {
 
             GameState::LevelSelect => {
                 clear_background(BLACK);
+
+                back_button.draw(false, None, 1.0, false, &font);
             }
 
             GameState::Playing => {
@@ -204,6 +232,8 @@ async fn main() {
 
             GameState::CreatorMenu => {
                 clear_background(BLACK);
+
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
