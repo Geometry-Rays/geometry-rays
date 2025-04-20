@@ -27,6 +27,16 @@ async fn main() {
         false
     );
 
+    let mut creator_button = Button::new(
+        screen_width() as f32 / 2.0 - 100.0,
+        screen_height() as f32 / 2.0 + 70.0,
+        200.0,
+        100.0,
+        "Custom Levels",
+        15,
+        false
+    );
+
     // Important game variables
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
@@ -61,11 +71,19 @@ async fn main() {
         match game_state {
             GameState::Menu => {
                 play_button.update(delta_time);
+                creator_button.update(delta_time);
                 play_button.rect.x = screen_width() as f32 / 2.0 - 100.0;
                 play_button.rect.y = screen_height() as f32 / 2.0 - 50.0;
 
+                creator_button.rect.x = screen_width() as f32 / 2.0 - 100.0;
+                creator_button.rect.y = screen_height() as f32 / 2.0 + 60.0;
+
                 if play_button.is_clicked() {
                     game_state = GameState::LevelSelect
+                }
+
+                if creator_button.is_clicked() {
+                    game_state = GameState::CreatorMenu
                 }
             }
 
@@ -85,6 +103,8 @@ async fn main() {
                     &mut rotation
                 );
             }
+
+            GameState::CreatorMenu => {}
         }
 
         // Drawing
@@ -137,6 +157,7 @@ async fn main() {
                 );
 
                 play_button.draw(false, None, 1.0, false, &font);
+                creator_button.draw(false, None, 1.0, false, &font);
             }
 
             GameState::LevelSelect => {
@@ -179,6 +200,10 @@ async fn main() {
                     200.0,
                     Color::from_rgba(0, 0, 100, 255)
                 );
+            }
+
+            GameState::CreatorMenu => {
+                clear_background(BLACK);
             }
         }
 

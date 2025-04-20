@@ -3,7 +3,8 @@ use macroquad::prelude::{Rect, Color};
 pub enum GameState {
     Menu,
     LevelSelect,
-    Playing
+    Playing,
+    CreatorMenu
 }
 
 
