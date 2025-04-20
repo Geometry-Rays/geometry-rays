@@ -55,6 +55,16 @@ async fn main() {
         true
     );
 
+    let mut create_button = Button::new(
+        screen_width() / 2.0 - 310.0,
+        screen_height() / 2.0 - 100.0,
+        200.0,
+        200.0,
+        "Create",
+        20,
+        false
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -147,9 +157,13 @@ async fn main() {
                 back_button.update(delta_time);
 
                 featured_button.update(delta_time);
+                create_button.update(delta_time);
 
                 featured_button.rect.x = screen_width() / 2.0 - 100.0;
                 featured_button.rect.y = screen_height() / 2.0 - 100.0;
+
+                create_button.rect.x = screen_width() / 2.0 - 310.0;
+                create_button.rect.y = screen_height() / 2.0 - 100.0;
 
                 if back_button.is_clicked() {
                     game_state = GameState::Menu
@@ -304,6 +318,7 @@ async fn main() {
 
                 back_button.draw(false, None, 1.0, false, &font);
                 featured_button.draw(false, None, 1.0, false, &font);
+                create_button.draw(false, None, 1.0, false, &font);
             }
         }
 
