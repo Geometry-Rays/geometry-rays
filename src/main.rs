@@ -207,6 +207,24 @@ async fn main() {
             GameState::LevelSelect => {
                 clear_background(BLACK);
 
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
                 back_button.draw(false, None, 1.0, false, &font);
             }
 
@@ -250,6 +268,24 @@ async fn main() {
 
             GameState::CreatorMenu => {
                 clear_background(BLACK);
+
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
 
                 back_button.draw(false, None, 1.0, false, &font);
             }
