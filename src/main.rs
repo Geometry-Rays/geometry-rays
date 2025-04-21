@@ -366,6 +366,14 @@ async fn main() {
                     }
                 );
 
+                draw_rectangle(
+                    0.0,
+                    screen_height() - 200.0,
+                    screen_width(),
+                    200.0,
+                    Color::from_rgba(10, 10, 10, 100)
+                );
+
                 back_button.draw(false, None, 1.0, false, &font);
             }
         }
