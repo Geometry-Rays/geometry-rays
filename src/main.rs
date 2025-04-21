@@ -75,6 +75,26 @@ async fn main() {
         true
     );
 
+    let mut build_tab_button = Button::new(
+        10.0,
+        screen_height() - 190.0,
+        150.0,
+        80.0,
+        "Build",
+        20,
+        false
+    );
+
+    let mut edit_tab_button = Button::new(
+        10.0,
+        screen_height() - 100.0,
+        150.0,
+        80.0,
+        "Edit",
+        20,
+        true
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -89,6 +109,9 @@ async fn main() {
     let gravity: f32 = 1.0;
     let jump_force: f32 = 16.0;
     let mut rotation: f32 = 0.0;
+
+    // Editor variables
+    let mut current_tab: u8 = 1;
 
     // More variables
     let version: &str = "F-ALPHA";
@@ -190,9 +213,26 @@ async fn main() {
 
             GameState::Editor => {
                 back_button.update(delta_time);
+                build_tab_button.update(delta_time);
+                edit_tab_button.update(delta_time);
+
+                build_tab_button.rect.y = screen_height() - 190.0;
+                edit_tab_button.rect.y = screen_height() - 100.0;
 
                 if back_button.is_clicked() {
                     game_state = GameState::CreatorMenu
+                }
+
+                if build_tab_button.is_clicked() {
+                    current_tab = 1;
+                    build_tab_button.is_disabled = false;
+                    edit_tab_button.is_disabled = true;
+                }
+
+                if edit_tab_button.is_clicked() {
+                    current_tab = 2;
+                    build_tab_button.is_disabled = true;
+                    edit_tab_button.is_disabled = false;
                 }
             }
         }
@@ -383,7 +423,20 @@ async fn main() {
                     WHITE
                 );
 
+                if current_tab == 2 {
+                    draw_text_pro(
+                        "Click on an object to select it!",
+                        screen_width() / 2.0 - measure_text_ex("Click on an object to select it!", 20, &font) / 2.0 + 50.0,
+                        screen_height() - 100.0,
+                        20,
+                        WHITE,
+                        &font
+                    );
+                }
+
                 back_button.draw(false, None, 1.0, false, &font);
+                build_tab_button.draw(false, None, 1.0, false, &font);
+                edit_tab_button.draw(false, None, 1.0, false, &font);
             }
         }
 
