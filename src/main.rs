@@ -374,6 +374,15 @@ async fn main() {
                     Color::from_rgba(10, 10, 10, 100)
                 );
 
+                draw_line(
+                    200.0,
+                    screen_height() - 200.0,
+                    200.0,
+                    screen_height(),
+                    3.0,
+                    WHITE
+                );
+
                 back_button.draw(false, None, 1.0, false, &font);
             }
         }
