@@ -528,7 +528,7 @@ async fn main() {
                 for object in &obj_grid {
                     draw_texture_ex(
                         &obj_types[object.id as usize - 1].texture,
-                        object.x as f32 + cam_pos_x,
+                        object.x as f32 - cam_pos_x,
                         object.y as f32 + cam_pos_y,
                         WHITE,
                         DrawTextureParams {

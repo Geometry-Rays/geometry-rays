@@ -14,11 +14,11 @@ pub fn keybind_handler(
     }
 
     if is_key_down(KeyCode::Left) {
-        *cam_pos_x += 5.0;
+        *cam_pos_x -= 5.0;
     }
 
     if is_key_down(KeyCode::Right) {
-        *cam_pos_x -= 5.0;
+        *cam_pos_x += 5.0;
     }
 }
 
