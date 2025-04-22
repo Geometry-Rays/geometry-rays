@@ -128,6 +128,8 @@ async fn main() {
         .await.expect("Failed to load background texture");
     let default_bg = load_texture("./Resources/default-bg.png")
         .await.expect("Failed to load background texture");
+    let grnd_texture = load_texture("./Resources/ground.png")
+        .await.expect("Failed to load ground texture");
 
     // Sounds
     let menu_loop_sound = macroquad::audio::load_sound("./Resources/menu-music.ogg").await.unwrap();
@@ -352,13 +354,25 @@ async fn main() {
                     }
                 );
 
-                draw_rectangle(
-                    0.0,
-                    screen_height() / 1.15,
-                    screen_width(),
-                    200.0,
-                    Color::from_rgba(0, 0, 100, 255)
-                );
+                for i in 0..screen_width() as i32 / 160 + 1 {
+                    draw_texture_ex(
+                        &grnd_texture,
+                        i as f32 * 155.0,
+                        screen_height() / 1.15,
+                        Color::from_rgba(0, 0, 100, 255),
+                        DrawTextureParams {
+                            dest_size: Some(vec2(
+                                160.0,
+                                160.0
+                            )),
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: None
+                        }
+                    );
+                }
             }
 
             GameState::CreatorMenu => {
