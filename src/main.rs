@@ -112,6 +112,7 @@ async fn main() {
 
     // Editor variables
     let mut current_tab: u8 = 1;
+    let mut cam_pos_y: f32 = 0.0;
 
     // More variables
     let version: &str = "F-ALPHA";
@@ -236,6 +237,10 @@ async fn main() {
                     build_tab_button.is_disabled = true;
                     edit_tab_button.is_disabled = false;
                 }
+
+                editor::keybind_handler(
+                    &mut cam_pos_y
+                );
             }
         }
 
@@ -419,6 +424,26 @@ async fn main() {
                         pivot: None
                     }
                 );
+
+                for i in 0..screen_width() as i32 / 160 + 1 {
+                    draw_texture_ex(
+                        &grnd_texture,
+                        i as f32 * 155.0,
+                        screen_height() / 1.15 + cam_pos_y,
+                        Color::from_rgba(0, 0, 100, 255),
+                        DrawTextureParams {
+                            dest_size: Some(vec2(
+                                160.0,
+                                160.0
+                            )),
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: None
+                        }
+                    );
+                }
 
                 draw_rectangle(
                     0.0,
