@@ -297,7 +297,7 @@ async fn main() {
                 let snapped_cam_x = cam_pos_x as i32;
                 let snapped_cam_y = cam_pos_y as i32;
                 let snapped_x = ((mouse_x + snapped_cam_x) / grid_size as i32) * grid_size as i32;
-                let snapped_y = ((mouse_y - snapped_cam_y) / grid_size as i32) * grid_size as i32;
+                let snapped_y = ((mouse_y + snapped_cam_y) / grid_size as i32) * grid_size as i32;
 
                 if mouse_position().1 < screen_width() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
