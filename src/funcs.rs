@@ -124,11 +124,22 @@ impl Button {
                 &font
             );
         } else {
-            draw_texture(
+            draw_texture_ex(
                 image.unwrap(),
                 self.rect.x + self.rect.w / 2.0 - image.unwrap().width() as f32 * image_scale / 2.0,
                 self.rect.y + self.rect.w / 2.0 - image.unwrap().height() as f32 * image_scale / 2.0,
-                WHITE
+                WHITE,
+                DrawTextureParams {
+                    dest_size: Some(vec2(
+                        image.unwrap().width() * image_scale,
+                        image.unwrap().width() * image_scale
+                    )),
+                    source: None,
+                    rotation: 0.0,
+                    flip_x: false,
+                    flip_y: false,
+                    pivot: None
+                }
             );
         }
     }

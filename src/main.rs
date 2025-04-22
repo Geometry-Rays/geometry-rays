@@ -5,6 +5,7 @@ use macroquad::audio::PlaySoundParams;
 mod funcs;
 mod types;
 use funcs::*;
+use menu_logic::editor::object_ped;
 use types::*;
 
 mod menu_logic;
@@ -96,6 +97,16 @@ async fn main() {
         true
     );
 
+    let mut editor_back_button = Button::new(
+        screen_width() - 160.0,
+        20.0,
+        150.0,
+        75.0,
+        "Back",
+        15,
+        false
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -104,6 +115,25 @@ async fn main() {
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
     let mut on_ground: bool = true;
+    let mut obj_grid: Vec<ObjectStruct> = vec![];
+
+    let mut obj_types: Vec<ObjectType> = vec![
+        ObjectType {
+            id: 1,
+            name: "Spike".to_string(),
+            texture: load_texture("./Resources/objects/spike.png")
+                .await.expect("Failed to load spike texture"),
+            button: Button::new(
+                210.0,
+                screen_height() - 190.0,
+                60.0,
+                60.0,
+                "Spike",
+                10,
+                false
+            )
+        }
+    ];
 
     // Physics values
     let mut velocity_y: f32 = 0.0;
@@ -114,6 +144,9 @@ async fn main() {
     // Editor variables
     let mut current_tab: u8 = 1;
     let mut cam_pos_y: f32 = 0.0;
+    let mut cam_pos_x: f32 = 0.0;
+    let mut current_obj: u16 = 1;
+    let grid_size: u8 = 40;
 
     // More variables
     let version: &str = "F-ALPHA";
@@ -218,14 +251,27 @@ async fn main() {
             }
 
             GameState::Editor => {
-                back_button.update(delta_time);
+                editor_back_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
 
                 build_tab_button.rect.y = screen_height() - 190.0;
                 edit_tab_button.rect.y = screen_height() - 100.0;
 
-                if back_button.is_clicked() {
+                editor_back_button.rect.x = screen_width() - 160.0;
+
+                for object in &mut obj_types {
+                    object.button.update(delta_time);
+                }
+
+                for object in &obj_types {
+                    if object.button.is_clicked()
+                    && current_tab == 1 {
+                        current_obj = object.id
+                    }
+                }
+
+                if editor_back_button.is_clicked() {
                     game_state = GameState::CreatorMenu
                 }
 
@@ -241,9 +287,31 @@ async fn main() {
                     edit_tab_button.is_disabled = false;
                 }
 
+                let mouse_x = mouse_position().0 as i32;
+                let mouse_y = mouse_position().1 as i32;
+                let snapped_cam_x = cam_pos_x as i32;
+                let snapped_cam_y = cam_pos_y as i32;
+                let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
+                let snapped_y = ((mouse_y - (snapped_cam_y * 5)) / grid_size as i32) * grid_size as i32;
+
+                if mouse_position().1 < screen_width() - 200.0
+                && is_mouse_button_pressed(MouseButton::Left)
+                && !editor_back_button.is_clicked() {
+                    object_ped(
+                        &mut obj_grid,
+                        cam_pos_x,
+                        cam_pos_y,
+                        snapped_x,
+                        snapped_y,
+                        current_tab,
+                        current_obj
+                    );
+                }
+
                 // All the keybinds for the editor are in this function
                 editor::keybind_handler(
-                    &mut cam_pos_y
+                    &mut cam_pos_y,
+                    &mut cam_pos_x
                 );
             }
         }
@@ -452,6 +520,26 @@ async fn main() {
                     );
                 }
 
+                for object in &obj_grid {
+                    draw_texture_ex(
+                        &obj_types[object.id as usize - 1].texture,
+                        object.x as f32 + cam_pos_x,
+                        object.y as f32 + cam_pos_y,
+                        WHITE,
+                        DrawTextureParams {
+                            dest_size: Some(vec2(
+                                obj_types[object.id as usize - 1].texture.width() * 0.05,
+                                obj_types[object.id as usize - 1].texture.height() * 0.05
+                            )),
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: Some(vec2(0.5, 0.5))
+                        }
+                    );
+                }
+
                 draw_rectangle(
                     0.0,
                     screen_height() - 200.0,
@@ -469,6 +557,18 @@ async fn main() {
                     WHITE
                 );
 
+                for object in &obj_types {
+                    if current_tab == 1 {
+                        object.button.draw(
+                            true,
+                            Some(&&object.texture),
+                            0.04,
+                            true,
+                            &font
+                        );
+                    }
+                }
+
                 if current_tab == 2 {
                     draw_text_pro(
                         "Click on an object to select it!",
@@ -480,7 +580,16 @@ async fn main() {
                     );
                 }
 
-                back_button.draw(false, None, 1.0, false, &font);
+                draw_text_pro(
+                    &format!("Selected Object: {}", obj_types[current_obj as usize - 1].name),
+                    10.0,
+                    30.0,
+                    20,
+                    WHITE,
+                    &font
+                );
+
+                editor_back_button.draw(false, None, 1.0, false, &font);
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
             }

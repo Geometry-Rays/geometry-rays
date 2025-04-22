@@ -1,4 +1,4 @@
-use macroquad::prelude::{Rect, Color};
+use macroquad::prelude::{Rect, Color, Texture2D};
 
 pub enum GameState {
     Menu,
@@ -18,4 +18,18 @@ pub struct Button {
     pub is_pressed: bool,
     pub animation_timer: f32,
     pub is_disabled: bool,
+}
+
+pub struct ObjectStruct {
+    pub x: i32,
+    pub y: i32,
+    pub id: u16,
+    pub selected: bool
+}
+
+pub struct ObjectType {
+    pub id: u16,
+    pub name: String,
+    pub texture: Texture2D,
+    pub button: Button
 }
