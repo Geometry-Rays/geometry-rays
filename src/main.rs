@@ -12,6 +12,7 @@ use menu_logic::*;
 
 #[macroquad::main("Geometry Rays")]
 async fn main() {
+    // This just loads the font used for the game.
     let font: Font = load_ttf_font("./Resources/Acme 9 Regular.ttf").await.unwrap();
 
     // Buttons
@@ -137,6 +138,7 @@ async fn main() {
 
     play_sound(&menu_loop_sound, PlaySoundParams { looped: true, volume: 2.0 });
     loop {
+        // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
             break;
         }
@@ -175,6 +177,7 @@ async fn main() {
             }
 
             GameState::Playing => {
+                // The function for handling the physics of the game
                 physics::physics_handle(
                     &mut player,
                     &mut velocity_y,
@@ -238,6 +241,7 @@ async fn main() {
                     edit_tab_button.is_disabled = false;
                 }
 
+                // All the keybinds for the editor are in this function
                 editor::keybind_handler(
                     &mut cam_pos_y
                 );
@@ -359,6 +363,7 @@ async fn main() {
                     }
                 );
 
+                // Draws the ground
                 for i in 0..screen_width() as i32 / 160 + 1 {
                     draw_texture_ex(
                         &grnd_texture,
@@ -410,6 +415,7 @@ async fn main() {
             GameState::Editor => {
                 clear_background(BLACK);
 
+                // Draws the background
                 draw_texture_ex(
                     &default_bg,
                     0.0,
@@ -425,6 +431,7 @@ async fn main() {
                     }
                 );
 
+                // Draws the ground
                 for i in 0..screen_width() as i32 / 160 + 1 {
                     draw_texture_ex(
                         &grnd_texture,
