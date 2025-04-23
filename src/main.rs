@@ -117,6 +117,7 @@ async fn main() {
     let mut on_ground: bool = true;
     let mut obj_grid: Vec<ObjectStruct> = vec![];
     let mut debug_mode: bool = false;
+    let mut world_offset: f32 = 0.0;
 
     let mut obj_types: Vec<ObjectType> = vec![
         ObjectType {
@@ -141,6 +142,7 @@ async fn main() {
     let gravity: f32 = 1.0;
     let jump_force: f32 = 16.0;
     let mut rotation: f32 = 0.0;
+    let movement_speed: f32 = 6.0;
 
     // Editor variables
     let mut current_tab: u8 = 1;
@@ -229,7 +231,9 @@ async fn main() {
                     gravity,
                     jump_force,
                     &mut on_ground,
-                    &mut rotation
+                    &mut rotation,
+                    &mut world_offset,
+                    movement_speed
                 );
 
                 if is_key_pressed(KeyCode::Backspace) {
@@ -433,6 +437,27 @@ async fn main() {
                         color: GREEN
                     }
                 );
+
+                for object in &obj_grid {
+                    let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+                    draw_texture_ex(
+                        &obj_types[object.id as usize - 1].texture,
+                        object.x as f32 - world_offset as f32,
+                        obj_y + cam_pos_y * 5.0,
+                        WHITE,
+                        DrawTextureParams {
+                            dest_size: Some(vec2(
+                                obj_types[object.id as usize - 1].texture.width() * 0.05,
+                                obj_types[object.id as usize - 1].texture.height() * 0.05
+                            )),
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: Some(vec2(0.5, 0.5))
+                        }
+                    );
+                }
 
                 // Draws the ground
                 for i in 0..screen_width() as i32 / 160 + 1 {

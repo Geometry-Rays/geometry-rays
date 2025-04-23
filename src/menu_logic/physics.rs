@@ -7,6 +7,8 @@ pub fn physics_handle(
     jump_force: f32,
     on_ground: &mut bool,
     rotation: &mut f32,
+    world_offset: &mut f32,
+    movement_speed: f32
 ) {
     player.y += *velocity_y;
     *velocity_y += gravity;
@@ -24,4 +26,6 @@ pub fn physics_handle(
     } else if player.y < screen_height() / 1.15 - 26.0 {
         *rotation += 0.1
     }
+
+    *world_offset += movement_speed
 }
