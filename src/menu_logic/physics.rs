@@ -1,5 +1,7 @@
 use macroquad::prelude::*;
 
+use crate::types::ObjectStruct;
+
 pub fn physics_handle(
     player: &mut Rect,
     velocity_y: &mut f32,
@@ -28,4 +30,45 @@ pub fn physics_handle(
     }
 
     *world_offset += movement_speed
+}
+
+pub fn hitbox_collision(
+    player: Rect,
+    obj_grid: &Vec<ObjectStruct>,
+    world_offset: f32,
+    kill_player: &mut bool
+) {
+    for object in obj_grid {
+        let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+        if object.id == 1 {
+            *kill_player = player.overlaps(&Rect {
+                x: object.x as f32 - world_offset + 15.0,
+                y: obj_y as f32 + 5.0,
+                w: 10.0,
+                h: 20.0
+            });
+        }
+    }
+}
+
+pub fn hitbox_draw(
+    player: Rect,
+    obj_grid: &Vec<ObjectStruct>,
+    world_offset: f32
+) {
+    for object in obj_grid {
+        let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+        if object.id == 1 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset + 15.0,
+                obj_y as f32 + 5.0,
+                10.0,
+                20.0,
+                2.0,
+                RED
+            );
+        }
+    }
+
+    draw_rectangle_lines(player.x, player.y, 50.0, 50.0, 2.0, WHITE);
 }

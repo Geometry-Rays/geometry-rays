@@ -6,6 +6,7 @@ mod funcs;
 mod types;
 use funcs::*;
 use menu_logic::editor::object_ped;
+use menu_logic::physics::hitbox_draw;
 use types::*;
 
 mod menu_logic;
@@ -114,10 +115,12 @@ async fn main() {
     // Important game variables
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
+    let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 50.0, h: 50.0 };
     let mut on_ground: bool = true;
     let mut obj_grid: Vec<ObjectStruct> = vec![];
     let mut debug_mode: bool = false;
     let mut world_offset: f32 = 0.0;
+    let mut kill_player: bool = false;
 
     let mut obj_types: Vec<ObjectType> = vec![
         ObjectType {
@@ -224,6 +227,13 @@ async fn main() {
             }
 
             GameState::Playing => {
+                centered_player = Rect {
+                    x: player.x - 25.0,
+                    y: player.y - 25.0,
+                    w: player.w,
+                    h: player.h
+                };
+
                 // The function for handling the physics of the game
                 physics::physics_handle(
                     &mut player,
@@ -235,6 +245,19 @@ async fn main() {
                     &mut world_offset,
                     movement_speed
                 );
+
+                physics::hitbox_collision(
+                    centered_player,
+                    &obj_grid,
+                    world_offset,
+                    &mut kill_player
+                );
+
+                if kill_player {
+                    player.y = screen_height() / 1.15;
+                    world_offset = 0.0;
+                    kill_player = false
+                }
 
                 if is_key_pressed(KeyCode::Backspace) {
                     game_state = GameState::LevelSelect
@@ -478,6 +501,10 @@ async fn main() {
                             pivot: None
                         }
                     );
+                }
+
+                if debug_mode {
+                    hitbox_draw(centered_player, &obj_grid, world_offset);
                 }
             }
 
