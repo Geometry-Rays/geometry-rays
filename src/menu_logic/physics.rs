@@ -20,12 +20,12 @@ pub fn physics_handle(
         *on_ground = false;
     }
 
-    if player.y > screen_height() / 1.15 - 25.0 {
-        player.y = screen_height() / 1.15 - 25.0;
+    if player.y > screen_height() / 1.15 - 20.0 {
+        player.y = screen_height() / 1.15 - 20.0;
         *velocity_y = 0.0;
         *on_ground = true;
         *rotation = 0.0
-    } else if player.y < screen_height() / 1.15 - 26.0 {
+    } else if player.y < screen_height() / 1.15 - 21.0 {
         *rotation += 0.1
     }
 
@@ -58,19 +58,19 @@ pub fn hitbox_collision(
         if object.id == 2 {
             if player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 3.0,
-                y: object.y as f32 + 1.0 - player_cam_y as f32,
+                y: obj_y as f32 + 1.0 - player_cam_y as f32,
                 w: 37.0,
                 h: 3.0
             }) {
                 *is_on_ground = true;
                 *rotation = 0.0;
                 if !is_mouse_button_down(MouseButton::Left) {
-                    player.y = object.y as f32 - 19.0 - player_cam_y as f32;
+                    player.y = obj_y as f32 - 19.0 - player_cam_y as f32;
                     *velocity_y = 0.0;
                 } else {
                     if gravity < 0.0 {
                         *touching_block_ceiling = true;
-                        player.y = object.y as f32 - 21.0 - player_cam_y as f32;
+                        player.y = obj_y as f32 - 21.0 - player_cam_y as f32;
                     }
                 }
             } else {
@@ -79,19 +79,19 @@ pub fn hitbox_collision(
 
             if player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 3.0,
-                y: object.y as f32 + 38.0 - player_cam_y as f32,
+                y: obj_y as f32 + 38.0 - player_cam_y as f32,
                 w: 37.0,
                 h: 3.0
             }) {
                 *is_on_ground = true;
                 *rotation = 0.0;
                 if !is_mouse_button_down(MouseButton::Left) {
-                    player.y = object.y as f32 + 61.0 - player_cam_y as f32;
+                    player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
                     *velocity_y = 0.0;
                 } else {
                     if gravity > 0.0 {
                         *touching_block_ceiling = true;
-                        player.y = object.y as f32 + 61.0 - player_cam_y as f32;
+                        player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
                     }
                 }
             } else {
@@ -100,7 +100,7 @@ pub fn hitbox_collision(
 
             if player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 80.0,
-                y: object.y as f32 - player_cam_y as f32 + 10.0,
+                y: obj_y as f32 - player_cam_y as f32 + 10.0,
                 w: 3.0,
                 h: 20.0,
             }) {
@@ -132,7 +132,7 @@ pub fn hitbox_draw(
         if object.id == 2 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
-                object.y as f32 + 1.0 - player_cam_y as f32,
+                obj_y as f32 + 1.0 - player_cam_y as f32,
                 37.0,
                 3.0,
                 2.0,
@@ -141,7 +141,7 @@ pub fn hitbox_draw(
 
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
-                object.y as f32 + 38.0 - player_cam_y as f32,
+                obj_y as f32 + 38.0 - player_cam_y as f32,
                 37.0,
                 3.0,
                 2.0,
@@ -150,7 +150,7 @@ pub fn hitbox_draw(
 
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 80.0,
-                object.y as f32 - player_cam_y as f32 + 10.0,
+                obj_y as f32 - player_cam_y as f32 + 10.0,
                 3.0,
                 20.0,
                 2.0,
@@ -159,5 +159,5 @@ pub fn hitbox_draw(
         }
     }
 
-    draw_rectangle_lines(player.x, player.y, 50.0, 50.0, 2.0, WHITE);
+    draw_rectangle_lines(player.x, player.y, 40.0, 40.0, 2.0, WHITE);
 }
