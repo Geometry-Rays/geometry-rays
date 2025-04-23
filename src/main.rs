@@ -122,6 +122,7 @@ async fn main() {
     let mut world_offset: f32 = 0.0;
     let mut kill_player: bool = false;
 
+    let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![
         ObjectType {
             id: 1,
@@ -137,7 +138,23 @@ async fn main() {
                 10,
                 false
             )
-        }
+        },
+
+        ObjectType {
+            id: 2,
+            name: "Block".to_string(),
+            texture: load_texture("./Resources/objects/block.png")
+                .await.expect("Failed to load block texture"),
+            button: Button::new(
+                210.0 + obj_btn_offset,
+                screen_height() - 190.0,
+                60.0,
+                60.0,
+                "Spike",
+                10,
+                false
+            )
+        },
     ];
 
     // Physics values
