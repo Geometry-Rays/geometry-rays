@@ -466,7 +466,7 @@ async fn main() {
                     draw_texture_ex(
                         &obj_types[object.id as usize - 1].texture,
                         object.x as f32 - world_offset as f32,
-                        obj_y + cam_pos_y * 5.0 + 130.0,
+                        obj_y + 6.0,
                         WHITE,
                         DrawTextureParams {
                             dest_size: Some(vec2(
