@@ -117,9 +117,11 @@ async fn main() {
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 50.0, h: 50.0 };
     let mut on_ground: bool = true;
+    let mut touching_block_ceiling: bool = false;
     let mut obj_grid: Vec<ObjectStruct> = vec![];
     let mut debug_mode: bool = false;
     let mut world_offset: f32 = 0.0;
+    let player_cam_y: f32 = 0.0;
     let mut kill_player: bool = false;
 
     let obj_btn_offset: f32 = 70.0;
@@ -264,10 +266,16 @@ async fn main() {
                 );
 
                 physics::hitbox_collision(
-                    centered_player,
+                    &mut centered_player,
+                    &mut rotation,
                     &obj_grid,
                     world_offset,
-                    &mut kill_player
+                    player_cam_y,
+                    &mut velocity_y,
+                    gravity,
+                    &mut kill_player,
+                    &mut on_ground,
+                    &mut touching_block_ceiling
                 );
 
                 if kill_player {
@@ -521,7 +529,12 @@ async fn main() {
                 }
 
                 if debug_mode {
-                    hitbox_draw(centered_player, &obj_grid, world_offset);
+                    hitbox_draw(
+                        centered_player,
+                        &obj_grid,
+                        world_offset,
+                        player_cam_y
+                    );
                 }
             }
 
