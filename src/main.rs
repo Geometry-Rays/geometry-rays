@@ -532,7 +532,7 @@ async fn main() {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0,
-                        screen_height() / 1.15 + cam_pos_y * 5.0,
+                        screen_height() / 1.15 + cam_pos_y * 5.0 - 7.0,
                         Color::from_rgba(0, 0, 100, 255),
                         DrawTextureParams {
                             dest_size: Some(vec2(
