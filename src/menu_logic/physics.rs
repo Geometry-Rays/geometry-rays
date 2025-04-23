@@ -41,7 +41,7 @@ pub fn hitbox_collision(
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
         if object.id == 1 {
-            *kill_player = player.overlaps(&Rect {
+            *kill_player |= player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 15.0,
                 y: obj_y as f32 + 5.0,
                 w: 10.0,
