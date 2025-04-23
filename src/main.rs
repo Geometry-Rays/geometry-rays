@@ -524,10 +524,11 @@ async fn main() {
                 }
 
                 for object in &obj_grid {
+                    let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
                     draw_texture_ex(
                         &obj_types[object.id as usize - 1].texture,
                         object.x as f32 - cam_pos_x * 5.0,
-                        object.y as f32 + cam_pos_y * 5.0,
+                        obj_y + cam_pos_y * 5.0,
                         WHITE,
                         DrawTextureParams {
                             dest_size: Some(vec2(
