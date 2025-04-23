@@ -179,6 +179,13 @@ async fn main() {
 
         let delta_time: f32 = get_frame_time();
 
+        let mouse_x = mouse_position().0 as i32;
+        let mouse_y = mouse_position().1 as i32;
+        let snapped_cam_x = cam_pos_x as i32;
+        let snapped_cam_y = cam_pos_y as i32;
+        let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
+        let snapped_y = ((mouse_y - (snapped_cam_y * 5)) / grid_size as i32) * grid_size as i32;
+
         match game_state {
             GameState::Menu => {
                 play_button.update(delta_time);
@@ -291,13 +298,6 @@ async fn main() {
                     build_tab_button.is_disabled = true;
                     edit_tab_button.is_disabled = false;
                 }
-
-                let mouse_x = mouse_position().0 as i32;
-                let mouse_y = mouse_position().1 as i32;
-                let snapped_cam_x = cam_pos_x as i32;
-                let snapped_cam_y = cam_pos_y as i32;
-                let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
-                let snapped_y = ((mouse_y - (snapped_cam_y * 5)) / grid_size as i32) * grid_size as i32;
 
                 if mouse_position().1 < screen_width() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
@@ -611,6 +611,15 @@ async fn main() {
                         20,
                         GREEN,
                         &font
+                    );
+
+                    draw_rectangle_lines(
+                        snapped_x as f32,
+                        snapped_y as f32,
+                        grid_size as f32,
+                        grid_size as f32,
+                        2.0,
+                        WHITE
                     );
                 }
 
