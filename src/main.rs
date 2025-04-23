@@ -255,7 +255,7 @@ async fn main() {
 
                 // The function for handling the physics of the game
                 physics::physics_handle(
-                    &mut player,
+                    &mut centered_player,
                     &mut velocity_y,
                     gravity,
                     jump_force,
