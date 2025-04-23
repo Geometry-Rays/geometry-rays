@@ -39,7 +39,7 @@ pub fn hitbox_collision(
     kill_player: &mut bool
 ) {
     for object in obj_grid {
-        let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+        let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
         if object.id == 1 {
             *kill_player = player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 15.0,
@@ -57,7 +57,7 @@ pub fn hitbox_draw(
     world_offset: f32
 ) {
     for object in obj_grid {
-        let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+        let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
         if object.id == 1 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 15.0,
