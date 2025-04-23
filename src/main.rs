@@ -247,8 +247,8 @@ async fn main() {
 
             GameState::Playing => {
                 centered_player = Rect {
-                    x: player.x - 25.0,
-                    y: player.y - 25.0,
+                    x: player.x - 20.0,
+                    y: player.y - 20.0,
                     w: player.w,
                     h: player.h
                 };
