@@ -296,8 +296,8 @@ async fn main() {
                 let mouse_y = mouse_position().1 as i32;
                 let snapped_cam_x = cam_pos_x as i32;
                 let snapped_cam_y = cam_pos_y as i32;
-                let snapped_x = ((mouse_x + snapped_cam_x) / grid_size as i32) * grid_size as i32;
-                let snapped_y = ((mouse_y + snapped_cam_y) / grid_size as i32) * grid_size as i32;
+                let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
+                let snapped_y = ((mouse_y - (snapped_cam_y * 5)) / grid_size as i32) * grid_size as i32;
 
                 if mouse_position().1 < screen_width() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
@@ -509,7 +509,7 @@ async fn main() {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0,
-                        screen_height() / 1.15 + cam_pos_y,
+                        screen_height() / 1.15 + cam_pos_y * 5.0,
                         Color::from_rgba(0, 0, 100, 255),
                         DrawTextureParams {
                             dest_size: Some(vec2(
@@ -528,8 +528,8 @@ async fn main() {
                 for object in &obj_grid {
                     draw_texture_ex(
                         &obj_types[object.id as usize - 1].texture,
-                        object.x as f32 - cam_pos_x,
-                        object.y as f32 + cam_pos_y,
+                        object.x as f32 - cam_pos_x * 5.0,
+                        object.y as f32 + cam_pos_y * 5.0,
                         WHITE,
                         DrawTextureParams {
                             dest_size: Some(vec2(
