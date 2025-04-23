@@ -36,8 +36,8 @@ pub fn object_ped(
 ) {
     if current_tab == 1 {
         object_grid.push(ObjectStruct {
-            x: snapped_x + cam_pos_x as i32,
-            y: snapped_y + cam_pos_y as i32,
+            x: snapped_x + cam_pos_x as i32 * 5,
+            y: snapped_y + cam_pos_y as i32 * 5,
             id: current_obj,
             selected: false
         });
