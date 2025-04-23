@@ -25,9 +25,6 @@ pub fn keybind_handler(
 pub fn object_ped(
     object_grid: &mut Vec<ObjectStruct>,
 
-    cam_pos_x: f32,
-    cam_pos_y: f32,
-
     snapped_x: i32,
     snapped_y: i32,
 
@@ -36,8 +33,8 @@ pub fn object_ped(
 ) {
     if current_tab == 1 {
         object_grid.push(ObjectStruct {
-            x: snapped_x + cam_pos_x as i32 * 5,
-            y: snapped_y + cam_pos_y as i32 * 5,
+            x: snapped_x,
+            y: snapped_y,
             id: current_obj,
             selected: false
         });

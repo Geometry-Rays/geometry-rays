@@ -304,8 +304,6 @@ async fn main() {
                 && !editor_back_button.is_clicked() {
                     object_ped(
                         &mut obj_grid,
-                        cam_pos_x,
-                        cam_pos_y,
                         snapped_x,
                         snapped_y,
                         current_tab,
