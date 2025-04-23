@@ -114,8 +114,8 @@ async fn main() {
 
     // Important game variables
     let mut game_state: GameState = GameState::Menu;
-    let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 50.0, h: 50.0 };
-    let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 50.0, h: 50.0 };
+    let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 40.0, h: 40.0 };
+    let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
     let mut on_ground: bool = true;
     let mut touching_block_ceiling: bool = false;
     let mut obj_grid: Vec<ObjectStruct> = vec![];

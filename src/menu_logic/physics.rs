@@ -73,8 +73,6 @@ pub fn hitbox_collision(
                         player.y = object.y as f32 - 21.0 - player_cam_y as f32;
                     }
                 }
-
-                println!("h");
             } else {
                 *touching_block_ceiling = false;
             }
