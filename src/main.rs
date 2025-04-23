@@ -343,7 +343,7 @@ async fn main() {
                     edit_tab_button.is_disabled = false;
                 }
 
-                if mouse_position().1 < screen_width() - 200.0
+                if mouse_position().1 < screen_height() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
                 && !editor_back_button.is_clicked() {
                     object_ped(
