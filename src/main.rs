@@ -266,7 +266,8 @@ async fn main() {
                 );
 
                 physics::hitbox_collision(
-                    &mut centered_player,
+                    &mut player,
+                    centered_player,
                     &mut rotation,
                     &obj_grid,
                     world_offset,

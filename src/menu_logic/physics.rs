@@ -34,6 +34,7 @@ pub fn physics_handle(
 
 pub fn hitbox_collision(
     player: &mut Rect,
+    centered_player: Rect,
     rotation: &mut f32,
     obj_grid: &Vec<ObjectStruct>,
     world_offset: f32,
@@ -47,7 +48,7 @@ pub fn hitbox_collision(
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
         if object.id == 1 {
-            *kill_player |= player.overlaps(&Rect {
+            *kill_player |= centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 15.0,
                 y: obj_y as f32 + 5.0,
                 w: 10.0,
@@ -56,7 +57,7 @@ pub fn hitbox_collision(
         }
 
         if object.id == 2 {
-            if player.overlaps(&Rect {
+            if centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 3.0,
                 y: obj_y as f32 + 1.0 - player_cam_y as f32,
                 w: 37.0,
@@ -77,7 +78,7 @@ pub fn hitbox_collision(
                 *touching_block_ceiling = false;
             }
 
-            if player.overlaps(&Rect {
+            if centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 3.0,
                 y: obj_y as f32 + 38.0 - player_cam_y as f32,
                 w: 37.0,
@@ -98,7 +99,7 @@ pub fn hitbox_collision(
                 *touching_block_ceiling = false;
             }
 
-            if player.overlaps(&Rect {
+            if centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 80.0,
                 y: obj_y as f32 - player_cam_y as f32 + 10.0,
                 w: 3.0,
