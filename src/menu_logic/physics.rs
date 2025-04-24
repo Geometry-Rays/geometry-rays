@@ -58,6 +58,13 @@ pub fn hitbox_collision(
         }
 
         if object.id == 2 {
+            *kill_player |= small_player.overlaps(&Rect {
+                x: object.x as f32 - world_offset,
+                y: object.y as f32 + 10.0 - player_cam_y as f32,
+                w: 3.0,
+                h: 20.0
+            });
+
             if centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + 3.0,
                 y: obj_y as f32 + 1.0 - player_cam_y as f32,
@@ -133,6 +140,15 @@ pub fn hitbox_draw(
         }
 
         if object.id == 2 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset,
+                object.y as f32 + 10.0 - player_cam_y as f32,
+                3.0,
+                20.0,
+                2.0,
+                RED
+            );
+
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
                 obj_y as f32 + 1.0 - player_cam_y as f32,
