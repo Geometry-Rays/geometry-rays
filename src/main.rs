@@ -127,37 +127,21 @@ async fn main() {
 
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![
-        ObjectType {
-            id: 1,
-            name: "Spike".to_string(),
-            texture: load_texture("./Resources/objects/spike.png")
+        ObjectType::new(
+            1,
+            "Spike",
+            load_texture("./Resources/objects/spike.png")
                 .await.expect("Failed to load spike texture"),
-            button: Button::new(
-                140.0 + (1.0 * obj_btn_offset),
-                screen_height() - 190.0,
-                60.0,
-                60.0,
-                "Spike",
-                10,
-                false
-            )
-        },
+            obj_btn_offset
+        ),
 
-        ObjectType {
-            id: 2,
-            name: "Block".to_string(),
-            texture: load_texture("./Resources/objects/block.png")
+        ObjectType::new(
+            2,
+            "Block",
+            load_texture("./Resources/objects/block.png")
                 .await.expect("Failed to load block texture"),
-            button: Button::new(
-                140.0 + (2.0 * obj_btn_offset),
-                screen_height() - 190.0,
-                60.0,
-                60.0,
-                "Spike",
-                10,
-                false
-            )
-        },
+            obj_btn_offset
+        )
     ];
 
     // Physics values

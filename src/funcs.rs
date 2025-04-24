@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::types::Button;
+use crate::types::{Button, ObjectType};
 
 pub fn draw_text_pro(
     text: &str,
@@ -150,5 +150,29 @@ impl Button {
 
     pub fn is_clicked(&self) -> bool {
         self.is_hovered() && is_mouse_button_released(MouseButton::Left)
+    }
+}
+
+impl ObjectType {
+    pub fn new(
+        id: u16,
+        name: &str,
+        texture: Texture2D,
+        obj_btn_offset: f32
+    ) -> ObjectType {
+        ObjectType {
+            id,
+            name: name.to_string(),
+            texture,
+            button: Button::new(
+                140.0 + (id as f32 * obj_btn_offset),
+                screen_height() - 190.0,
+                60.0,
+                60.0,
+                name,
+                10,
+                false
+            )
+        }
     }
 }
