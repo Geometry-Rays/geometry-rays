@@ -90,16 +90,17 @@ pub fn hitbox_collision(
                 w: 37.0,
                 h: 3.0
             }) {
-                *is_on_ground = true;
                 *rotation = 0.0;
-                if !is_mouse_button_down(MouseButton::Left) {
-                    player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
-                    *velocity_y = 0.0;
-                } else {
-                    if gravity > 0.0 {
-                        *touching_block_ceiling = true;
+                if gravity < 0.0 {
+                    *is_on_ground = true;
+                    if !is_mouse_button_down(MouseButton::Left) {
                         player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
+                        *velocity_y = 0.0;
                     }
+                } else {
+                    *touching_block_ceiling = true;
+                    *velocity_y = 0.0;
+                    player.y = obj_y as f32 + 64.0 - player_cam_y as f32;
                 }
             } else {
                 *touching_block_ceiling = false;
