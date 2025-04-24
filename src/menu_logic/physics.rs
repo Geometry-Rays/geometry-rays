@@ -35,6 +35,7 @@ pub fn physics_handle(
 pub fn hitbox_collision(
     player: &mut Rect,
     centered_player: Rect,
+    small_player: Rect,
     rotation: &mut f32,
     obj_grid: &Vec<ObjectStruct>,
     world_offset: f32,
@@ -113,6 +114,7 @@ pub fn hitbox_collision(
 
 pub fn hitbox_draw(
     player: Rect,
+    small_player: Rect,
     obj_grid: &Vec<ObjectStruct>,
     world_offset: f32,
     player_cam_y: f32,
@@ -161,4 +163,5 @@ pub fn hitbox_draw(
     }
 
     draw_rectangle_lines(player.x, player.y, 40.0, 40.0, 2.0, WHITE);
+    draw_rectangle_lines(small_player.x, small_player.y, small_player.w, small_player.h, 2.0, WHITE);
 }

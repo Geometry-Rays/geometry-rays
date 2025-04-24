@@ -116,6 +116,7 @@ async fn main() {
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
+    let mut small_player = player;
     let mut on_ground: bool = true;
     let mut touching_block_ceiling: bool = false;
     let mut obj_grid: Vec<ObjectStruct> = vec![];
@@ -253,6 +254,12 @@ async fn main() {
                     h: player.h
                 };
 
+                small_player = centered_player;
+                small_player.x = centered_player.x + 15.0;
+                small_player.y = centered_player.y + 10.0;
+                small_player.w = 20.0;
+                small_player.h = 20.0;
+
                 // The function for handling the physics of the game
                 physics::physics_handle(
                     &mut player,
@@ -268,6 +275,7 @@ async fn main() {
                 physics::hitbox_collision(
                     &mut player,
                     centered_player,
+                    small_player,
                     &mut rotation,
                     &obj_grid,
                     world_offset,
@@ -532,6 +540,7 @@ async fn main() {
                 if debug_mode {
                     hitbox_draw(
                         centered_player,
+                        small_player,
                         &obj_grid,
                         world_offset,
                         player_cam_y
