@@ -362,7 +362,7 @@ async fn main() {
 
                 if mouse_position().1 < screen_height() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
-                && !editor_back_button.is_clicked() {
+                && !editor_back_button.rect.contains(mouse_position().into()) {
                     object_ped(
                         &mut obj_grid,
                         snapped_x,
