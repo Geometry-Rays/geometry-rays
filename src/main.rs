@@ -133,7 +133,7 @@ async fn main() {
             texture: load_texture("./Resources/objects/spike.png")
                 .await.expect("Failed to load spike texture"),
             button: Button::new(
-                210.0,
+                140.0 + (1.0 * obj_btn_offset),
                 screen_height() - 190.0,
                 60.0,
                 60.0,
@@ -149,7 +149,7 @@ async fn main() {
             texture: load_texture("./Resources/objects/block.png")
                 .await.expect("Failed to load block texture"),
             button: Button::new(
-                210.0 + obj_btn_offset,
+                140.0 + (2.0 * obj_btn_offset),
                 screen_height() - 190.0,
                 60.0,
                 60.0,
