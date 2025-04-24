@@ -141,7 +141,15 @@ async fn main() {
             load_texture("./Resources/objects/block.png")
                 .await.expect("Failed to load block texture"),
             obj_btn_offset
-        )
+        ),
+
+        ObjectType::new(
+            3,
+            "Jump Pad",
+            load_texture("./Resources/objects/pads/pad.png")
+                .await.expect("Failed to load pad texture"),
+            obj_btn_offset
+        ),
     ];
 
     // Physics values

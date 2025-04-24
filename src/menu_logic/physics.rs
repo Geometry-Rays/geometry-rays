@@ -115,6 +115,21 @@ pub fn hitbox_collision(
                 *is_on_ground = false;
             }
         }
+
+        if object.id == 3 {
+            if centered_player.overlaps( &Rect {
+                x: object.x as f32 - world_offset,
+                y: obj_y as f32 - player_cam_y as f32 + 35.0,
+                w: 40.0,
+                h: 5.0
+            }) {
+                if gravity > 0.0 {
+                    *velocity_y = -18.0
+                } else {
+                    *velocity_y = 18.0
+                }
+            }
+        }
     }
 }
 
@@ -174,6 +189,17 @@ pub fn hitbox_draw(
                 2.0,
                 GREEN
             )
+        }
+
+        if object.id == 3 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset,
+                obj_y as f32 - player_cam_y as f32 + 35.0,
+                40.0,
+                5.0,
+                2.0,
+                Color::from_rgba(0, 255, 255, 255)
+            );
         }
     }
 
