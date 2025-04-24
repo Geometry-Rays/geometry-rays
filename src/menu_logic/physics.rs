@@ -73,7 +73,7 @@ pub fn hitbox_collision(
             }) {
                 *is_on_ground = true;
                 *rotation = 0.0;
-                if !is_mouse_button_down(MouseButton::Left) {
+                if !is_mouse_button_down(MouseButton::Left) && *is_on_ground {
                     player.y = obj_y as f32 - 19.0 - player_cam_y as f32;
                     *velocity_y = 0.0;
                 } else {
