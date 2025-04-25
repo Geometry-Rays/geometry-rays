@@ -179,7 +179,7 @@ async fn main() {
         let snapped_cam_x = cam_pos_x as i32;
         let snapped_cam_y = cam_pos_y as i32;
         let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
-        let snapped_y = ((mouse_y - (snapped_cam_y * 5)) / grid_size as i32) * grid_size as i32;
+        let snapped_y = (((mouse_y - (snapped_cam_y * 5)) - (screen_height() - 600.0) as i32) / grid_size as i32) * grid_size as i32;
 
         match game_state {
             GameState::Menu => {
