@@ -5,12 +5,12 @@ use macroquad::audio::PlaySoundParams;
 mod funcs;
 mod types;
 use funcs::*;
-use menu_logic::editor::object_ped;
-use menu_logic::physics::hitbox_draw;
+use game::editor::object_ped;
+use game::physics::hitbox_draw;
 use types::*;
 
-mod menu_logic;
-use menu_logic::*;
+mod game;
+use game::*;
 
 #[macroquad::main("Geometry Rays")]
 async fn main() {
