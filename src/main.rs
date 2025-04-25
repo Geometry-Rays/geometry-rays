@@ -681,8 +681,8 @@ async fn main() {
                     );
 
                     draw_rectangle_lines(
-                        snapped_x as f32,
-                        snapped_y as f32,
+                        snapped_x as f32 - cam_pos_x * 5.0,
+                        snapped_y as f32 + cam_pos_y * 5.0,
                         grid_size as f32,
                         grid_size as f32,
                         2.0,
