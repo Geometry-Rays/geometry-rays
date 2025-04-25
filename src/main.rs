@@ -124,6 +124,7 @@ async fn main() {
     let mut world_offset: f32 = 0.0;
     let player_cam_y: f32 = 0.0;
     let mut kill_player: bool = false;
+    let mut on_orb: bool = false;
 
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![];
@@ -253,13 +254,19 @@ async fn main() {
                     gravity,
                     &mut kill_player,
                     &mut on_ground,
-                    &mut touching_block_ceiling
+                    &mut touching_block_ceiling,
+                    &mut on_orb
                 );
 
                 if kill_player {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     kill_player = false
+                }
+
+                if is_mouse_button_released(MouseButton::Left) ||
+                is_key_released(KeyCode::Space) {
+                    on_orb = true
                 }
 
                 if is_key_pressed(KeyCode::Backspace) {

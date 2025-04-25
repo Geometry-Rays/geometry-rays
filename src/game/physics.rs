@@ -44,7 +44,8 @@ pub fn hitbox_collision(
     gravity: f32,
     kill_player: &mut bool,
     is_on_ground: &mut bool,
-    touching_block_ceiling: &mut bool
+    touching_block_ceiling: &mut bool,
+    on_orb: &mut bool
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -130,6 +131,28 @@ pub fn hitbox_collision(
                 }
             }
         }
+
+        if object.id == 4 {
+            if centered_player.overlaps(&Rect {
+                x: object.x as f32 - 10.0 - world_offset,
+                y: object.y as f32 - 10.0 - player_cam_y as f32,
+                w: 60.0,
+                h: 60.0
+            }) {
+                if *on_orb && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space)) {
+                    if object.id == 4 {
+                        if gravity > 0.0 {
+                            *velocity_y = -13.0;
+                        } else {
+                            *velocity_y = 13.0
+                        }
+                    }
+                    *on_orb = false
+                }
+
+                *is_on_ground = false
+            }
+        }
     }
 }
 
@@ -200,6 +223,17 @@ pub fn hitbox_draw(
                 2.0,
                 Color::from_rgba(0, 255, 255, 255)
             );
+        }
+
+        if object.id == 4 {
+            draw_rectangle_lines(
+                object.x as f32 - 10.0 - world_offset,
+                object.y as f32 - 10.0 - player_cam_y as f32,
+                60.0,
+                60.0,
+                2.0,
+                Color::from_rgba(0, 255, 255, 255)
+            )
         }
     }
 

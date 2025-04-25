@@ -28,5 +28,13 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/pads/pad.png")
             .await.expect("Failed to load pad texture"),
         obj_btn_offset
-    ),);
+    ));
+
+    obj_types.push(ObjectType::new(
+        4,
+        "Jump Orb",
+        load_texture("./Resources/objects/orbs/orb.png")
+            .await.expect("Failed to load orb texture"),
+        obj_btn_offset
+    ));
 }
