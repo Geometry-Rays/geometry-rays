@@ -681,6 +681,24 @@ async fn main() {
                         &font
                     );
 
+                    draw_text_pro(
+                        &format!("Snapped x: {}", snapped_x),
+                        10.0,
+                        150.0,
+                        20,
+                        GREEN,
+                        &font
+                    );
+
+                    draw_text_pro(
+                        &format!("Snapped y: {}", snapped_y),
+                        10.0,
+                        190.0,
+                        20,
+                        GREEN,
+                        &font
+                    );
+
                     draw_rectangle_lines(
                         snapped_x as f32 - cam_pos_x * 5.0,
                         snapped_y as f32 + cam_pos_y * 5.0,
