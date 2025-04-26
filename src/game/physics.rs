@@ -254,6 +254,17 @@ pub fn hitbox_draw(
                 Color::from_rgba(0, 255, 255, 255)
             )
         }
+
+        if object.id == 5 || object.id == 6 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
+                object.y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 11.0 } else { -11.0 } - player_cam_y as f32,
+                if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
+                if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 },
+                2.0,
+                Color::from_rgba(0, 255, 255, 255)
+            )
+        }
     }
 
     draw_rectangle_lines(player.x, player.y, 40.0, 40.0, 2.0, WHITE);
