@@ -35,6 +35,7 @@ pub fn object_ped(
         object_grid.push(ObjectStruct {
             x: snapped_x,
             y: snapped_y,
+            rotation: 0,
             id: current_obj,
             selected: false
         });

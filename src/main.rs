@@ -132,8 +132,10 @@ async fn main() {
 
     // Physics values
     let mut velocity_y: f32 = 0.0;
-    let gravity: f32 = 1.0;
-    let jump_force: f32 = 16.0;
+    let mut gravity: f32 = 1.0;
+    let default_gravity: f32 = gravity;
+    let mut jump_force: f32 = 16.0;
+    let default_jump_force: f32 = jump_force;
     let mut rotation: f32 = 0.0;
     let movement_speed: f32 = 6.0;
 
@@ -247,7 +249,10 @@ async fn main() {
                     world_offset,
                     player_cam_y,
                     &mut velocity_y,
-                    gravity,
+                    &mut gravity,
+                    default_gravity,
+                    &mut jump_force,
+                    default_jump_force,
                     &mut kill_player,
                     &mut on_ground,
                     &mut touching_block_ceiling,

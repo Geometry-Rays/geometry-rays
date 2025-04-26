@@ -41,7 +41,10 @@ pub fn hitbox_collision(
     world_offset: f32,
     player_cam_y: f32,
     velocity_y: &mut f32,
-    gravity: f32,
+    gravity: &mut f32,
+    default_gravity: f32,
+    jump_force: &mut f32,
+    default_jump_force: f32,
     kill_player: &mut bool,
     is_on_ground: &mut bool,
     touching_block_ceiling: &mut bool,
@@ -92,7 +95,7 @@ pub fn hitbox_collision(
                 h: 3.0
             }) {
                 *rotation = 0.0;
-                if gravity < 0.0 {
+                if *gravity < 0.0 {
                     *is_on_ground = true;
                     if !is_mouse_button_down(MouseButton::Left) {
                         player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
@@ -124,7 +127,7 @@ pub fn hitbox_collision(
                 w: 40.0,
                 h: 5.0
             }) {
-                if gravity > 0.0 {
+                if *gravity > 0.0 {
                     *velocity_y = -18.0
                 } else {
                     *velocity_y = 18.0
@@ -141,13 +144,32 @@ pub fn hitbox_collision(
             }) {
                 if *on_orb && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space)) {
                     if object.id == 4 {
-                        if gravity > 0.0 {
+                        if *gravity > 0.0 {
                             *velocity_y = -13.0;
                         } else {
                             *velocity_y = 13.0
                         }
                     }
                     *on_orb = false
+                }
+
+                *is_on_ground = false
+            }
+        }
+
+        if object.id == 5 || object.id == 6 {
+            if centered_player.overlaps(&Rect {
+                x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
+                y: object.y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 11.0 } else { -11.0 } - player_cam_y as f32,
+                w: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
+                h: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 }
+            }) {
+                if object.id == 5 {
+                    *jump_force = -default_jump_force;
+                    *gravity = -default_gravity;
+                } else {
+                    *jump_force = default_jump_force;
+                    *gravity = default_gravity;
                 }
 
                 *is_on_ground = false

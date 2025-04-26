@@ -24,6 +24,7 @@ pub struct Button {
 pub struct ObjectStruct {
     pub x: i32,
     pub y: i32,
+    pub rotation: i16,
     pub id: u16,
     pub selected: bool
 }
