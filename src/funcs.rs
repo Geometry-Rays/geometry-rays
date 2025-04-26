@@ -158,6 +158,7 @@ impl ObjectType {
         id: u16,
         name: &str,
         texture: Texture2D,
+        sorting: u16,
         obj_btn_offset: f32
     ) -> ObjectType {
         ObjectType {
@@ -165,7 +166,7 @@ impl ObjectType {
             name: name.to_string(),
             texture,
             button: Button::new(
-                140.0 + (id as f32 * obj_btn_offset),
+                140.0 + (sorting as f32 * obj_btn_offset),
                 screen_height() - 190.0,
                 60.0,
                 60.0,

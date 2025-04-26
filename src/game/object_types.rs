@@ -11,6 +11,7 @@ pub async fn create_object_types(
         "Spike",
         load_texture("./Resources/objects/spike.png")
             .await.expect("Failed to load spike texture"),
+        1,
         obj_btn_offset
     ));
 
@@ -19,6 +20,7 @@ pub async fn create_object_types(
         "Block",
         load_texture("./Resources/objects/block.png")
             .await.expect("Failed to load block texture"),
+        2,
         obj_btn_offset
     ));
 
@@ -27,6 +29,7 @@ pub async fn create_object_types(
         "Jump Pad",
         load_texture("./Resources/objects/pads/pad.png")
             .await.expect("Failed to load pad texture"),
+        3,
         obj_btn_offset
     ));
 
@@ -35,6 +38,7 @@ pub async fn create_object_types(
         "Jump Orb",
         load_texture("./Resources/objects/orbs/orb.png")
             .await.expect("Failed to load orb texture"),
+        4,
         obj_btn_offset
     ));
 }
