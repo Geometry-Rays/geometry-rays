@@ -10,6 +10,7 @@ pub enum GameState {
 
 pub struct Button {
     pub rect: Rect,
+    pub rect_fn: Box<dyn Fn() -> Rect>,
     pub text: String,
     pub font_size: i32,
     pub base_color: Color,

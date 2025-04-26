@@ -19,8 +19,8 @@ async fn main() {
 
     // Buttons
     let mut play_button = Button::new(
-        screen_width() as f32 / 2.0 - 100.0,
-        screen_height() as f32 / 2.0 - 50.0,
+        || screen_width() as f32 / 2.0 - 100.0,
+        || screen_height() as f32 / 2.0 - 50.0,
         200.0,
         100.0,
         "Play",
@@ -29,8 +29,8 @@ async fn main() {
     );
 
     let mut creator_button = Button::new(
-        screen_width() as f32 / 2.0 - 100.0,
-        screen_height() as f32 / 2.0 + 70.0,
+        || screen_width() as f32 / 2.0 - 100.0,
+        || screen_height() as f32 / 2.0 + 70.0,
         200.0,
         100.0,
         "Custom Levels",
@@ -39,8 +39,8 @@ async fn main() {
     );
 
     let mut back_button = Button::new(
-        20.0,
-        20.0,
+        || 20.0,
+        || 20.0,
         150.0,
         75.0,
         "Back",
@@ -49,8 +49,8 @@ async fn main() {
     );
 
     let mut featured_button = Button::new(
-        screen_width() / 2.0 - 100.0,
-        screen_height() / 2.0 - 100.0,
+        || screen_width() / 2.0 - 100.0,
+        || screen_height() / 2.0 - 100.0,
         200.0,
         200.0,
         "Featured",
@@ -59,8 +59,8 @@ async fn main() {
     );
 
     let mut create_button = Button::new(
-        screen_width() / 2.0 - 310.0,
-        screen_height() / 2.0 - 100.0,
+        || screen_width() / 2.0 - 310.0,
+        || screen_height() / 2.0 - 100.0,
         200.0,
         200.0,
         "Create",
@@ -69,8 +69,8 @@ async fn main() {
     );
 
     let mut search_button = Button::new(
-        screen_width() / 2.0 + 110.0,
-        screen_height() / 2.0 - 100.0,
+        || screen_width() / 2.0 + 110.0,
+        || screen_height() / 2.0 - 100.0,
         200.0,
         200.0,
         "Search",
@@ -79,8 +79,8 @@ async fn main() {
     );
 
     let mut build_tab_button = Button::new(
-        10.0,
-        screen_height() - 190.0,
+        || 10.0,
+        || screen_height() - 190.0,
         150.0,
         80.0,
         "Build",
@@ -89,8 +89,8 @@ async fn main() {
     );
 
     let mut edit_tab_button = Button::new(
-        10.0,
-        screen_height() - 100.0,
+        || 10.0,
+        || screen_height() - 100.0,
         150.0,
         80.0,
         "Edit",
@@ -99,8 +99,8 @@ async fn main() {
     );
 
     let mut editor_back_button = Button::new(
-        screen_width() - 160.0,
-        20.0,
+        || screen_width() - 160.0,
+        || 20.0,
         150.0,
         75.0,
         "Back",
@@ -186,11 +186,6 @@ async fn main() {
             GameState::Menu => {
                 play_button.update(delta_time);
                 creator_button.update(delta_time);
-                play_button.rect.x = screen_width() as f32 / 2.0 - 100.0;
-                play_button.rect.y = screen_height() as f32 / 2.0 - 50.0;
-
-                creator_button.rect.x = screen_width() as f32 / 2.0 - 100.0;
-                creator_button.rect.y = screen_height() as f32 / 2.0 + 60.0;
 
                 if play_button.is_clicked() {
                     game_state = GameState::LevelSelect
@@ -282,15 +277,6 @@ async fn main() {
                 create_button.update(delta_time);
                 search_button.update(delta_time);
 
-                featured_button.rect.x = screen_width() / 2.0 - 100.0;
-                featured_button.rect.y = screen_height() / 2.0 - 100.0;
-
-                create_button.rect.x = screen_width() / 2.0 - 310.0;
-                create_button.rect.y = screen_height() / 2.0 - 100.0;
-
-                search_button.rect.x = screen_width() / 2.0 + 110.0;
-                search_button.rect.y = screen_height() / 2.0 - 100.0;
-
                 if back_button.is_clicked() {
                     game_state = GameState::Menu
                 }
@@ -304,11 +290,6 @@ async fn main() {
                 editor_back_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
-
-                build_tab_button.rect.y = screen_height() - 190.0;
-                edit_tab_button.rect.y = screen_height() - 100.0;
-
-                editor_back_button.rect.x = screen_width() - 160.0;
 
                 for object in &mut obj_types {
                     object.button.update(delta_time);

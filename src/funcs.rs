@@ -32,9 +32,28 @@ pub fn measure_text_ex(
 }
 
 impl Button {
-    pub fn new(x: f32, y: f32, width: f32, height: f32, text: &str, font_size: i32, is_disabled: bool) -> Self {
+    pub fn new<Fx, Fy>(
+        x: Fx,
+        y: Fy,
+        width: f32,
+        height: f32,
+        text: &str,
+        font_size: i32,
+        is_disabled: bool
+    ) -> Self
+    where
+        Fx: 'static + Fn() -> f32 + Clone,
+        Fy: 'static + Fn() -> f32 + Clone,
+    {
+        let x_clone = x.clone();
+        let y_clone = y.clone();
+        let rect_fn = Box::new(move || {
+            Rect::new(x_clone(), y_clone().clone(), width, height)
+        });
+
         Button {
-            rect: Rect::new(x, y, width, height),
+            rect: Rect::new(x(), y(), width, height),
+            rect_fn,
             text: text.to_string(),
             font_size,
             base_color: WHITE,
@@ -47,6 +66,8 @@ impl Button {
     }
 
     pub fn update(&mut self, delta_time: f32) {
+        self.rect = (self.rect_fn)();
+
         let is_hovered = self.is_hovered();
         let is_pressed = is_hovered && is_mouse_button_down(MouseButton::Left);
 
@@ -166,8 +187,8 @@ impl ObjectType {
             name: name.to_string(),
             texture,
             button: Button::new(
-                140.0 + (sorting as f32 * obj_btn_offset),
-                screen_height() - 190.0,
+                move || 140.0 + (sorting as f32 * obj_btn_offset),
+                || screen_height() - 190.0,
                 60.0,
                 60.0,
                 name,
