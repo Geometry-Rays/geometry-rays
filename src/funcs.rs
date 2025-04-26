@@ -153,7 +153,7 @@ impl Button {
                 DrawTextureParams {
                     dest_size: Some(vec2(
                         image.unwrap().width() * image_scale,
-                        image.unwrap().width() * image_scale
+                        image.unwrap().height() * image_scale
                     )),
                     source: None,
                     rotation: 0.0,
