@@ -44,8 +44,8 @@ pub fn object_ped(
         });
     } else if current_tab == 2 {
         let mouse_radius: Rect = Rect {
-            x: mouse_position().0,
-            y: mouse_position().1,
+            x: mouse_position().0 - grid_size as f32 / 2.0,
+            y: mouse_position().1 - grid_size as f32 / 2.0,
             w: grid_size as f32,
             h: grid_size as f32
         };

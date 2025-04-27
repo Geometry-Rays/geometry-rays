@@ -721,8 +721,8 @@ async fn main() {
                     );
 
                     draw_rectangle(
-                        mouse_position().0,
-                        mouse_position().1,
+                        mouse_position().0 - grid_size as f32 / 2.0,
+                        mouse_position().1 - grid_size as f32 / 2.0,
                         grid_size as f32,
                         grid_size as f32,
                         Color::from_rgba(0, 255, 0, 150)
