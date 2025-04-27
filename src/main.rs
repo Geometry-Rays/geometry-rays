@@ -328,6 +328,9 @@ async fn main() {
                         &mut obj_grid,
                         snapped_x,
                         snapped_y,
+                        cam_pos_x,
+                        cam_pos_y,
+                        grid_size,
                         current_tab,
                         current_obj
                     );
@@ -582,7 +585,7 @@ async fn main() {
                         &obj_types[object.id as usize - 1].texture,
                         object.x as f32 - cam_pos_x * 5.0,
                         obj_y + cam_pos_y * 5.0,
-                        WHITE,
+                        if object.selected { GREEN } else { WHITE },
                         DrawTextureParams {
                             dest_size: Some(vec2(
                                 obj_types[object.id as usize - 1].texture.width() * 0.05,
@@ -595,6 +598,15 @@ async fn main() {
                             pivot: Some(vec2(0.5, 0.5))
                         }
                     );
+
+                    if debug_mode {
+                        draw_circle(
+                            object.x as f32 - cam_pos_x * 5.0,
+                            obj_y + cam_pos_y * 5.0,
+                            5.0,
+                            RED
+                        );
+                    }
                 }
 
                 draw_rectangle(
@@ -690,6 +702,14 @@ async fn main() {
                         grid_size as f32,
                         2.0,
                         WHITE
+                    );
+
+                    draw_rectangle(
+                        mouse_position().0,
+                        mouse_position().1,
+                        grid_size as f32,
+                        grid_size as f32,
+                        Color::from_rgba(0, 255, 0, 150)
                     );
                 }
 
