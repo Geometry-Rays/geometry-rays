@@ -106,6 +106,16 @@ async fn main() {
         false
     );
 
+    let mut editor_playtest_button = Button::new(
+        || 20.0,
+        || screen_height() / 2.0 - 65.0,
+        130.0,
+        130.0,
+        "Playtest",
+        15,
+        false
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -293,6 +303,7 @@ async fn main() {
                 editor_back_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
+                editor_playtest_button.update(delta_time);
 
                 for object in &mut obj_types {
                     object.button.update(delta_time);
@@ -321,9 +332,14 @@ async fn main() {
                     edit_tab_button.is_disabled = false;
                 }
 
+                if editor_playtest_button.is_clicked() {
+                    game_state = GameState::Playing
+                }
+
                 if mouse_position().1 < screen_height() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
-                && !editor_back_button.rect.contains(mouse_position().into()) {
+                && !editor_back_button.rect.contains(mouse_position().into())
+                && !editor_playtest_button.rect.contains(mouse_position().into()) {
                     editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
@@ -716,6 +732,7 @@ async fn main() {
                 editor_back_button.draw(false, None, 1.0, false, &font);
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
+                editor_playtest_button.draw(false, None, 1.0, false, &font);
             }
         }
 
