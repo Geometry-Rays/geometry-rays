@@ -1,7 +1,5 @@
 use macroquad::prelude::*;
 
-use crate::types::ObjectStruct;
-
 pub fn physics_handle(
     player: &mut Rect,
     velocity_y: &mut f32,
