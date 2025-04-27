@@ -617,8 +617,8 @@ async fn main() {
 
                     if debug_mode {
                         draw_circle(
-                            object.x as f32 - cam_pos_x * 5.0,
-                            obj_y + cam_pos_y * 5.0,
+                            object.x as f32 - cam_pos_x * 5.0 + grid_size as f32 / 2.0,
+                            obj_y + cam_pos_y * 5.0 + grid_size as f32 / 2.0,
                             5.0,
                             RED
                         );
