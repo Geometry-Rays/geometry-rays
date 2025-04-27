@@ -46,7 +46,7 @@ pub async fn create_object_types(
         5,
         "Upside Down Portal",
         load_texture("./Resources/objects/portals/upside-down-portal.png")
-            .await.expect("Failed to load upside down portal texture texture"),
+            .await.expect("Failed to load upside down portal texture"),
         5,
         obj_btn_offset
     ));
@@ -55,8 +55,17 @@ pub async fn create_object_types(
         6,
         "Right Side Up Portal",
         load_texture("./Resources/objects/portals/right-side-up-portal.png")
-            .await.expect("Failed to load right side up portal texture texture"),
+            .await.expect("Failed to load right side up portal texture"),
         6,
+        obj_btn_offset
+    ));
+
+    obj_types.push(ObjectType::new(
+        7,
+        "Short Spike",
+        load_texture("./Resources/objects/short-spike.png")
+            .await.expect("Failed to load short spike texture"),
+        7,
         obj_btn_offset
     ));
 }

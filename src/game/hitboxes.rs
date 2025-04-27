@@ -142,6 +142,15 @@ pub fn hitbox_collision(
                 *is_on_ground = false
             }
         }
+
+        if object.id == 7 {
+            *kill_player |= centered_player.overlaps(&Rect {
+                x: object.x as f32 - world_offset + 20.0,
+                y: object.y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                w: 10.0,
+                h: 10.0
+            });
+        }
     }
 }
 
@@ -234,6 +243,17 @@ pub fn hitbox_draw(
                 2.0,
                 Color::from_rgba(0, 255, 255, 255)
             )
+        }
+
+        if object.id == 7 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset + 20.0,
+                object.y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                10.0,
+                10.0,
+                2.0,
+                RED
+            );
         }
     }
 
