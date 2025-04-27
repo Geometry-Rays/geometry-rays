@@ -5,8 +5,6 @@ use macroquad::audio::PlaySoundParams;
 mod funcs;
 mod types;
 use funcs::*;
-use game::editor::object_ped;
-use game::physics::hitbox_draw;
 use types::*;
 
 mod game;
@@ -240,7 +238,7 @@ async fn main() {
                     movement_speed
                 );
 
-                physics::hitbox_collision(
+                hitboxes::hitbox_collision(
                     &mut player,
                     centered_player,
                     small_player,
@@ -326,7 +324,7 @@ async fn main() {
                 if mouse_position().1 < screen_height() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
                 && !editor_back_button.rect.contains(mouse_position().into()) {
-                    object_ped(
+                    editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
                         snapped_y,
@@ -501,7 +499,7 @@ async fn main() {
                 }
 
                 if debug_mode {
-                    hitbox_draw(
+                    hitboxes::hitbox_draw(
                         centered_player,
                         small_player,
                         &obj_grid,
