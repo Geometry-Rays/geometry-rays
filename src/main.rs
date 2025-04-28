@@ -174,6 +174,9 @@ async fn main() {
         .read_to_string()
         .unwrap();
 
+    let cc_1001: Color = Color::from_rgba(0, 0, 50, 255);
+    let cc_1002: Color = Color::from_rgba(0, 0, 100, 255);
+
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
         .await.expect("Failed to load background texture");
@@ -464,7 +467,7 @@ async fn main() {
                     &default_bg,
                     0.0,
                     0.0,
-                    Color::from_rgba(0, 0, 50, 255),
+                    cc_1001,
                     DrawTextureParams {
                         dest_size: None,
                         source: None,
@@ -514,7 +517,7 @@ async fn main() {
                         &grnd_texture,
                         i as f32 * 155.0,
                         screen_height() / 1.15,
-                        Color::from_rgba(0, 0, 100, 255),
+                        cc_1002,
                         DrawTextureParams {
                             dest_size: Some(vec2(
                                 160.0,
@@ -575,7 +578,7 @@ async fn main() {
                     &default_bg,
                     0.0,
                     0.0,
-                    Color::from_rgba(0, 0, 50, 255),
+                    cc_1001,
                     DrawTextureParams {
                         dest_size: None,
                         source: None,
@@ -592,7 +595,7 @@ async fn main() {
                         &grnd_texture,
                         i as f32 * 155.0,
                         screen_height() / 1.15 + cam_pos_y * 5.0 - 7.0,
-                        Color::from_rgba(0, 0, 100, 255),
+                        cc_1002,
                         DrawTextureParams {
                             dest_size: Some(vec2(
                                 160.0,
