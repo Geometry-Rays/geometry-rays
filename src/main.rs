@@ -106,6 +106,16 @@ async fn main() {
         false
     );
 
+    let mut editor_save_button = Button::new(
+        || screen_width() - 160.0,
+        || 105.0,
+        150.0,
+        75.0,
+        "Save",
+        15,
+        false
+    );
+
     let mut editor_playtest_button = Button::new(
         || 20.0,
         || screen_height() / 2.0 - 65.0,
@@ -301,6 +311,7 @@ async fn main() {
 
             GameState::Editor => {
                 editor_back_button.update(delta_time);
+                editor_save_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
                 editor_playtest_button.update(delta_time);
@@ -339,7 +350,8 @@ async fn main() {
                 if mouse_position().1 < screen_height() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
                 && !editor_back_button.rect.contains(mouse_position().into())
-                && !editor_playtest_button.rect.contains(mouse_position().into()) {
+                && !editor_playtest_button.rect.contains(mouse_position().into())
+                && !editor_save_button.rect.contains(mouse_position().into()) {
                     editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
@@ -730,6 +742,7 @@ async fn main() {
                 }
 
                 editor_back_button.draw(false, None, 1.0, false, &font);
+                editor_save_button.draw(false, None, 1.0, false, &font);
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
                 editor_playtest_button.draw(false, None, 1.0, false, &font);
