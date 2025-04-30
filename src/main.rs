@@ -193,6 +193,22 @@ async fn main() {
     // Sounds
     let menu_loop_sound = macroquad::audio::load_sound("./Resources/menu-music.ogg").await.unwrap();
 
+    // This handles changing level.txt to the default level if it isn't already a level
+    match std::fs::read_to_string("./save-data/level.txt") {
+        Ok(level_file) => {
+            if !level_file.starts_with("version:") {
+                let level_save_result: Result<(), std::io::Error> = std::fs::write(
+                    "./save-data/level.txt",
+                    default_level
+                );
+            }
+        }
+
+        Err(error) => {
+            println!("{}", error);
+        }
+    }
+
     play_sound(&menu_loop_sound, PlaySoundParams { looped: true, volume: 2.0 });
     loop {
         // This is so if you hit escape in the game then the game loop stops
