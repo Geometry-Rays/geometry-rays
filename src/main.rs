@@ -197,7 +197,7 @@ async fn main() {
     match std::fs::read_to_string("./save-data/level.txt") {
         Ok(level_file) => {
             if !level_file.starts_with("version:") {
-                let level_save_result: Result<(), std::io::Error> = std::fs::write(
+                let _ = std::fs::write(
                     "./save-data/level.txt",
                     default_level
                 );
