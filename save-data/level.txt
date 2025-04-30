@@ -1,0 +1,5 @@
+There is no level yet!
+
+Load the game once to generate the default level!
+
+Then use the level editor in the custom levels menu to edit the level!

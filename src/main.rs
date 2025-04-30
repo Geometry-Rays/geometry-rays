@@ -166,6 +166,7 @@ async fn main() {
 
     // More variables
     let version: &str = "F-ALPHA";
+    let level_version: &str = "F-ALPHA";
     let latest_version: String = ureq::get(latest_version_url)
         .query("fyre", "fyre")
         .call()
@@ -173,6 +174,10 @@ async fn main() {
         .into_body()
         .read_to_string()
         .unwrap();
+    let default_level: &str = &format!(
+        "version:{};cc_1001:0,0,50;cc_1002:0,0,100;;;x:400;y:0;rot:0;id:1",
+        level_version
+    );
 
     let cc_1001: Color = Color::from_rgba(0, 0, 50, 255);
     let cc_1002: Color = Color::from_rgba(0, 0, 100, 255);
@@ -348,6 +353,32 @@ async fn main() {
 
                 if editor_playtest_button.is_clicked() {
                     game_state = GameState::Playing
+                }
+
+                if editor_save_button.is_clicked() {
+                    println!("Saving level...");
+
+                    let level_string: String = saving::level_to_string(
+                        &obj_grid,
+                        level_version,
+                        cc_1001,
+                        cc_1002
+                    );
+
+                    let save_result: Result<(), std::io::Error> = std::fs::write(
+                        "./save-data/level.txt",
+                        level_string
+                    );
+
+                    match save_result {
+                        Ok(_) => {
+                            println!("Saving successful!");
+                        }
+
+                        Err(error) => {
+                            println!("Error while saving level: {}", error);
+                        }
+                    }
                 }
 
                 if mouse_position().1 < screen_height() - 200.0
