@@ -182,8 +182,8 @@ async fn main() {
         level_version
     );
 
-    let mut cc_1001: Color = Color::from_rgba(0, 0, 50, 255);
-    let mut cc_1002: Color = Color::from_rgba(0, 0, 100, 255);
+    let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
+    let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
