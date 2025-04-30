@@ -271,7 +271,7 @@ async fn main() {
                 small_player.h = 20.0;
 
                 // The function for handling the physics of the game
-                physics::physics_handle(
+                playing::physics::physics_handle(
                     &mut player,
                     &mut velocity_y,
                     gravity,
@@ -282,7 +282,7 @@ async fn main() {
                     movement_speed
                 );
 
-                hitboxes::hitbox_collision(
+                playing::hitboxes::hitbox_collision(
                     &mut player,
                     centered_player,
                     small_player,
@@ -580,7 +580,7 @@ async fn main() {
                 }
 
                 if debug_mode {
-                    hitboxes::hitbox_draw(
+                    playing::hitboxes::hitbox_draw(
                         centered_player,
                         small_player,
                         &obj_grid,
