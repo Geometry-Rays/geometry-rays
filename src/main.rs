@@ -165,6 +165,7 @@ async fn main() {
     let mut cam_pos_x: f32 = 0.0;
     let mut current_obj: u16 = 1;
     let grid_size: u8 = 40;
+    let mut been_to_editor: bool = false;
 
     // More variables
     let version: &str = "F-ALPHA";
@@ -177,12 +178,12 @@ async fn main() {
         .read_to_string()
         .unwrap();
     let default_level: &str = &format!(
-        "version:{};cc_1001:0,0,50;cc_1002:0,0,100;;;x:400;y:0;rot:0;id:1",
+        "version:{};cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
         level_version
     );
 
-    let cc_1001: Color = Color::from_rgba(0, 0, 50, 255);
-    let cc_1002: Color = Color::from_rgba(0, 0, 100, 255);
+    let mut cc_1001: Color = Color::from_rgba(0, 0, 50, 255);
+    let mut cc_1002: Color = Color::from_rgba(0, 0, 100, 255);
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
@@ -331,6 +332,18 @@ async fn main() {
                 }
 
                 if create_button.is_clicked() {
+                    if !been_to_editor {
+                        let level_data: String = std::fs::read_to_string("./save-data/level.txt").unwrap();
+
+                        loading::load_level(
+                            level_data,
+                            &mut obj_grid,
+                            &mut cc_1001,
+                            &mut cc_1002
+                        );
+                    }
+
+                    been_to_editor = true;
                     game_state = GameState::Editor
                 }
             }
