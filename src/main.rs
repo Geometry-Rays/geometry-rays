@@ -46,6 +46,8 @@ async fn main() {
         false
     );
 
+    let creator_menu_button_gap: f32 = 115.0;
+
     let mut featured_button = Button::new(
         || screen_width() / 2.0 - 100.0,
         || screen_height() / 2.0 - 100.0,
@@ -57,7 +59,7 @@ async fn main() {
     );
 
     let mut create_button = Button::new(
-        || screen_width() / 2.0 - 310.0,
+        move || screen_width() / 2.0 - creator_menu_button_gap - 200.0,
         || screen_height() / 2.0 - 100.0,
         200.0,
         200.0,
@@ -67,7 +69,7 @@ async fn main() {
     );
 
     let mut search_button = Button::new(
-        || screen_width() / 2.0 + 110.0,
+        move || screen_width() / 2.0 + creator_menu_button_gap,
         || screen_height() / 2.0 - 100.0,
         200.0,
         200.0,
