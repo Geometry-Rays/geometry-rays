@@ -39,8 +39,11 @@ pub fn object_ped(
             x: snapped_x,
             y: snapped_y,
             rotation: 0,
+            no_touch: 0,
+            hide: 0,
             id: current_obj,
-            selected: false
+            selected: false,
+            properties: None
         });
     } else if current_tab == 2 {
         let mouse_radius: Rect = Rect {

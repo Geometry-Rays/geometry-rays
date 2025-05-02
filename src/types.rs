@@ -21,12 +21,16 @@ pub struct Button {
     pub is_disabled: bool,
 }
 
+#[allow(dead_code)]
 pub struct ObjectStruct {
     pub x: i32,
     pub y: i32,
     pub rotation: i16,
+    pub no_touch: u8,
+    pub hide: u8,
     pub id: u16,
-    pub selected: bool
+    pub selected: bool,
+    pub properties: Option<Vec<String>>
 }
 
 pub struct ObjectType {
