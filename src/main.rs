@@ -19,8 +19,8 @@ async fn main() {
     let mut play_button = Button::new(
         || screen_width() as f32 / 2.0 - 100.0,
         || screen_height() as f32 / 2.0 - 50.0,
-        200.0,
-        100.0,
+        || 200.0,
+        || 100.0,
         "Play",
         20,
         false
@@ -29,8 +29,8 @@ async fn main() {
     let mut creator_button = Button::new(
         || screen_width() as f32 / 2.0 - 100.0,
         || screen_height() as f32 / 2.0 + 70.0,
-        200.0,
-        100.0,
+        || 200.0,
+        || 100.0,
         "Custom Levels",
         15,
         false
@@ -39,8 +39,8 @@ async fn main() {
     let mut back_button = Button::new(
         || 20.0,
         || 20.0,
-        150.0,
-        75.0,
+        || 150.0,
+        || 75.0,
         "Back",
         15,
         false
@@ -51,8 +51,8 @@ async fn main() {
     let mut featured_button = Button::new(
         || screen_width() / 2.0 - 100.0,
         || screen_height() / 2.0 - 100.0,
-        200.0,
-        200.0,
+        || 200.0,
+        || 200.0,
         "Featured",
         20,
         true
@@ -61,8 +61,8 @@ async fn main() {
     let mut create_button = Button::new(
         move || screen_width() / 2.0 - creator_menu_button_gap - 200.0,
         || screen_height() / 2.0 - 100.0,
-        200.0,
-        200.0,
+        || 200.0,
+        || 200.0,
         "Create",
         20,
         false
@@ -71,8 +71,8 @@ async fn main() {
     let mut search_button = Button::new(
         move || screen_width() / 2.0 + creator_menu_button_gap,
         || screen_height() / 2.0 - 100.0,
-        200.0,
-        200.0,
+        || 200.0,
+        || 200.0,
         "Search",
         20,
         true
@@ -81,8 +81,8 @@ async fn main() {
     let mut build_tab_button = Button::new(
         || 10.0,
         || screen_height() - 190.0,
-        150.0,
-        80.0,
+        || 150.0,
+        || 80.0,
         "Build",
         20,
         false
@@ -91,8 +91,8 @@ async fn main() {
     let mut edit_tab_button = Button::new(
         || 10.0,
         || screen_height() - 100.0,
-        150.0,
-        80.0,
+        || 150.0,
+        || 80.0,
         "Edit",
         20,
         true
@@ -101,8 +101,8 @@ async fn main() {
     let mut editor_back_button = Button::new(
         || screen_width() - 160.0,
         || 20.0,
-        150.0,
-        75.0,
+        || 150.0,
+        || 75.0,
         "Back",
         15,
         false
@@ -111,8 +111,8 @@ async fn main() {
     let mut editor_save_button = Button::new(
         || screen_width() - 160.0,
         || 105.0,
-        150.0,
-        75.0,
+        || 150.0,
+        || 75.0,
         "Save",
         15,
         false
@@ -121,8 +121,8 @@ async fn main() {
     let mut editor_playtest_button = Button::new(
         || 20.0,
         || screen_height() / 2.0 - 65.0,
-        130.0,
-        130.0,
+        || 130.0,
+        || 130.0,
         "Playtest",
         15,
         false

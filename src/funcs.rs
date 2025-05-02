@@ -32,11 +32,11 @@ pub fn measure_text_ex(
 }
 
 impl Button {
-    pub fn new<Fx, Fy>(
+    pub fn new<Fx, Fy, Fw, Fh>(
         x: Fx,
         y: Fy,
-        width: f32,
-        height: f32,
+        width: Fw,
+        height: Fh,
         text: &str,
         font_size: i32,
         is_disabled: bool
@@ -44,15 +44,19 @@ impl Button {
     where
         Fx: 'static + Fn() -> f32 + Clone,
         Fy: 'static + Fn() -> f32 + Clone,
+        Fw: 'static + Fn() -> f32 + Clone,
+        Fh: 'static + Fn() -> f32 + Clone,
     {
         let x_clone = x.clone();
         let y_clone = y.clone();
+        let w_clone = width.clone();
+        let h_clone = height.clone();
         let rect_fn = Box::new(move || {
-            Rect::new(x_clone(), y_clone().clone(), width, height)
+            Rect::new(x_clone(), y_clone(), w_clone(), h_clone())
         });
 
         Button {
-            rect: Rect::new(x(), y(), width, height),
+            rect: Rect::new(x(), y(), width(), height()),
             rect_fn,
             text: text.to_string(),
             font_size,
@@ -189,8 +193,8 @@ impl ObjectType {
             button: Button::new(
                 move || 140.0 + (sorting as f32 * obj_btn_offset),
                 || screen_height() - 190.0,
-                60.0,
-                60.0,
+                || 60.0,
+                || 60.0,
                 name,
                 10,
                 false
