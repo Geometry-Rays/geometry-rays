@@ -565,7 +565,7 @@ async fn main() {
                                 obj_types[object.id as usize - 1].texture.height() * 0.05
                             )),
                             source: None,
-                            rotation: 0.0,
+                            rotation: object.rotation as f32,
                             flip_x: false,
                             flip_y: false,
                             pivot: Some(vec2(0.5, 0.5))
@@ -685,7 +685,7 @@ async fn main() {
                                 obj_types[object.id as usize - 1].texture.height() * 0.05
                             )),
                             source: None,
-                            rotation: 0.0,
+                            rotation: object.rotation as f32,
                             flip_x: false,
                             flip_y: false,
                             pivot: Some(vec2(0.5, 0.5))
