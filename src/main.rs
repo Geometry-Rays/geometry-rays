@@ -79,9 +79,9 @@ async fn main() {
     );
 
     let mut build_tab_button = Button::new(
-        || 10.0,
+        || 15.0,
         || screen_height() - 190.0,
-        || 150.0,
+        || 170.0,
         || 80.0,
         "Build",
         20,
@@ -89,9 +89,9 @@ async fn main() {
     );
 
     let mut edit_tab_button = Button::new(
-        || 10.0,
+        || 15.0,
         || screen_height() - 100.0,
-        || 150.0,
+        || 170.0,
         || 80.0,
         "Edit",
         20,
