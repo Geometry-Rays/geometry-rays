@@ -561,6 +561,24 @@ async fn main() {
                     }
                 );
 
+                draw_text_pro(
+                    &format!("Creator: {}", &main_levels[current_level as usize].creator),
+                    10.0,
+                    screen_height() - 35.0,
+                    15,
+                    RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    &format!("Artist: {}", &main_levels[current_level as usize].artist),
+                    10.0,
+                    screen_height() - 10.0,
+                    15,
+                    RED,
+                    &font
+                );
+
                 back_button.draw(false, None, 1.0, false, &font);
             }
 
