@@ -432,7 +432,8 @@ async fn main() {
                 // All the keybinds for the editor are in this function
                 editor::keybind_handler(
                     &mut cam_pos_y,
-                    &mut cam_pos_x
+                    &mut cam_pos_x,
+                    &mut obj_grid
                 );
             }
         }
@@ -565,10 +566,10 @@ async fn main() {
                                 obj_types[object.id as usize - 1].texture.height() * 0.05
                             )),
                             source: None,
-                            rotation: object.rotation as f32,
+                            rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
                             flip_x: false,
                             flip_y: false,
-                            pivot: Some(vec2(0.5, 0.5))
+                            pivot: None
                         }
                     );
                 }
@@ -685,10 +686,10 @@ async fn main() {
                                 obj_types[object.id as usize - 1].texture.height() * 0.05
                             )),
                             source: None,
-                            rotation: object.rotation as f32,
+                            rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
                             flip_x: false,
                             flip_y: false,
-                            pivot: Some(vec2(0.5, 0.5))
+                            pivot: None
                         }
                     );
 

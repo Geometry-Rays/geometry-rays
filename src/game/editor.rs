@@ -3,7 +3,8 @@ use crate::types::ObjectStruct;
 
 pub fn keybind_handler(
     cam_pos_y: &mut f32,
-    cam_pos_x: &mut f32
+    cam_pos_x: &mut f32,
+    object_grid: &mut Vec<ObjectStruct>
 ) {
     if is_key_down(KeyCode::Up) {
         *cam_pos_y += 1.0;
@@ -19,6 +20,40 @@ pub fn keybind_handler(
 
     if is_key_down(KeyCode::Right) {
         *cam_pos_x += 1.0;
+    }
+
+    if is_key_pressed(KeyCode::Q) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                if object_grid[obj_index].rotation != -270 {
+                    object_grid[obj_index].rotation -= 90;
+                } else {
+                    object_grid[obj_index].rotation = 0;
+                }
+
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::E) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                if object_grid[obj_index].rotation != 270 {
+                    object_grid[obj_index].rotation += 90;
+                } else {
+                    object_grid[obj_index].rotation = 0;
+                }
+
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
     }
 }
 
