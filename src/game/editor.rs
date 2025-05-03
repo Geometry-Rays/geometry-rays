@@ -33,6 +33,102 @@ pub fn keybind_handler(
         }
     }
 
+    if is_key_pressed(KeyCode::A) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].x -= 40;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::D) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].x += 40;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::W) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].y -= 40;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::S) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].y += 40;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::J) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].x -= 1;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::L) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].x += 1;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::I) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].y -= 1;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
+    if is_key_pressed(KeyCode::K) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid[obj_index].y += 1;
+                obj_index += 1;
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
     if is_key_pressed(KeyCode::Q) {
         let mut obj_index = 0;
         while obj_index < object_grid.len() {
