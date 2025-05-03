@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::types::{Button, ObjectType};
+use crate::types::{Button, ObjectType, MainLevel};
 
 pub fn draw_text_pro(
     text: &str,
@@ -199,6 +199,27 @@ impl ObjectType {
                 10,
                 false
             )
+        }
+    }
+}
+
+impl MainLevel {
+    pub fn new(
+        name: &str,
+        difficulty: u8,
+        song: &str,
+        artist: &str,
+        creator: &str,
+        data: String
+    ) -> Self {
+        return MainLevel {
+            name: name.to_string(),
+            difficulty,
+            song: song.to_string(),
+            artist: artist.to_string(),
+            creator: creator.to_string(),
+            completed: false,
+            data: data.to_string()
         }
     }
 }

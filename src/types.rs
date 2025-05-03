@@ -39,3 +39,13 @@ pub struct ObjectType {
     pub texture: Texture2D,
     pub button: Button
 }
+
+pub struct MainLevel {
+    pub name: String,
+    pub difficulty: u8,
+    pub song: String,
+    pub artist: String,
+    pub creator: String,
+    pub completed: bool,
+    pub data: String
+}

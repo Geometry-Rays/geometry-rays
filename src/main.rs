@@ -1,3 +1,4 @@
+use game::loading::load_level;
 use macroquad::prelude::*;
 use macroquad::audio::play_sound;
 use macroquad::audio::PlaySoundParams;
@@ -181,6 +182,26 @@ async fn main() {
         "version:{};cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
         level_version
     );
+    let main_levels: Vec<MainLevel> = vec![
+        MainLevel::new(
+            "Plummet",
+            1,
+            "./Resources/Music/main-level-songs/0.ogg",
+            "1f1n1ty",
+            "Puppet",
+            std::fs::read_to_string("./Resources/main-levels/0.txt").unwrap()
+        ),
+
+        MainLevel::new(
+            "Color Blockade",
+            3,
+            "./Resources/Music/main-level-songs/1.ogg",
+            "Waterflame",
+            "Puppet",
+            std::fs::read_to_string("./Resources/main-levels/1.txt").unwrap()
+        ),
+    ];
+    let mut current_level: u8 = 0;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -194,7 +215,7 @@ async fn main() {
         .await.expect("Failed to load ground texture");
 
     // Sounds
-    let menu_loop_sound = macroquad::audio::load_sound("./Resources/menu-music.ogg").await.unwrap();
+    let menu_loop_sound = macroquad::audio::load_sound("./Resources/Music/menu-music.ogg").await.unwrap();
 
     // This handles changing level.txt to the default level if it isn't already a level
     match std::fs::read_to_string("./save-data/level.txt") {
@@ -251,11 +272,30 @@ async fn main() {
                 back_button.update(delta_time);
 
                 if is_key_pressed(KeyCode::Enter) {
-                    game_state = GameState::Playing
+                    let load_level_result = load_level(
+                        main_levels[current_level as usize].data.clone(),
+                        &mut obj_grid,
+                        &mut cc_1001,
+                        &mut cc_1002
+                    );
+
+                    if load_level_result == "ok" {
+                        game_state = GameState::Playing
+                    } else {
+                        println!("Problem loading level: {}", load_level_result);
+                    }
                 }
 
                 if back_button.is_clicked() {
-                    game_state = GameState::Menu
+                    game_state = GameState::Playing
+                }
+
+                if is_key_pressed(KeyCode::Left) && current_level > 0 {
+                    current_level -= 1;
+                }
+
+                if is_key_pressed(KeyCode::Right) && current_level < main_levels.len() as u8 - 1 {
+                    current_level += 1;
                 }
             }
 
