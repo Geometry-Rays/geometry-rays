@@ -22,6 +22,17 @@ pub fn keybind_handler(
         *cam_pos_x += 1.0;
     }
 
+    if is_key_pressed(KeyCode::Delete) {
+        let mut obj_index = 0;
+        while obj_index < object_grid.len() {
+            if object_grid[obj_index].selected {
+                object_grid.remove(obj_index);
+            } else {
+                obj_index += 1;
+            }
+        }
+    }
+
     if is_key_pressed(KeyCode::Q) {
         let mut obj_index = 0;
         while obj_index < object_grid.len() {
