@@ -287,7 +287,7 @@ async fn main() {
                 }
 
                 if back_button.is_clicked() {
-                    game_state = GameState::Playing
+                    game_state = GameState::Menu
                 }
 
                 if is_key_pressed(KeyCode::Left) && current_level > 0 {
