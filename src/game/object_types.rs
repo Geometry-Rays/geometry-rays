@@ -12,6 +12,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/spike.png")
             .await.expect("Failed to load spike texture"),
         1,
+        0,
         obj_btn_offset
     ));
 
@@ -21,6 +22,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/block.png")
             .await.expect("Failed to load block texture"),
         2,
+        0,
         obj_btn_offset
     ));
 
@@ -30,6 +32,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/pads/pad.png")
             .await.expect("Failed to load pad texture"),
         3,
+        0,
         obj_btn_offset
     ));
 
@@ -39,6 +42,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/orbs/orb.png")
             .await.expect("Failed to load orb texture"),
         4,
+        0,
         obj_btn_offset
     ));
 
@@ -48,6 +52,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/portals/upside-down-portal.png")
             .await.expect("Failed to load upside down portal texture"),
         5,
+        0,
         obj_btn_offset
     ));
 
@@ -57,6 +62,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/portals/right-side-up-portal.png")
             .await.expect("Failed to load right side up portal texture"),
         6,
+        0,
         obj_btn_offset
     ));
 
@@ -66,6 +72,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/short-spike.png")
             .await.expect("Failed to load short spike texture"),
         7,
+        0,
         obj_btn_offset
     ));
 
@@ -75,6 +82,7 @@ pub async fn create_object_types(
         load_texture("./Resources/objects/portals/cube-portal.png")
             .await.expect("Failed to load cube portal texture"),
         8,
+        0,
         obj_btn_offset
     ));
 
@@ -83,7 +91,8 @@ pub async fn create_object_types(
         "Ship Portal",
         load_texture("./Resources/objects/portals/ship-portal.png")
             .await.expect("Failed to load ship portal texture"),
-        9,
+        1,
+        1,
         obj_btn_offset
     ));
 }
