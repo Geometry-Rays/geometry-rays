@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-macroquad = { version = "0.4.14", features = ["audio"] }
+macroquad = "0.4.14"
+rodio = "0.20.1"
 ureq = "3.0.11"
