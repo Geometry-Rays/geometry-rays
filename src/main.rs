@@ -225,7 +225,7 @@ async fn main() {
         .await.expect("Failed to load ground texture");
 
     // Audio
-    let menu_loop = load_audio("Resources/Music/menu-music.ogg");
+    let menu_loop = load_audio("Resources/Music/menu-music.mp3");
 
     // This handles changing level.txt to the default level if it isn't already a level
     match std::fs::read_to_string("./save-data/level.txt") {
