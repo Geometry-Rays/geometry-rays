@@ -2,9 +2,9 @@ use game::loading::load_level;
 use game::playing::physics::ship_physics;
 use macroquad::prelude::*;
 
-use rodio::{Decoder, OutputStream, source::Source};
-use std::fs::File;
-use std::io::BufReader;
+use gr_rodio::rodio_raw::OutputStream;
+
+use gr_rodio::*;
 
 mod funcs;
 mod types;
@@ -20,6 +20,7 @@ async fn main() {
     let font: Font = load_ttf_font("./Resources/Acme 9 Regular.ttf").await.unwrap();
 
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+    let sink = rodio_raw::Sink::try_new(&stream_handle).unwrap();
 
     // Buttons
     let mut play_button = Button::new(
@@ -223,13 +224,6 @@ async fn main() {
     let grnd_texture = load_texture("./Resources/ground.png")
         .await.expect("Failed to load ground texture");
 
-    // Sounds
-    let menu_loop_sound: Decoder<BufReader<File>> = Decoder::new(
-        BufReader::new(
-            File::open("Resources/Music/menu-music.ogg").unwrap()
-        )
-    ).unwrap();
-
     // This handles changing level.txt to the default level if it isn't already a level
     match std::fs::read_to_string("./save-data/level.txt") {
         Ok(level_file) => {
@@ -246,7 +240,7 @@ async fn main() {
         }
     }
 
-    stream_handle.play_raw(menu_loop_sound.convert_samples()).unwrap();
+    play_audio("Resources/Music/menu-music.ogg", 2.5, &sink);
     loop {
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
