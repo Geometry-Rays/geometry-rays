@@ -68,4 +68,22 @@ pub async fn create_object_types(
         7,
         obj_btn_offset
     ));
+
+    obj_types.push(ObjectType::new(
+        8,
+        "Cube Portal",
+        load_texture("./Resources/objects/portals/cube-portal.png")
+            .await.expect("Failed to load cube portal texture"),
+        8,
+        obj_btn_offset
+    ));
+
+    obj_types.push(ObjectType::new(
+        9,
+        "Ship Portal",
+        load_texture("./Resources/objects/portals/ship-portal.png")
+            .await.expect("Failed to load ship portal texture"),
+        9,
+        obj_btn_offset
+    ));
 }

@@ -49,3 +49,8 @@ pub struct MainLevel {
     pub completed: bool,
     pub data: String
 }
+
+pub enum GameMode {
+    Cube,
+    Ship
+}

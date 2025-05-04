@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::types::ObjectStruct;
+use crate::types::{GameMode, ObjectStruct};
 
 pub fn hitbox_collision(
     player: &mut Rect,
@@ -18,7 +18,8 @@ pub fn hitbox_collision(
     kill_player: &mut bool,
     is_on_ground: &mut bool,
     touching_block_ceiling: &mut bool,
-    on_orb: &mut bool
+    on_orb: &mut bool,
+    current_gamemode: &mut GameMode
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -124,7 +125,8 @@ pub fn hitbox_collision(
             }
         }
 
-        if object.id == 5 || object.id == 6 {
+        if object.id == 5 || object.id == 6
+        || object.id == 8 || object.id == 9 {
             if centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
                 y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
@@ -134,9 +136,13 @@ pub fn hitbox_collision(
                 if object.id == 5 {
                     *jump_force = -default_jump_force;
                     *gravity = -default_gravity;
-                } else {
+                } else if object.id == 6 {
                     *jump_force = default_jump_force;
                     *gravity = default_gravity;
+                } else if object.id == 8 {
+                    *current_gamemode = GameMode::Cube
+                } else if object.id == 9 {
+                    *current_gamemode = GameMode::Ship
                 }
 
                 *is_on_ground = false

@@ -1,4 +1,5 @@
 use game::loading::load_level;
+use game::playing::physics::ship_physics;
 use macroquad::prelude::*;
 use macroquad::audio::play_sound;
 use macroquad::audio::PlaySoundParams;
@@ -146,6 +147,7 @@ async fn main() {
     let player_cam_y: f32 = 0.0;
     let mut kill_player: bool = false;
     let mut on_orb: bool = false;
+    let mut current_gamemode: GameMode = GameMode::Cube;
 
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![];
@@ -159,6 +161,8 @@ async fn main() {
     let default_jump_force: f32 = jump_force;
     let mut rotation: f32 = 0.0;
     let movement_speed: f32 = 6.0;
+    let ship_power: f32 = 0.7;
+    let ship_falling_speed: f32 = 0.5;
 
     // Editor variables
     let mut current_tab: u8 = 1;
@@ -341,8 +345,30 @@ async fn main() {
                     &mut kill_player,
                     &mut on_ground,
                     &mut touching_block_ceiling,
-                    &mut on_orb
+                    &mut on_orb,
+                    &mut current_gamemode
                 );
+
+                match current_gamemode {
+                    GameMode::Cube => {
+                        playing::physics::cube_physics(
+                            &mut velocity_y,
+                            gravity,
+                            &mut on_ground,
+                            jump_force
+                        );
+                    }
+
+                    GameMode::Ship => {
+                        ship_physics(
+                            touching_block_ceiling,
+                            gravity,
+                            &mut velocity_y,
+                            ship_power,
+                            ship_falling_speed
+                        );
+                    }
+                }
 
                 if kill_player {
                     player.y = screen_height() / 1.15;

@@ -11,12 +11,12 @@ pub fn physics_handle(
     movement_speed: f32
 ) {
     player.y += *velocity_y;
-    *velocity_y += gravity;
+    // *velocity_y += gravity;
 
-    if is_mouse_button_down(MouseButton::Left) && *on_ground {
-        *velocity_y -= jump_force;
-        *on_ground = false;
-    }
+    // if is_mouse_button_down(MouseButton::Left) && *on_ground {
+    //     *velocity_y -= jump_force;
+    //     *on_ground = false;
+    // }
 
     if player.y > screen_height() / 1.15 - 20.0 {
         player.y = screen_height() / 1.15 - 20.0;
@@ -28,4 +28,52 @@ pub fn physics_handle(
     }
 
     *world_offset += movement_speed
+}
+
+pub fn cube_physics(
+    velocity_y: &mut f32,
+    gravity: f32,
+    on_ground: &mut bool,
+    jump_force: f32
+) {
+    *velocity_y += gravity;
+
+    if is_mouse_button_down(MouseButton::Left) && *on_ground {
+        *velocity_y -= jump_force;
+        *on_ground = false;
+    }
+}
+
+pub fn ship_physics(
+    touching_block_ceiling: bool,
+    gravity: f32,
+    velocity_y: &mut f32,
+    ship_power: f32,
+    ship_falling_speed: f32,
+) {
+    if !touching_block_ceiling {
+        if is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) {
+            if gravity > 0.0 {
+                if *velocity_y > -10.0 {
+                    *velocity_y -= ship_power
+                }
+            } else {
+                if *velocity_y < 10.0 {
+                    *velocity_y += ship_power
+                }
+            }
+        } else {
+            if gravity > 0.0 {
+                if *velocity_y < 10.0 {
+                    *velocity_y += ship_falling_speed
+                }
+            } else {
+                if *velocity_y > -10.0 {
+                    *velocity_y -= ship_falling_speed
+                }
+            }
+        }
+    } else {
+        *velocity_y = 0.0
+    }
 }
