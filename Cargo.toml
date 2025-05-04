@@ -5,5 +5,5 @@ edition = "2024"
 
 [dependencies]
 macroquad = "0.4.14"
-gr-rodio = "1.0.0"
+gr-rodio = "1.1.0"
 ureq = "3.0.11"
