@@ -209,6 +209,7 @@ async fn main() {
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
+    let mut cc_1003: Color = GREEN;
 
     // Textures
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
@@ -346,7 +347,8 @@ async fn main() {
                     &mut on_ground,
                     &mut touching_block_ceiling,
                     &mut on_orb,
-                    &mut current_gamemode
+                    &mut current_gamemode,
+                    &mut cc_1003
                 );
 
                 match current_gamemode {
@@ -646,7 +648,7 @@ async fn main() {
                     DrawRectangleParams {
                         offset: vec2(0.5, 0.5),
                         rotation,
-                        color: GREEN
+                        color: cc_1003
                     }
                 );
 

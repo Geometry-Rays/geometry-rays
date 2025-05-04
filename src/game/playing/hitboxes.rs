@@ -19,7 +19,8 @@ pub fn hitbox_collision(
     is_on_ground: &mut bool,
     touching_block_ceiling: &mut bool,
     on_orb: &mut bool,
-    current_gamemode: &mut GameMode
+    current_gamemode: &mut GameMode,
+    cc_1003: &mut Color
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -140,9 +141,11 @@ pub fn hitbox_collision(
                     *jump_force = default_jump_force;
                     *gravity = default_gravity;
                 } else if object.id == 8 {
-                    *current_gamemode = GameMode::Cube
+                    *current_gamemode = GameMode::Cube;
+                    *cc_1003 = GREEN;
                 } else if object.id == 9 {
-                    *current_gamemode = GameMode::Ship
+                    *current_gamemode = GameMode::Ship;
+                    *cc_1003 = MAGENTA
                 }
 
                 *is_on_ground = false
