@@ -322,8 +322,6 @@ async fn main() {
                 playing::physics::physics_handle(
                     &mut player,
                     &mut velocity_y,
-                    gravity,
-                    jump_force,
                     &mut on_ground,
                     &mut rotation,
                     &mut world_offset,

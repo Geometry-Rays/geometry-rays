@@ -3,8 +3,6 @@ use macroquad::prelude::*;
 pub fn physics_handle(
     player: &mut Rect,
     velocity_y: &mut f32,
-    gravity: f32,
-    jump_force: f32,
     on_ground: &mut bool,
     rotation: &mut f32,
     world_offset: &mut f32,
