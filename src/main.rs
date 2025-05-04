@@ -246,7 +246,7 @@ async fn main() {
         }
     }
 
-    let _ = stream_handle.play_raw(menu_loop_sound.convert_samples());
+    stream_handle.play_raw(menu_loop_sound.convert_samples()).unwrap();
     loop {
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
