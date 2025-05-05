@@ -385,7 +385,8 @@ async fn main() {
                 if kill_player {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
-                    kill_player = false
+                    kill_player = false;
+                    restart_audio(&sink);
                 }
 
                 if is_mouse_button_released(MouseButton::Left) ||
