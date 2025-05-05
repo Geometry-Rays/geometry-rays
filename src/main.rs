@@ -211,7 +211,7 @@ async fn main() {
         ),
     ];
     let mut current_level: u8 = 0;
-    let mut current_song: &str = &main_levels[0].song;
+    let mut current_song: String = main_levels[0].song.to_string();
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -284,7 +284,9 @@ async fn main() {
                         main_levels[current_level as usize].data.clone(),
                         &mut obj_grid,
                         &mut cc_1001,
-                        &mut cc_1002
+                        &mut cc_1002,
+                        &mut current_song,
+                        false
                     );
 
                     stop_audio(&sink);
@@ -418,7 +420,9 @@ async fn main() {
                             level_data,
                             &mut obj_grid,
                             &mut cc_1001,
-                            &mut cc_1002
+                            &mut cc_1002,
+                            &mut current_song,
+                            true
                         );
                     }
 
@@ -462,6 +466,8 @@ async fn main() {
                 }
 
                 if editor_playtest_button.is_clicked() {
+                    stop_audio(&sink);
+                    play_audio_path(&current_song, 2.5, &sink);
                     game_state = GameState::Playing
                 }
 
@@ -473,7 +479,7 @@ async fn main() {
                         level_version,
                         cc_1001,
                         cc_1002,
-                        current_song
+                        current_song.clone()
                     );
 
                     let save_result: Result<(), std::io::Error> = std::fs::write(

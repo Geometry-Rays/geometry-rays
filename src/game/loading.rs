@@ -9,7 +9,10 @@ pub fn load_level(
     obj_grid: &mut Vec<ObjectStruct>,
 
     cc_1001: &mut Color,
-    cc_1002: &mut Color
+    cc_1002: &mut Color,
+
+    current_song: &mut String,
+    load_song: bool
 ) -> String {
     let parts: Vec<&str> = level_data.split(";;;").collect();
 
@@ -56,6 +59,8 @@ pub fn load_level(
                 b: rgb[2].parse().unwrap(),
                 a: 1.0
             }
+        } else if key == "song" && load_song {
+            *current_song = value.to_string()
         }
     }
 
