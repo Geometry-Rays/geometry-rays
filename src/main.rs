@@ -153,6 +153,7 @@ async fn main() {
     let mut kill_player: bool = false;
     let mut on_orb: bool = false;
     let mut current_gamemode: GameMode = GameMode::Cube;
+    let master_volume: f32 = 2.5;
 
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![];
@@ -241,7 +242,7 @@ async fn main() {
         }
     }
 
-    play_audio_path("Resources/Music/menu-music.mp3", 2.5, &sink);
+    play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
     loop {
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
@@ -292,7 +293,7 @@ async fn main() {
                     stop_audio(&sink);
                     play_audio_path(
                         &main_levels[current_level as usize].song,
-                        2.5,
+                        master_volume,
                         &sink
                     );
 
@@ -396,7 +397,7 @@ async fn main() {
 
                 if is_key_pressed(KeyCode::Backspace) {
                     stop_audio(&sink);
-                    play_audio_path("Resources/Music/menu-music.mp3", 2.5, &sink);
+                    play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
                     game_state = GameState::LevelSelect
                 }
             }
@@ -467,7 +468,7 @@ async fn main() {
 
                 if editor_playtest_button.is_clicked() {
                     stop_audio(&sink);
-                    play_audio_path(&current_song, 2.5, &sink);
+                    play_audio_path(&current_song, master_volume, &sink);
                     game_state = GameState::Playing
                 }
 
