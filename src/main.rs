@@ -188,7 +188,7 @@ async fn main() {
         .read_to_string()
         .unwrap();
     let default_level: &str = &format!(
-        "version:{};song:0;cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
+        "version:{};song:./Resources/Music/main-level-songs/0.mp3;cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
         level_version
     );
     let main_levels: Vec<MainLevel> = vec![
@@ -211,7 +211,7 @@ async fn main() {
         ),
     ];
     let mut current_level: u8 = 0;
-    let mut current_song: u8 = 0;
+    let mut current_song: &str = &main_levels[0].song;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
