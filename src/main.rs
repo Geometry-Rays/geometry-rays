@@ -195,7 +195,7 @@ async fn main() {
         MainLevel::new(
             "Plummet",
             1,
-            "./Resources/Music/main-level-songs/0.ogg",
+            "./Resources/Music/main-level-songs/0.mp3",
             "1f1n1ty",
             "Puppet",
             std::fs::read_to_string("./Resources/main-levels/0.txt").unwrap()
@@ -204,7 +204,7 @@ async fn main() {
         MainLevel::new(
             "Color Blockade",
             3,
-            "./Resources/Music/main-level-songs/1.ogg",
+            "./Resources/Music/main-level-songs/1.mp3",
             "Waterflame",
             "Puppet",
             std::fs::read_to_string("./Resources/main-levels/1.txt").unwrap()
@@ -287,6 +287,13 @@ async fn main() {
                         &mut obj_grid,
                         &mut cc_1001,
                         &mut cc_1002
+                    );
+
+                    stop_audio(&sink);
+                    play_audio_path(
+                        &main_levels[current_level as usize].song,
+                        2.5,
+                        &sink
                     );
 
                     if load_level_result == "ok" {
