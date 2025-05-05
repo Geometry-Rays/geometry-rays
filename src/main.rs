@@ -153,7 +153,7 @@ async fn main() {
     let mut kill_player: bool = false;
     let mut on_orb: bool = false;
     let mut current_gamemode: GameMode = GameMode::Cube;
-    let master_volume: f32 = 2.5;
+    let master_volume: f32 = 2.0;
 
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![];
