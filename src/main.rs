@@ -224,9 +224,6 @@ async fn main() {
     let grnd_texture = load_texture("./Resources/ground.png")
         .await.expect("Failed to load ground texture");
 
-    // Audio
-    let menu_loop = load_audio("Resources/Music/menu-music.mp3");
-
     // This handles changing level.txt to the default level if it isn't already a level
     match std::fs::read_to_string("./save-data/level.txt") {
         Ok(level_file) => {
@@ -243,7 +240,7 @@ async fn main() {
         }
     }
 
-    play_audio(menu_loop, 2.5, &sink);
+    play_audio_path("Resources/Music/menu-music.mp3", 2.5, &sink);
     loop {
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
@@ -395,6 +392,8 @@ async fn main() {
                 }
 
                 if is_key_pressed(KeyCode::Backspace) {
+                    stop_audio(&sink);
+                    play_audio_path("Resources/Music/menu-music.mp3", 2.5, &sink);
                     game_state = GameState::LevelSelect
                 }
             }
