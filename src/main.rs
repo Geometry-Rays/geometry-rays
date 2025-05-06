@@ -371,7 +371,8 @@ async fn main() {
                     &mut touching_block_ceiling,
                     &mut on_orb,
                     &mut current_gamemode,
-                    &mut cc_1003
+                    &mut cc_1003,
+                    &mut game_state
                 );
 
                 match current_gamemode {
@@ -534,6 +535,14 @@ async fn main() {
                     &mut cam_pos_x,
                     &mut obj_grid
                 );
+            }
+
+            GameState::LevelComplete => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state = GameState::Menu
+                }
             }
         }
 
@@ -972,6 +981,39 @@ async fn main() {
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
                 editor_playtest_button.draw(false, None, 1.0, false, &font);
+            }
+
+            GameState::LevelComplete => {
+                clear_background(BLACK);
+
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(0, 50, 0, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
+                draw_text_pro(
+                    "Level Complete!",
+                    screen_width() / 2.0 - measure_text_ex("Level Complete!", 40, &font) / 2.0,
+                    200.0,
+                    40,
+                    RED,
+                    &font
+                );
+
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 

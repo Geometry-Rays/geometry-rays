@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::types::{GameMode, ObjectStruct};
+use crate::types::{GameMode, GameState, ObjectStruct};
 
 pub fn hitbox_collision(
     player: &mut Rect,
@@ -20,7 +20,8 @@ pub fn hitbox_collision(
     touching_block_ceiling: &mut bool,
     on_orb: &mut bool,
     current_gamemode: &mut GameMode,
-    cc_1003: &mut Color
+    cc_1003: &mut Color,
+    game_state: &mut GameState
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -164,6 +165,17 @@ pub fn hitbox_collision(
                 h: 10.0
             });
         }
+
+        if object.id == 15 {
+            if centered_player.overlaps(&Rect {
+                x: object.x as f32 - world_offset,
+                y: obj_y,
+                w: 40.0,
+                h: 40.0
+            }) {
+                *game_state = GameState::LevelComplete
+            }
+        }
     }
 }
 
@@ -271,6 +283,17 @@ pub fn hitbox_draw(
                 10.0,
                 2.0,
                 RED
+            );
+        }
+
+        if object.id == 15 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset,
+                obj_y - player_cam_y,
+                40.0,
+                40.0,
+                2.0,
+                Color::from_rgba(0, 255, 255, 255)
             );
         }
     }
