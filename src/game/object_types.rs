@@ -130,4 +130,14 @@ pub async fn create_object_types(
         1,
         obj_btn_offset
     ));
+
+    obj_types.push(ObjectType::new(
+        16,
+        "Black Block",
+        load_texture("./Resources/objects/blocks/black-block.png")
+            .await.expect("Failed to load black block texture"),
+        8,
+        1,
+        obj_btn_offset
+    ));
 }
