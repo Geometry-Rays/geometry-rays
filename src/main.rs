@@ -541,6 +541,8 @@ async fn main() {
                 back_button.update(delta_time);
 
                 if back_button.is_clicked() {
+                    stop_audio(&sink);
+                    play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
                     game_state = GameState::Menu
                 }
             }
