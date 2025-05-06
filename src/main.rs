@@ -675,7 +675,7 @@ async fn main() {
                     let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
                     draw_texture_ex(
                         &obj_types[object.id as usize - 1].texture,
-                        object.x as f32 - world_offset as f32,
+                        object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - world_offset as f32,
                         obj_y + 6.0,
                         WHITE,
                         DrawTextureParams {
@@ -795,7 +795,7 @@ async fn main() {
                     let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
                     draw_texture_ex(
                         &obj_types[object.id as usize - 1].texture,
-                        object.x as f32 - cam_pos_x * 5.0,
+                        object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - cam_pos_x * 5.0,
                         obj_y + cam_pos_y * 5.0,
                         if object.selected { GREEN } else { WHITE },
                         DrawTextureParams {
