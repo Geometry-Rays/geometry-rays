@@ -120,4 +120,14 @@ pub async fn create_object_types(
             obj_btn_offset
         ));
     }
+
+    obj_types.push(ObjectType::new(
+        15,
+        "End Trigger",
+        load_texture("./Resources/objects/triggers/end-trigger.png")
+            .await.expect("Failed to load end trigger texture"),
+        7,
+        1,
+        obj_btn_offset
+    ));
 }
