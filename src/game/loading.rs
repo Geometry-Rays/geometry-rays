@@ -46,9 +46,9 @@ pub fn load_level(
             let rgb: Vec<&str> = value.split(",").collect();
 
             *cc_1001 = Color {
-                r: rgb[0].parse().unwrap(),
-                g: rgb[1].parse().unwrap(),
-                b: rgb[2].parse().unwrap(),
+                r: if key == "cc_1001" { rgb[0].parse().unwrap() } else { rgb[0].parse::<f32>().unwrap() / 255.0 },
+                g: if key == "cc_1001" { rgb[1].parse().unwrap() } else { rgb[1].parse::<f32>().unwrap() / 255.0 },
+                b: if key == "cc_1001" { rgb[2].parse().unwrap() } else { rgb[2].parse::<f32>().unwrap() / 255.0 },
                 a: 1.0
             }
         } else if key == "cc_1002"
@@ -56,9 +56,9 @@ pub fn load_level(
             let rgb: Vec<&str> = value.split(",").collect();
 
             *cc_1002 = Color {
-                r: rgb[0].parse().unwrap(),
-                g: rgb[1].parse().unwrap(),
-                b: rgb[2].parse().unwrap(),
+                r: if key == "cc_1002" { rgb[0].parse().unwrap() } else { rgb[0].parse::<f32>().unwrap() / 255.0 },
+                g: if key == "cc_1002" { rgb[1].parse().unwrap() } else { rgb[1].parse::<f32>().unwrap() / 255.0 },
+                b: if key == "cc_1002" { rgb[2].parse().unwrap() } else { rgb[2].parse::<f32>().unwrap() / 255.0 },
                 a: 1.0
             }
         } else if key == "song" && load_song {
