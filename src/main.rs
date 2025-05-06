@@ -213,6 +213,9 @@ async fn main() {
     ];
     let mut current_level: u8 = 0;
     let mut current_song: String = main_levels[0].song.to_string();
+    let hidden_obj_types: Vec<u16> = vec![
+        15
+    ];
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -709,23 +712,26 @@ async fn main() {
 
                 for object in &obj_grid {
                     let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
-                    draw_texture_ex(
-                        &obj_types[object.id as usize - 1].texture,
-                        object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - world_offset as f32,
-                        obj_y + 6.0,
-                        WHITE,
-                        DrawTextureParams {
-                            dest_size: Some(vec2(
-                                obj_types[object.id as usize - 1].texture.width() * 0.05,
-                                obj_types[object.id as usize - 1].texture.height() * 0.05
-                            )),
-                            source: None,
-                            rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
-                            flip_x: false,
-                            flip_y: false,
-                            pivot: None
-                        }
-                    );
+
+                    if !hidden_obj_types.contains(&object.id) {
+                        draw_texture_ex(
+                            &obj_types[object.id as usize - 1].texture,
+                            object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - world_offset as f32,
+                            obj_y + 6.0,
+                            WHITE,
+                            DrawTextureParams {
+                                dest_size: Some(vec2(
+                                    obj_types[object.id as usize - 1].texture.width() * 0.05,
+                                    obj_types[object.id as usize - 1].texture.height() * 0.05
+                                )),
+                                source: None,
+                                rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
+                                flip_x: false,
+                                flip_y: false,
+                                pivot: None
+                            }
+                        );
+                    }
                 }
 
                 // Draws the ground
