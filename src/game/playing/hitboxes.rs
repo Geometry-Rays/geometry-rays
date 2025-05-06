@@ -251,7 +251,8 @@ pub fn hitbox_draw(
             )
         }
 
-        if object.id == 5 || object.id == 6 {
+        if object.id == 5 || object.id == 6
+        || object.id == 8 || object.id == 9 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
                 obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
