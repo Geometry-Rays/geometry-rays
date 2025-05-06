@@ -210,6 +210,15 @@ async fn main() {
             "Puppet",
             std::fs::read_to_string("./Resources/main-levels/1.txt").unwrap()
         ),
+
+        MainLevel::new(
+            "Ultimate Destruction",
+            2,
+            "./Resources/Music/main-level-songs/2.mp3",
+            "TMM43",
+            "Puppet",
+            std::fs::read_to_string("./Resources/main-levels/2.txt").unwrap()
+        ),
     ];
     let mut current_level: u8 = 0;
     let mut current_song: String = main_levels[0].song.to_string();
