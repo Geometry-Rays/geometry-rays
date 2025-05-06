@@ -19,7 +19,7 @@ pub async fn create_object_types(
     obj_types.push(ObjectType::new(
         2,
         "Block",
-        load_texture("./Resources/objects/block.png")
+        load_texture("./Resources/objects/blocks/block.png")
             .await.expect("Failed to load block texture"),
         2,
         0,
