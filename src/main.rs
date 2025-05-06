@@ -226,6 +226,15 @@ async fn main() {
     let grnd_texture = load_texture("./Resources/ground.png")
         .await.expect("Failed to load ground texture");
 
+    let mut difficulties: Vec<Texture2D> = vec![];
+
+    for i in 0..10 {
+        difficulties.push(
+            load_texture(&format!("./Resources/difficulties/{}.png", i))
+                .await.expect("Failed to load difficulty face")
+        );
+    }
+
     // This handles changing level.txt to the default level if it isn't already a level
     match std::fs::read_to_string("./save-data/level.txt") {
         Ok(level_file) => {
@@ -637,6 +646,33 @@ async fn main() {
                     40,
                     RED,
                     &font
+                );
+
+                draw_text_pro(
+                    &main_levels[current_level as usize].difficulty.to_string(),
+                    200.0,
+                    350.0,
+                    40,
+                    RED,
+                    &font
+                );
+
+                draw_texture_ex(
+                    &difficulties[main_levels[current_level as usize].difficulty as usize],
+                    0.0,
+                    40.0,
+                    WHITE,
+                    DrawTextureParams {
+                        dest_size: Some(vec2(
+                            400.0,
+                            400.0
+                        )),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
