@@ -95,4 +95,29 @@ pub async fn create_object_types(
         1,
         obj_btn_offset
     ));
+
+    obj_types.push(ObjectType::new(
+        10,
+        "Outline Block 1",
+        load_texture("./Resources/objects/blocks/outline-block.png")
+            .await.expect("Failed to load outline block 1 texture"),
+        2,
+        1,
+        obj_btn_offset
+    ));
+
+    // This adds all the outline blocks
+    // I was gonna add them all manually
+    // But you gotta think smarter not harder
+    for i in 0..4 {
+        obj_types.push(ObjectType::new(
+            i + 11,
+            &format!("Outline Block {}", i + 2),
+            load_texture(&format!("./Resources/objects/blocks/outline-block-variant{}.png", i + 1))
+                .await.expect(&format!("Failed to load outline block {} texture", i + 2)),
+            i + 3,
+            1,
+            obj_btn_offset
+        ));
+    }
 }

@@ -33,7 +33,11 @@ pub fn hitbox_collision(
             });
         }
 
-        if object.id == 2 {
+        if object.id == 2
+        || object.id == 11
+        || object.id == 12
+        || object.id == 13
+        || object.id == 14 {
             *kill_player |= small_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset,
                 y: object.y as f32 + 10.0 - player_cam_y as f32,
@@ -183,7 +187,11 @@ pub fn hitbox_draw(
             );
         }
 
-        if object.id == 2 {
+        if object.id == 2
+        || object.id == 11
+        || object.id == 12
+        || object.id == 13
+        || object.id == 14 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset,
                 object.y as f32 + 10.0 - player_cam_y as f32,
