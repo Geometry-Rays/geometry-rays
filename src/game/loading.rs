@@ -41,7 +41,8 @@ pub fn load_level(
             } else {
                 return "invalid_version".to_string();
             }
-        } else if key == "cc_1001" {
+        } else if key == "cc_1001"
+        || key == "c1001" {
             let rgb: Vec<&str> = value.split(",").collect();
 
             *cc_1001 = Color {
@@ -50,7 +51,8 @@ pub fn load_level(
                 b: rgb[2].parse().unwrap(),
                 a: 1.0
             }
-        } else if key == "cc_1002" {
+        } else if key == "cc_1002"
+        || key == "c1002" {
             let rgb: Vec<&str> = value.split(",").collect();
 
             *cc_1002 = Color {
