@@ -106,6 +106,8 @@ pub fn hitbox_collision(
                 } else {
                     *velocity_y = 18.0
                 }
+
+                *is_on_ground = false
             }
         }
 
