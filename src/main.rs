@@ -232,6 +232,7 @@ async fn main() {
     ];
     let mut current_level: u8 = 0;
     let mut current_song: String = main_levels[0].song.to_string();
+    let mut current_song_index: u8 = 0;
     let hidden_obj_types: Vec<u16> = vec![
         15
     ];
@@ -576,6 +577,14 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state = GameState::Editor
+                }
+
+                if is_key_pressed(KeyCode::Left) && current_song_index > 0 {
+                    current_song_index -= 1;
+                }
+
+                if is_key_pressed(KeyCode::Right) && current_song_index < main_levels.len() as u8 - 1 {
+                    current_song_index += 1;
                 }
             }
         }
@@ -1070,6 +1079,15 @@ async fn main() {
                         flip_y: false,
                         pivot: None
                     }
+                );
+
+                draw_text_pro(
+                    &main_levels[current_song_index as usize].name,
+                    screen_width() / 2.0 - measure_text_ex(&main_levels[current_song_index as usize].name, 30, &font) / 2.0,
+                    screen_height() - 30.0,
+                    30,
+                    WHITE,
+                    &font
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
