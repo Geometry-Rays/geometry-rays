@@ -581,10 +581,12 @@ async fn main() {
 
                 if is_key_pressed(KeyCode::Left) && current_song_index > 0 {
                     current_song_index -= 1;
+                    current_song = main_levels[current_song_index as usize].song.clone();
                 }
 
                 if is_key_pressed(KeyCode::Right) && current_song_index < main_levels.len() as u8 - 1 {
                     current_song_index += 1;
+                    current_song = main_levels[current_song_index as usize].song.clone();
                 }
             }
         }
