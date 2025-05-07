@@ -125,6 +125,16 @@ async fn main() {
         false
     );
 
+    let mut editor_options_button = Button::new(
+        || screen_width() - 160.0,
+        || 190.0,
+        || 150.0,
+        || 75.0,
+        "Options",
+        15,
+        false
+    );
+
     let mut editor_playtest_button = Button::new(
         || 20.0,
         || screen_height() / 2.0 - 65.0,
@@ -457,6 +467,7 @@ async fn main() {
             GameState::Editor => {
                 editor_back_button.update(delta_time);
                 editor_save_button.update(delta_time);
+                editor_options_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
                 editor_playtest_button.update(delta_time);
@@ -474,6 +485,10 @@ async fn main() {
 
                 if editor_back_button.is_clicked() {
                     game_state = GameState::CreatorMenu
+                }
+
+                if editor_options_button.is_clicked() {
+                    game_state = GameState::LevelSettings
                 }
 
                 if build_tab_button.is_clicked() {
@@ -553,6 +568,14 @@ async fn main() {
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
                     game_state = GameState::Menu
+                }
+            }
+
+            GameState::LevelSettings => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state = GameState::Editor
                 }
             }
         }
@@ -989,6 +1012,7 @@ async fn main() {
 
                 editor_back_button.draw(false, None, 1.0, false, &font);
                 editor_save_button.draw(false, None, 1.0, false, &font);
+                editor_options_button.draw(false, None, 1.0, false, &font);
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
                 editor_playtest_button.draw(false, None, 1.0, false, &font);
@@ -1022,6 +1046,30 @@ async fn main() {
                     40,
                     RED,
                     &font
+                );
+
+                back_button.draw(false, None, 1.0, false, &font);
+            }
+
+            GameState::LevelSettings => {
+                clear_background(BLACK);
+
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
