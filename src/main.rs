@@ -623,7 +623,47 @@ async fn main() {
                 back_button.update(delta_time);
 
                 if back_button.is_clicked() {
-                    game_state = GameState::Editor
+                    let mut bg_red_parse_success: bool = false;
+                    match bg_red.parse::<u8>() {
+                        Ok(value) => {
+                            cc_1001.r = value as f32 / 255.0;
+                            bg_red_parse_success = true;
+                        }
+
+                        Err(error) => {
+                            println!("Error parsing bg_red: {}", error);
+                        }
+                    }
+
+                    let mut bg_green_parse_success: bool = false;
+                    match bg_green.parse::<u8>() {
+                        Ok(value) => {
+                            cc_1001.g = value as f32 / 255.0;
+                            bg_green_parse_success = true;
+                        }
+
+                        Err(error) => {
+                            println!("Error parsing bg_green: {}", error);
+                        }
+                    }
+
+                    let mut bg_blue_parse_success: bool = false;
+                    match bg_blue.parse::<u8>() {
+                        Ok(value) => {
+                            cc_1001.b = value as f32 / 255.0;
+                            bg_blue_parse_success = true;
+                        }
+
+                        Err(error) => {
+                            println!("Error parsing bg_blue: {}", error);
+                        }
+                    }
+
+                    if bg_red_parse_success
+                    && bg_green_parse_success
+                    && bg_blue_parse_success {
+                        game_state = GameState::Editor
+                    }
                 }
 
                 if is_key_pressed(KeyCode::Left) && current_song_index > 0 {
