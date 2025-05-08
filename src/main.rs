@@ -187,6 +187,48 @@ async fn main() {
         active: false
     };
 
+    let mut grnd_red_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 120.0,
+            y: 80.0,
+            w: 110.0,
+            h: 50.0
+        },
+        text: "Red".to_string(),
+        text_size: 25,
+        max_length: 3,
+        spaces_allowed: false,
+        active: false
+    };
+
+    let mut grnd_green_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 240.0,
+            y: 80.0,
+            w: 110.0,
+            h: 50.0
+        },
+        text: "Green".to_string(),
+        text_size: 20,
+        max_length: 3,
+        spaces_allowed: false,
+        active: false
+    };
+
+    let mut grnd_blue_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 360.0,
+            y: 80.0,
+            w: 110.0,
+            h: 50.0
+        },
+        text: "Blue".to_string(),
+        text_size: 25,
+        max_length: 3,
+        spaces_allowed: false,
+        active: false
+    };
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -320,6 +362,10 @@ async fn main() {
     let mut bg_red: String = "".to_string();
     let mut bg_green: String = "".to_string();
     let mut bg_blue: String = "".to_string();
+
+    let mut grnd_red: String = "".to_string();
+    let mut grnd_green: String = "".to_string();
+    let mut grnd_blue: String = "".to_string();
 
     play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
     loop {
@@ -700,9 +746,39 @@ async fn main() {
                     bg_blue_textbox.active = false
                 }
 
+
+
+                if grnd_red_textbox.is_clicked() {
+                    grnd_red_textbox.active = true
+                }
+
+                if grnd_red_textbox.is_not_clicked() {
+                    grnd_red_textbox.active = false
+                }
+
+                if grnd_green_textbox.is_clicked() {
+                    grnd_green_textbox.active = true
+                }
+
+                if grnd_green_textbox.is_not_clicked() {
+                    grnd_green_textbox.active = false
+                }
+
+                if grnd_blue_textbox.is_clicked() {
+                    grnd_blue_textbox.active = true
+                }
+
+                if grnd_blue_textbox.is_not_clicked() {
+                    grnd_blue_textbox.active = false
+                }
+
                 bg_red_textbox.input(&mut bg_red);
                 bg_green_textbox.input(&mut bg_green);
                 bg_blue_textbox.input(&mut bg_blue);
+
+                grnd_red_textbox.input(&mut grnd_red);
+                grnd_green_textbox.input(&mut grnd_green);
+                grnd_blue_textbox.input(&mut grnd_blue);
             }
         }
 
@@ -1210,6 +1286,10 @@ async fn main() {
                 bg_red_textbox.draw(bg_red.clone(), &font);
                 bg_green_textbox.draw(bg_green.clone(), &font);
                 bg_blue_textbox.draw(bg_blue.clone(), &font);
+
+                grnd_red_textbox.draw(grnd_red.clone(), &font);
+                grnd_green_textbox.draw(grnd_green.clone(), &font);
+                grnd_blue_textbox.draw(grnd_blue.clone(), &font);
 
                 back_button.draw(false, None, 1.0, false, &font);
             }
