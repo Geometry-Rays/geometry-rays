@@ -145,6 +145,48 @@ async fn main() {
         false
     );
 
+    let mut bg_red_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 120.0,
+            y: 10.0,
+            w: 110.0,
+            h: 50.0
+        },
+        text: "Red".to_string(),
+        text_size: 25,
+        max_length: 3,
+        spaces_allowed: false,
+        active: false
+    };
+
+    let mut bg_green_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 240.0,
+            y: 10.0,
+            w: 110.0,
+            h: 50.0
+        },
+        text: "Green".to_string(),
+        text_size: 20,
+        max_length: 3,
+        spaces_allowed: false,
+        active: false
+    };
+
+    let mut bg_blue_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 360.0,
+            y: 10.0,
+            w: 110.0,
+            h: 50.0
+        },
+        text: "Blue".to_string(),
+        text_size: 25,
+        max_length: 3,
+        spaces_allowed: false,
+        active: false
+    };
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -273,6 +315,11 @@ async fn main() {
             println!("{}", error);
         }
     }
+
+    // Values for textboxes
+    let mut bg_red: String = "".to_string();
+    let mut bg_green: String = "".to_string();
+    let mut bg_blue: String = "".to_string();
 
     play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
     loop {
@@ -588,6 +635,34 @@ async fn main() {
                     current_song_index += 1;
                     current_song = main_levels[current_song_index as usize].song.clone();
                 }
+
+                if bg_red_textbox.is_clicked() {
+                    bg_red_textbox.active = true
+                }
+
+                if bg_red_textbox.is_not_clicked() {
+                    bg_red_textbox.active = false
+                }
+
+                if bg_green_textbox.is_clicked() {
+                    bg_green_textbox.active = true
+                }
+
+                if bg_green_textbox.is_not_clicked() {
+                    bg_green_textbox.active = false
+                }
+
+                if bg_blue_textbox.is_clicked() {
+                    bg_blue_textbox.active = true
+                }
+
+                if bg_blue_textbox.is_not_clicked() {
+                    bg_blue_textbox.active = false
+                }
+
+                bg_red_textbox.input(&mut bg_red);
+                bg_green_textbox.input(&mut bg_green);
+                bg_blue_textbox.input(&mut bg_blue);
             }
         }
 
@@ -1091,6 +1166,10 @@ async fn main() {
                     WHITE,
                     &font
                 );
+
+                bg_red_textbox.draw(bg_red.clone(), &font);
+                bg_green_textbox.draw(bg_green.clone(), &font);
+                bg_blue_textbox.draw(bg_blue.clone(), &font);
 
                 back_button.draw(false, None, 1.0, false, &font);
             }

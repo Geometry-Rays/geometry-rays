@@ -23,6 +23,15 @@ pub struct Button {
     pub is_disabled: bool,
 }
 
+pub struct TextBox {
+    pub rect: Rect,
+    pub text: String,
+    pub text_size: u8,
+    pub max_length: u8,
+    pub spaces_allowed: bool,
+    pub active: bool
+}
+
 #[allow(dead_code)]
 pub struct ObjectStruct {
     pub x: i32,
