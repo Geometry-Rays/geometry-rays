@@ -11,9 +11,8 @@ pub async fn create_object_types(
         "Spike",
         load_texture("./Resources/objects/spike.png")
             .await.expect("Failed to load spike texture"),
-        1,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -21,9 +20,8 @@ pub async fn create_object_types(
         "Block",
         load_texture("./Resources/objects/blocks/block.png")
             .await.expect("Failed to load block texture"),
-        2,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -31,9 +29,8 @@ pub async fn create_object_types(
         "Jump Pad",
         load_texture("./Resources/objects/pads/pad.png")
             .await.expect("Failed to load pad texture"),
-        3,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -41,9 +38,8 @@ pub async fn create_object_types(
         "Jump Orb",
         load_texture("./Resources/objects/orbs/orb.png")
             .await.expect("Failed to load orb texture"),
-        4,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -51,9 +47,8 @@ pub async fn create_object_types(
         "Upside Down Portal",
         load_texture("./Resources/objects/portals/upside-down-portal.png")
             .await.expect("Failed to load upside down portal texture"),
-        5,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -61,9 +56,8 @@ pub async fn create_object_types(
         "Right Side Up Portal",
         load_texture("./Resources/objects/portals/right-side-up-portal.png")
             .await.expect("Failed to load right side up portal texture"),
-        6,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -71,9 +65,8 @@ pub async fn create_object_types(
         "Short Spike",
         load_texture("./Resources/objects/short-spike.png")
             .await.expect("Failed to load short spike texture"),
-        7,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -81,9 +74,8 @@ pub async fn create_object_types(
         "Cube Portal",
         load_texture("./Resources/objects/portals/cube-portal.png")
             .await.expect("Failed to load cube portal texture"),
-        8,
-        0,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -91,9 +83,8 @@ pub async fn create_object_types(
         "Ship Portal",
         load_texture("./Resources/objects/portals/ship-portal.png")
             .await.expect("Failed to load ship portal texture"),
-        1,
-        1,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -101,9 +92,8 @@ pub async fn create_object_types(
         "Outline Block 1",
         load_texture("./Resources/objects/blocks/outline-block.png")
             .await.expect("Failed to load outline block 1 texture"),
-        2,
-        1,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     // This adds all the outline blocks
@@ -115,9 +105,8 @@ pub async fn create_object_types(
             &format!("Outline Block {}", i + 2),
             load_texture(&format!("./Resources/objects/blocks/outline-block-variant{}.png", i + 1))
                 .await.expect(&format!("Failed to load outline block {} texture", i + 2)),
-            i + 3,
-            1,
-            obj_btn_offset
+            obj_btn_offset,
+            obj_types.len() as u16
         ));
     }
 
@@ -126,9 +115,8 @@ pub async fn create_object_types(
         "End Trigger",
         load_texture("./Resources/objects/triggers/end-trigger.png")
             .await.expect("Failed to load end trigger texture"),
-        7,
-        1,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -136,9 +124,8 @@ pub async fn create_object_types(
         "Black Block",
         load_texture("./Resources/objects/blocks/black-block.png")
             .await.expect("Failed to load black block texture"),
-        8,
-        1,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -146,9 +133,8 @@ pub async fn create_object_types(
         "0.5x speed portal",
         load_texture("./Resources/objects/portals/speed/05x.png")
             .await.expect("Failed to load speed portal texture"),
-        1,
-        2,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -156,9 +142,8 @@ pub async fn create_object_types(
         "1x speed portal",
         load_texture("./Resources/objects/portals/speed/1x.png")
             .await.expect("Failed to load speed portal texture"),
-        2,
-        2,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -166,9 +151,8 @@ pub async fn create_object_types(
         "2x speed portal",
         load_texture("./Resources/objects/portals/speed/2x.png")
             .await.expect("Failed to load speed portal texture"),
-        3,
-        2,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 
     obj_types.push(ObjectType::new(
@@ -176,8 +160,7 @@ pub async fn create_object_types(
         "3x speed portal",
         load_texture("./Resources/objects/portals/speed/3x.png")
             .await.expect("Failed to load speed portal texture"),
-        4,
-        2,
-        obj_btn_offset
+        obj_btn_offset,
+        obj_types.len() as u16
     ));
 }

@@ -183,17 +183,28 @@ impl ObjectType {
         id: u16,
         name: &str,
         texture: Texture2D,
-        sorting: u16,
-        y_sorting: u16,
-        obj_btn_offset: f32
+        obj_btn_offset: f32,
+        object_types_amount: u16
     ) -> ObjectType {
+        let mut x_sort = 1;
+        let mut y_sort = 0;
+
+        for _ in 0..object_types_amount {
+            x_sort += 1;
+
+            if x_sort > 8 {
+                x_sort = 1;
+                y_sort += 1;
+            }
+        }
+
         ObjectType {
             id,
             name: name.to_string(),
             texture,
             button: Button::new(
-                move || 140.0 + (sorting as f32 * obj_btn_offset),
-                move || screen_height() - (190.0 - (y_sorting as f32 * obj_btn_offset)),
+                move || 140.0 + (x_sort as f32 * obj_btn_offset),
+                move || screen_height() - (190.0 - (y_sort as f32 * obj_btn_offset)),
                 || 60.0,
                 || 60.0,
                 name,
