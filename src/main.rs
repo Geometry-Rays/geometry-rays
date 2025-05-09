@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use game::loading::load_level;
 use game::playing::physics::ship_physics;
 use macroquad::prelude::*;
@@ -250,7 +252,7 @@ async fn main() {
     let master_volume: f32 = 2.0;
 
     let obj_btn_offset: f32 = 70.0;
-    let mut obj_types: Vec<ObjectType> = vec![];
+    let mut obj_types: HashMap<u16, ObjectType> = HashMap::new();
     object_types::create_object_types(&mut obj_types, obj_btn_offset).await;
     println!("Last object id: {}", obj_types.len());
 
@@ -571,13 +573,13 @@ async fn main() {
                 editor_playtest_button.update(delta_time);
 
                 for object in &mut obj_types {
-                    object.button.update(delta_time);
+                    object.1.button.update(delta_time);
                 }
 
                 for object in &obj_types {
-                    if object.button.is_clicked()
+                    if object.1.button.is_clicked()
                     && current_tab == 1 {
-                        current_obj = object.id
+                        current_obj = object.1.id
                     }
                 }
 
@@ -1006,13 +1008,13 @@ async fn main() {
 
                     if !hidden_obj_types.contains(&object.id) {
                         draw_texture_ex(
-                            &obj_types[object.id as usize - 1].texture,
+                            &obj_types[&(object.id)].texture,
                             object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - world_offset as f32,
                             obj_y + 6.0,
                             WHITE,
                             DrawTextureParams {
                                 dest_size: Some(vec2(
-                                    obj_types[object.id as usize - 1].texture.width() * if object.id == 17
+                                    obj_types[&(object.id)].texture.width() * if object.id == 17
                                     || object.id == 18
                                     || object.id == 19
                                     || object.id == 20 {
@@ -1020,7 +1022,7 @@ async fn main() {
                                     } else {
                                         0.05
                                     },
-                                    obj_types[object.id as usize - 1].texture.height() * if object.id == 17
+                                    obj_types[&(object.id)].texture.height() * if object.id == 17
                                     || object.id == 18
                                     || object.id == 19
                                     || object.id == 20 {
@@ -1141,13 +1143,13 @@ async fn main() {
                 for object in &obj_grid {
                     let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
                     draw_texture_ex(
-                        &obj_types[object.id as usize - 1].texture,
+                        &obj_types[&(object.id)].texture,
                         object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - cam_pos_x * 5.0,
                         obj_y + cam_pos_y * 5.0,
                         if object.selected { GREEN } else { WHITE },
                         DrawTextureParams {
                             dest_size: Some(vec2(
-                                obj_types[object.id as usize - 1].texture.width() * if object.id == 17
+                                obj_types[&(object.id)].texture.width() * if object.id == 17
                                 || object.id == 18
                                 || object.id == 19
                                 || object.id == 20 {
@@ -1155,7 +1157,7 @@ async fn main() {
                                 } else {
                                     0.05
                                 },
-                                obj_types[object.id as usize - 1].texture.height() * if object.id == 17
+                                obj_types[&(object.id)].texture.height() * if object.id == 17
                                 || object.id == 18
                                 || object.id == 19
                                 || object.id == 20 {
@@ -1201,9 +1203,9 @@ async fn main() {
 
                 for object in &obj_types {
                     if current_tab == 1 {
-                        object.button.draw(
+                        object.1.button.draw(
                             true,
-                            Some(&&object.texture),
+                            Some(&&object.1.texture),
                             0.04,
                             true,
                             &font
@@ -1223,7 +1225,7 @@ async fn main() {
                 }
 
                 draw_text_pro(
-                    &format!("Selected Object: {}", obj_types[current_obj as usize - 1].name),
+                    &format!("Selected Object: {}", obj_types[&(current_obj)].name),
                     10.0,
                     30.0,
                     20,
