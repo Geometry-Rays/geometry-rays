@@ -140,4 +140,44 @@ pub async fn create_object_types(
         1,
         obj_btn_offset
     ));
+
+    obj_types.push(ObjectType::new(
+        17,
+        "0.5x speed portal",
+        load_texture("./Resources/objects/portals/speed/05x.png")
+            .await.expect("Failed to load speed portal texture"),
+        1,
+        2,
+        obj_btn_offset
+    ));
+
+    obj_types.push(ObjectType::new(
+        18,
+        "1x speed portal",
+        load_texture("./Resources/objects/portals/speed/1x.png")
+            .await.expect("Failed to load speed portal texture"),
+        2,
+        2,
+        obj_btn_offset
+    ));
+
+    obj_types.push(ObjectType::new(
+        19,
+        "2x speed portal",
+        load_texture("./Resources/objects/portals/speed/2x.png")
+            .await.expect("Failed to load speed portal texture"),
+        3,
+        2,
+        obj_btn_offset
+    ));
+
+    obj_types.push(ObjectType::new(
+        20,
+        "3x speed portal",
+        load_texture("./Resources/objects/portals/speed/3x.png")
+            .await.expect("Failed to load speed portal texture"),
+        4,
+        2,
+        obj_btn_offset
+    ));
 }
