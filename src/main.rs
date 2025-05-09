@@ -634,7 +634,8 @@ async fn main() {
                 && is_mouse_button_pressed(MouseButton::Left)
                 && !editor_back_button.rect.contains(mouse_position().into())
                 && !editor_playtest_button.rect.contains(mouse_position().into())
-                && !editor_save_button.rect.contains(mouse_position().into()) {
+                && !editor_save_button.rect.contains(mouse_position().into())
+                && !editor_options_button.rect.contains(mouse_position().into()) {
                     editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
