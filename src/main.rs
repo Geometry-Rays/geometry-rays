@@ -252,6 +252,7 @@ async fn main() {
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: Vec<ObjectType> = vec![];
     object_types::create_object_types(&mut obj_types, obj_btn_offset).await;
+    println!("Last object id: {}", obj_types.len());
 
     // Physics values
     let mut velocity_y: f32 = 0.0;
