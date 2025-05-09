@@ -1008,8 +1008,22 @@ async fn main() {
                             WHITE,
                             DrawTextureParams {
                                 dest_size: Some(vec2(
-                                    obj_types[object.id as usize - 1].texture.width() * 0.05,
-                                    obj_types[object.id as usize - 1].texture.height() * 0.05
+                                    obj_types[object.id as usize - 1].texture.width() * if object.id == 17
+                                    || object.id == 18
+                                    || object.id == 19
+                                    || object.id == 20 {
+                                        0.1
+                                    } else {
+                                        0.05
+                                    },
+                                    obj_types[object.id as usize - 1].texture.height() * if object.id == 17
+                                    || object.id == 18
+                                    || object.id == 19
+                                    || object.id == 20 {
+                                        0.1
+                                    } else {
+                                        0.05
+                                    }
                                 )),
                                 source: None,
                                 rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
