@@ -65,3 +65,8 @@ pub enum GameMode {
     Cube,
     Ship
 }
+
+pub struct Timer {
+    pub duration: f32,
+    pub time: f32,
+}

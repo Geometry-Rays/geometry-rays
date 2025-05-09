@@ -23,7 +23,8 @@ pub fn hitbox_collision(
     on_orb: &mut bool,
     current_gamemode: &mut GameMode,
     cc_1003: &mut Color,
-    game_state: &mut GameState
+    game_state: &mut GameState,
+    on_pad: &mut bool
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -96,20 +97,38 @@ pub fn hitbox_collision(
             }
         }
 
-        if object.id == 3 {
+        if object.id == 3
+        || object.id == 21 {
             if centered_player.overlaps( &Rect {
                 x: object.x as f32 - world_offset,
                 y: obj_y as f32 - player_cam_y as f32 + 35.0,
                 w: 40.0,
                 h: 5.0
             }) {
-                if *gravity > 0.0 {
-                    *velocity_y = -18.0
-                } else {
-                    *velocity_y = 18.0
-                }
+                if !*on_pad {
+                    if object.id == 3 {
+                        if *gravity > 0.0 {
+                            *velocity_y = -18.0
+                        } else {
+                            *velocity_y = 18.0
+                        }
+                    } else if object.id == 21 {
+                        // *gravity = -*gravity;
 
-                *is_on_ground = false
+                        if *gravity > 0.0 {
+                            *velocity_y = -7.0;
+                            *gravity = -default_gravity;
+                            *jump_force = -default_jump_force
+                        } else {
+                            *velocity_y = 7.0;
+                            *gravity = default_gravity;
+                            *jump_force = default_jump_force
+                        }
+                    }
+
+                    *on_pad = true;
+                    *is_on_ground = false
+                }
             }
         }
 
@@ -265,7 +284,8 @@ pub fn hitbox_draw(
             )
         }
 
-        if object.id == 3 {
+        if object.id == 3
+        || object.id == 21 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset,
                 obj_y as f32 - player_cam_y as f32 + 35.0,

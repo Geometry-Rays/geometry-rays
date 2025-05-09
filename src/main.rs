@@ -324,6 +324,8 @@ async fn main() {
     let hidden_obj_types: Vec<u16> = vec![
         15
     ];
+    let mut on_pad_timer: Timer = Timer::new(0.1);
+    let mut on_pad: bool = false;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -491,7 +493,8 @@ async fn main() {
                     &mut on_orb,
                     &mut current_gamemode,
                     &mut cc_1003,
-                    &mut game_state
+                    &mut game_state,
+                    &mut on_pad
                 );
 
                 match current_gamemode {
@@ -526,6 +529,14 @@ async fn main() {
                 is_key_released(KeyCode::Space) {
                     on_orb = true
                 }
+
+                if on_pad_timer.update() {
+                    on_pad = false;
+                }
+
+                // if on_pad_timer.update() {
+                //     println!("ok");
+                // }
 
                 if is_key_pressed(KeyCode::Backspace) {
                     stop_audio(&sink);

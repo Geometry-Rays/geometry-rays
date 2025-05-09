@@ -427,3 +427,19 @@ impl MainLevel {
         }
     }
 }
+
+
+impl Timer {
+    pub fn new(duration: f32) -> Self {
+        Self { duration, time: 0.0 }
+    }
+
+    pub fn update(&mut self) -> bool {
+        self.time += get_frame_time();
+        if self.time >= self.duration {
+            self.time = 0.0;
+            return true;
+        }
+        false
+    }
+}
