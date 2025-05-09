@@ -705,9 +705,50 @@ async fn main() {
                         }
                     }
 
+
+
+                    let mut grnd_red_parse_success: bool = false;
+                    match grnd_red.parse::<u8>() {
+                        Ok(value) => {
+                            cc_1002.r = value as f32 / 255.0;
+                            grnd_red_parse_success = true;
+                        }
+
+                        Err(error) => {
+                            println!("Error parsing grnd_red: {}", error);
+                        }
+                    }
+
+                    let mut grnd_green_parse_success: bool = false;
+                    match grnd_green.parse::<u8>() {
+                        Ok(value) => {
+                            cc_1002.g = value as f32 / 255.0;
+                            grnd_green_parse_success = true;
+                        }
+
+                        Err(error) => {
+                            println!("Error parsing grnd_green: {}", error);
+                        }
+                    }
+
+                    let mut grnd_blue_parse_success: bool = false;
+                    match grnd_blue.parse::<u8>() {
+                        Ok(value) => {
+                            cc_1002.b = value as f32 / 255.0;
+                            grnd_blue_parse_success = true;
+                        }
+
+                        Err(error) => {
+                            println!("Error parsing grnd_blue: {}", error);
+                        }
+                    }
+
                     if bg_red_parse_success
                     && bg_green_parse_success
-                    && bg_blue_parse_success {
+                    && bg_blue_parse_success
+                    && grnd_red_parse_success
+                    && grnd_green_parse_success
+                    && grnd_blue_parse_success {
                         game_state = GameState::Editor
                     }
                 }
