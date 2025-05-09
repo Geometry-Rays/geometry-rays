@@ -15,6 +15,8 @@ pub fn hitbox_collision(
     default_gravity: f32,
     jump_force: &mut f32,
     default_jump_force: f32,
+    movement_speed: &mut f32,
+    default_movement_speed: f32,
     kill_player: &mut bool,
     is_on_ground: &mut bool,
     touching_block_ceiling: &mut bool,
@@ -134,7 +136,8 @@ pub fn hitbox_collision(
         }
 
         if object.id == 5 || object.id == 6
-        || object.id == 8 || object.id == 9 {
+        || object.id == 8 || object.id == 9
+        || object.id == 17 || object.id == 18 || object.id == 19 || object.id == 20 {
             if centered_player.overlaps(&Rect {
                 x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
                 y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
@@ -153,6 +156,14 @@ pub fn hitbox_collision(
                 } else if object.id == 9 {
                     *current_gamemode = GameMode::Ship;
                     *cc_1003 = MAGENTA
+                } else if object.id == 17 {
+                    *movement_speed = default_movement_speed * 0.8;
+                } else if object.id == 18 {
+                    *movement_speed = default_movement_speed;
+                } else if object.id == 19 {
+                    *movement_speed = default_movement_speed * 1.4;
+                } else if object.id == 20 {
+                    *movement_speed = default_movement_speed * 1.8;
                 }
 
                 *is_on_ground = false
@@ -266,7 +277,8 @@ pub fn hitbox_draw(
         }
 
         if object.id == 5 || object.id == 6
-        || object.id == 8 || object.id == 9 {
+        || object.id == 8 || object.id == 9
+        || object.id == 17 || object.id == 18 || object.id == 19 || object.id == 20 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
                 obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,

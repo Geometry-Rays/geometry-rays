@@ -260,7 +260,8 @@ async fn main() {
     let mut jump_force: f32 = 16.0;
     let default_jump_force: f32 = jump_force;
     let mut rotation: f32 = 0.0;
-    let movement_speed: f32 = 6.0;
+    let mut movement_speed: f32 = 6.0;
+    let default_movement_speed: f32 = movement_speed;
     let ship_power: f32 = 0.7;
     let ship_falling_speed: f32 = 0.5;
 
@@ -479,6 +480,8 @@ async fn main() {
                     default_gravity,
                     &mut jump_force,
                     default_jump_force,
+                    &mut movement_speed,
+                    default_movement_speed,
                     &mut kill_player,
                     &mut on_ground,
                     &mut touching_block_ceiling,
