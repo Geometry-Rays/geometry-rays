@@ -113,7 +113,8 @@ pub fn hitbox_collision(
             }
         }
 
-        if object.id == 4 {
+        if object.id == 4
+        || object.id == 22 {
             if centered_player.overlaps(&Rect {
                 x: object.x as f32 - 10.0 - world_offset,
                 y: object.y as f32 - 10.0 - player_cam_y as f32,
@@ -126,6 +127,16 @@ pub fn hitbox_collision(
                             *velocity_y = -13.0;
                         } else {
                             *velocity_y = 13.0
+                        }
+                    } else if object.id == 22 {
+                        if *gravity > 0.0 {
+                            *velocity_y = -7.0;
+                            *gravity = -default_gravity;
+                            *jump_force = -default_jump_force
+                        } else {
+                            *velocity_y = 7.0;
+                            *gravity = default_gravity;
+                            *jump_force = default_jump_force
                         }
                     }
                     *on_orb = false
@@ -265,7 +276,8 @@ pub fn hitbox_draw(
             );
         }
 
-        if object.id == 4 {
+        if object.id == 4
+        || object.id == 22 {
             draw_rectangle_lines(
                 object.x as f32 - 10.0 - world_offset,
                 object.y as f32 - 10.0 - player_cam_y as f32,
