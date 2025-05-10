@@ -331,7 +331,8 @@ async fn main() {
     let mut current_song: String = main_levels[0].song.to_string();
     let mut current_song_index: u8 = 0;
     let hidden_obj_types: Vec<u16> = vec![
-        15
+        15,
+        23
     ];
     let mut on_pad_timer: Timer = Timer::new(0.1);
     let mut on_pad: bool = false;

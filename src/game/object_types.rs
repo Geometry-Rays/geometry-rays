@@ -240,4 +240,16 @@ pub async fn create_object_types(
             obj_types.len() as u16
         )
     );
+
+    obj_types.insert(
+        23,
+        ObjectType::new(
+            23,
+            "Color Trigger",
+            load_texture("./Resources/objects/triggers/color-trigger.png")
+                .await.expect("Failed to load color trigger texture"),
+            obj_btn_offset,
+            obj_types.len() as u16
+        )
+    );
 }
