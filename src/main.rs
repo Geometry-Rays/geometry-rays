@@ -235,7 +235,7 @@ async fn main() {
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
 
-    // Important game variables
+    println!("Defining important game variables..");
     let mut game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
@@ -251,12 +251,13 @@ async fn main() {
     let mut current_gamemode: GameMode = GameMode::Cube;
     let master_volume: f32 = 2.0;
 
+    println!("Defining object types..");
     let obj_btn_offset: f32 = 70.0;
     let mut obj_types: HashMap<u16, ObjectType> = HashMap::new();
     object_types::create_object_types(&mut obj_types, obj_btn_offset).await;
     println!("Last object id: {}", obj_types.len());
 
-    // Physics values
+    println!("Defining physics values..");
     let mut velocity_y: f32 = 0.0;
     let mut gravity: f32 = 1.0;
     let default_gravity: f32 = gravity;
@@ -268,7 +269,7 @@ async fn main() {
     let ship_power: f32 = 0.7;
     let ship_falling_speed: f32 = 0.5;
 
-    // Editor variables
+    println!("Setting up editor stuff..");
     let mut current_tab: u8 = 1;
     let mut cam_pos_y: f32 = 0.0;
     let mut cam_pos_x: f32 = 0.0;
@@ -276,7 +277,7 @@ async fn main() {
     let grid_size: u8 = 40;
     let mut been_to_editor: bool = false;
 
-    // More variables
+    println!("Getting latest version...");
     let version: &str = "F-ALPHA";
     let level_version: &str = "F-ALPHA";
     let latest_version: String = ureq::get(latest_version_url)
@@ -286,6 +287,7 @@ async fn main() {
         .into_body()
         .read_to_string()
         .unwrap();
+    println!("Preparing more values...");
     let default_level: &str = &format!(
         "version:{};song:./Resources/Music/main-level-songs/0.mp3;cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
         level_version
@@ -341,7 +343,7 @@ async fn main() {
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
     let mut cc_1003: Color = GREEN;
 
-    // Textures
+    println!("Loading textures...");
     let default_bg_no_gradient = load_texture("./Resources/default-bg-no-gradient.png")
         .await.expect("Failed to load background texture");
     let default_bg = load_texture("./Resources/default-bg.png")
@@ -351,6 +353,7 @@ async fn main() {
 
     let mut difficulties: Vec<Texture2D> = vec![];
 
+    println!("Loading difficulty faces...");
     for i in 0..10 {
         difficulties.push(
             load_texture(&format!("./Resources/difficulties/{}.png", i))
@@ -383,6 +386,7 @@ async fn main() {
     let mut grnd_green: String = "".to_string();
     let mut grnd_blue: String = "".to_string();
 
+    println!("Preparing main loop...");
     play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
     loop {
         // This is so if you hit escape in the game then the game loop stops
