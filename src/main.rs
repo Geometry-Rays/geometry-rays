@@ -530,6 +530,10 @@ async fn main() {
                 if kill_player {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
+                    current_gamemode = GameMode::Cube;
+                    velocity_y = 0.0;
+                    movement_speed = default_movement_speed;
+                    gravity = default_gravity;
                     kill_player = false;
                     restart_audio(&sink);
                 }
@@ -548,6 +552,13 @@ async fn main() {
                 // }
 
                 if is_key_pressed(KeyCode::Backspace) {
+                    player.y = screen_height() / 1.15;
+                    world_offset = 0.0;
+                    current_gamemode = GameMode::Cube;
+                    velocity_y = 0.0;
+                    movement_speed = default_movement_speed;
+                    gravity = default_gravity;
+
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
                     game_state = GameState::LevelSelect
