@@ -187,7 +187,7 @@ pub fn hitbox_collision(
                     *current_gamemode = GameMode::Ship;
                     *cc_1003 = MAGENTA
                 } else if object.id == 17 {
-                    *movement_speed = default_movement_speed * 0.8;
+                    *movement_speed = default_movement_speed * 0.85;
                 } else if object.id == 18 {
                     *movement_speed = default_movement_speed;
                 } else if object.id == 19 {
