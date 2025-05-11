@@ -387,7 +387,7 @@ async fn main() {
     let mut grnd_blue: String = "".to_string();
 
     println!("Preparing main loop...");
-    play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
+    play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
     loop {
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
@@ -439,6 +439,7 @@ async fn main() {
                     play_audio_path(
                         &main_levels[current_level as usize].song,
                         master_volume,
+                        false,
                         &sink
                     );
 
@@ -565,7 +566,7 @@ async fn main() {
                     gravity = default_gravity;
 
                     stop_audio(&sink);
-                    play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
+                    play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
                     game_state = GameState::LevelSelect
                 }
             }
@@ -641,7 +642,7 @@ async fn main() {
 
                 if editor_playtest_button.is_clicked() {
                     stop_audio(&sink);
-                    play_audio_path(&current_song, master_volume, &sink);
+                    play_audio_path(&current_song, master_volume, false, &sink);
                     game_state = GameState::Playing
                 }
 
@@ -703,7 +704,7 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     stop_audio(&sink);
-                    play_audio_path("Resources/Music/menu-music.mp3", master_volume, &sink);
+                    play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
                     game_state = GameState::Menu
                 }
             }
