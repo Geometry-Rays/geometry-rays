@@ -26,14 +26,29 @@ pub fn level_to_string(
     );
 
     for object in obj_grid {
-        level_string.push_str(&format!(
-            "x:{};y:{};rot:{};id:{};;",
+        if object.id == 23 {
+            level_string.push_str(&format!(
+                "x:{};y:{};rot:{};id:{};props:{},{},{},{};;",
 
-            object.x,
-            object.y,
-            object.rotation,
-            object.id
-        ));
+                object.x,
+                object.y,
+                object.rotation,
+                object.id,
+                object.properties.clone().unwrap()[0],
+                object.properties.clone().unwrap()[1],
+                object.properties.clone().unwrap()[2],
+                object.properties.clone().unwrap()[3]
+            ));
+        } else {
+            level_string.push_str(&format!(
+                "x:{};y:{};rot:{};id:{};;",
+
+                object.x,
+                object.y,
+                object.rotation,
+                object.id
+            ));
+        }
     }
 
     if level_string.ends_with(";;;") {

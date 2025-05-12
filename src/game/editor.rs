@@ -185,7 +185,16 @@ pub fn object_ped(
             hide: 0,
             id: current_obj,
             selected: false,
-            properties: None
+            properties: if current_obj == 23 {
+                Some(vec![
+                    "0".to_string(),
+                    "0".to_string(),
+                    "50".to_string(),
+                    "1".to_string()
+                ])
+            } else {
+                None
+            }
         });
     } else if current_tab == 2 {
         let mouse_radius: Rect = Rect {

@@ -75,24 +75,41 @@ pub fn load_level(
         for object in objects {
             let object_data: Vec<&str> = object.split(";").collect();
 
-            let mut object_values: HashMap<&str, i32> = HashMap::new();
+            let mut object_values: HashMap<&str, &str> = HashMap::new();
 
             for pair in object_data {
                 let key: &str = pair.split(":").collect::<Vec<&str>>()[0];
                 let value: &str = pair.split(":").collect::<Vec<&str>>()[1];
 
-                object_values.insert(key, value.parse().unwrap());
+                object_values.insert(key, value);
+            }
+
+            let mut properties_vec: Vec<&str> = vec![];
+
+            if object_values["id"] == "23" {
+                properties_vec = object_values["props"].split(",").collect();
             }
 
             obj_grid.push(ObjectStruct {
-                x: object_values["x"],
-                y: object_values["y"],
-                rotation: object_values["rot"] as i16,
+                x: object_values["x"].parse().unwrap(),
+                y: object_values["y"].parse().unwrap(),
+                rotation: object_values["rot"].parse().unwrap(),
                 no_touch: 0,
                 hide: 0,
-                id: object_values["id"] as u16,
+                id: object_values["id"].parse().unwrap(),
                 selected: false,
-                properties: None
+                properties: if object_values["id"] == "23" {
+                    Some(
+                        vec![
+                            properties_vec[0].to_string(),
+                            properties_vec[1].to_string(),
+                            properties_vec[2].to_string(),
+                            properties_vec[3].to_string()
+                        ]
+                    )
+                } else {
+                    None
+                }
             });
         }
     } else {
