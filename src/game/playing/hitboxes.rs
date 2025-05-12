@@ -22,6 +22,8 @@ pub fn hitbox_collision(
     touching_block_ceiling: &mut bool,
     on_orb: &mut bool,
     current_gamemode: &mut GameMode,
+    cc_1001: &mut Color,
+    cc_1002: &mut Color,
     cc_1003: &mut Color,
     game_state: &mut GameState,
     on_pad: &mut bool
@@ -211,6 +213,26 @@ pub fn hitbox_collision(
                     h: 40.0
                 }) {
                     *game_state = GameState::LevelComplete
+                }
+            }
+
+            23 => {
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset,
+                    y: obj_y - player_cam_y,
+                    w: 40.0,
+                    h: 40.0
+                }) {
+                    let red: u8 = object.properties.clone().unwrap()[0].parse().unwrap();
+                    let green: u8 = object.properties.clone().unwrap()[1].parse().unwrap();
+                    let blue: u8 = object.properties.clone().unwrap()[2].parse().unwrap();
+                    let color: &String = &object.properties.clone().unwrap()[3];
+
+                    if color == "1" {
+                        *cc_1001 = Color::from_rgba(red, green, blue, 255);
+                    } else if color == "2" {
+                        *cc_1002 = Color::from_rgba(red, green, blue, 255);
+                    }
                 }
             }
 

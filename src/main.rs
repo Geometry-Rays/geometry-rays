@@ -508,6 +508,8 @@ async fn main() {
                     &mut touching_block_ceiling,
                     &mut on_orb,
                     &mut current_gamemode,
+                    &mut cc_1001,
+                    &mut cc_1002,
                     &mut cc_1003,
                     &mut game_state,
                     &mut on_pad
