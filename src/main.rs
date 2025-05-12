@@ -432,7 +432,8 @@ async fn main() {
                         &mut cc_1001,
                         &mut cc_1002,
                         &mut current_song,
-                        false
+                        false,
+                        main_levels.clone()
                     );
 
                     stop_audio(&sink);
@@ -592,7 +593,8 @@ async fn main() {
                             &mut cc_1001,
                             &mut cc_1002,
                             &mut current_song,
-                            true
+                            true,
+                            main_levels.clone()
                         );
                     }
 

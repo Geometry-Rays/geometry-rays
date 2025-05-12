@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use macroquad::prelude::Color;
 
-use crate::types::ObjectStruct;
+use crate::types::{MainLevel, ObjectStruct};
 
 pub fn load_level(
     level_data: String,
@@ -12,7 +12,8 @@ pub fn load_level(
     cc_1002: &mut Color,
 
     current_song: &mut String,
-    load_song: bool
+    load_song: bool,
+    main_levels: Vec<MainLevel>
 ) -> String {
     let parts: Vec<&str> = level_data.split(";;;").collect();
 
@@ -62,7 +63,11 @@ pub fn load_level(
                 a: 1.0
             }
         } else if key == "song" && load_song {
-            *current_song = value.to_string()
+            *current_song = if level_version.starts_with("F-") {
+                value.to_string()
+            } else {
+                main_levels[value.parse::<usize>().unwrap()].song.to_string()
+            }
         }
     }
 

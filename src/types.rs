@@ -51,6 +51,7 @@ pub struct ObjectType {
     pub button: Button
 }
 
+#[derive(Clone)]
 pub struct MainLevel {
     pub name: String,
     pub difficulty: u8,
