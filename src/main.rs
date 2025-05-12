@@ -1046,6 +1046,7 @@ async fn main() {
                     let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
 
                     if !hidden_obj_types.contains(&object.id) {
+                        let rotation_f32: f32 = object.rotation as f32;
                         draw_texture_ex(
                             &obj_types[&(object.id)].texture,
                             object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - world_offset as f32,
@@ -1071,7 +1072,7 @@ async fn main() {
                                     }
                                 )),
                                 source: None,
-                                rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
+                                rotation: rotation_f32.to_radians(),
                                 flip_x: false,
                                 flip_y: false,
                                 pivot: None
@@ -1181,6 +1182,8 @@ async fn main() {
 
                 for object in &obj_grid {
                     let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+
+                    let rotation_f32: f32 = object.rotation as f32;
                     draw_texture_ex(
                         &obj_types[&(object.id)].texture,
                         object.x as f32 - if object.id == 8 || object.id == 9 { 40.0 } else { 0.0 } - cam_pos_x * 5.0,
@@ -1206,7 +1209,7 @@ async fn main() {
                                 }
                             )),
                             source: None,
-                            rotation: (object.rotation as f64 * std::f64::consts::PI / 180.0) as f32,
+                            rotation: rotation_f32.to_radians(),
                             flip_x: false,
                             flip_y: false,
                             pivot: None
