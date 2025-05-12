@@ -28,196 +28,193 @@ pub fn hitbox_collision(
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
-        if object.id == 1 {
-            *kill_player |= centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset + 15.0,
-                y: obj_y as f32 + 5.0,
-                w: 10.0,
-                h: 20.0
-            });
-        }
 
-        if object.id == 2
-        || object.id == 11
-        || object.id == 12
-        || object.id == 13
-        || object.id == 14 {
-            *kill_player |= small_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset,
-                y: object.y as f32 + 10.0 - player_cam_y as f32,
-                w: 3.0,
-                h: 20.0
-            });
+        match object.id {
+            1 => {
+                *kill_player |= centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset + 15.0,
+                    y: obj_y as f32 + 5.0,
+                    w: 10.0,
+                    h: 20.0
+                });
+            }
 
-            if centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset + 3.0,
-                y: obj_y as f32 + 1.0 - player_cam_y as f32,
-                w: 37.0,
-                h: 3.0
-            }) {
-                if *velocity_y >= 0.0 {
-                    *is_on_ground = true;
-                    *rotation = 0.0;
-                    player.y = obj_y as f32 - 19.0 - player_cam_y as f32;
-                    *velocity_y = 0.0;
+            2 | 10 | 11 | 12 | 13 | 14 => {
+                *kill_player |= small_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset,
+                    y: object.y as f32 + 10.0 - player_cam_y as f32,
+                    w: 3.0,
+                    h: 20.0
+                });
+
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset + 3.0,
+                    y: obj_y as f32 + 1.0 - player_cam_y as f32,
+                    w: 37.0,
+                    h: 3.0
+                }) {
+                    if *velocity_y >= 0.0 {
+                        *is_on_ground = true;
+                        *rotation = 0.0;
+                        player.y = obj_y as f32 - 19.0 - player_cam_y as f32;
+                        *velocity_y = 0.0;
+                    } else {
+                        *touching_block_ceiling = true;
+                        player.y = obj_y as f32 - 21.0 - player_cam_y as f32;
+                    }
                 } else {
-                    *touching_block_ceiling = true;
-                    player.y = obj_y as f32 - 21.0 - player_cam_y as f32;
+                    *touching_block_ceiling = false;
                 }
-            } else {
-                *touching_block_ceiling = false;
-            }
 
-            if centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset + 3.0,
-                y: obj_y as f32 + 38.0 - player_cam_y as f32,
-                w: 37.0,
-                h: 3.0
-            }) {
-                if *velocity_y <= 0.0 {
-                    *is_on_ground = true;
-                    *rotation = 0.0;
-                    player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
-                    *velocity_y = 0.0;
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset + 3.0,
+                    y: obj_y as f32 + 38.0 - player_cam_y as f32,
+                    w: 37.0,
+                    h: 3.0
+                }) {
+                    if *velocity_y <= 0.0 {
+                        *is_on_ground = true;
+                        *rotation = 0.0;
+                        player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
+                        *velocity_y = 0.0;
+                    } else {
+                        *touching_block_ceiling = true;
+                        player.y = obj_y as f32 + 65.0 - player_cam_y as f32;
+                    }
                 } else {
-                    *touching_block_ceiling = true;
-                    player.y = obj_y as f32 + 65.0 - player_cam_y as f32;
+                    *touching_block_ceiling = false;
                 }
-            } else {
-                *touching_block_ceiling = false;
+
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset + 80.0,
+                    y: obj_y as f32 - player_cam_y as f32 + 10.0,
+                    w: 3.0,
+                    h: 20.0,
+                }) {
+                    *is_on_ground = false;
+                }
             }
 
-            if centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset + 80.0,
-                y: obj_y as f32 - player_cam_y as f32 + 10.0,
-                w: 3.0,
-                h: 20.0,
-            }) {
-                *is_on_ground = false;
+            3 | 21 => {
+                if centered_player.overlaps( &Rect {
+                    x: object.x as f32 - world_offset,
+                    y: obj_y as f32 - player_cam_y as f32 + 35.0,
+                    w: 40.0,
+                    h: 5.0
+                }) {
+                    if !*on_pad {
+                        if object.id == 3 {
+                            if *gravity > 0.0 {
+                                *velocity_y = -18.0
+                            } else {
+                                *velocity_y = 18.0
+                            }
+                        } else if object.id == 21 {
+                            // *gravity = -*gravity;
+
+                            if *gravity > 0.0 {
+                                *velocity_y = -7.0;
+                                *gravity = -default_gravity;
+                                *jump_force = -default_jump_force
+                            } else {
+                                *velocity_y = 7.0;
+                                *gravity = default_gravity;
+                                *jump_force = default_jump_force
+                            }
+                        }
+
+                        *on_pad = true;
+                        *is_on_ground = false
+                    }
+                }
             }
-        }
 
-        if object.id == 3
-        || object.id == 21 {
-            if centered_player.overlaps( &Rect {
-                x: object.x as f32 - world_offset,
-                y: obj_y as f32 - player_cam_y as f32 + 35.0,
-                w: 40.0,
-                h: 5.0
-            }) {
-                if !*on_pad {
-                    if object.id == 3 {
-                        if *gravity > 0.0 {
-                            *velocity_y = -18.0
-                        } else {
-                            *velocity_y = 18.0
+            4 | 22 => {
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - 10.0 - world_offset,
+                    y: object.y as f32 - 10.0 - player_cam_y as f32,
+                    w: 60.0,
+                    h: 60.0
+                }) {
+                    if *on_orb && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space)) {
+                        if object.id == 4 {
+                            if *gravity > 0.0 {
+                                *velocity_y = -13.0;
+                            } else {
+                                *velocity_y = 13.0
+                            }
+                        } else if object.id == 22 {
+                            if *gravity > 0.0 {
+                                *velocity_y = -7.0;
+                                *gravity = -default_gravity;
+                                *jump_force = -default_jump_force
+                            } else {
+                                *velocity_y = 7.0;
+                                *gravity = default_gravity;
+                                *jump_force = default_jump_force
+                            }
                         }
-                    } else if object.id == 21 {
-                        // *gravity = -*gravity;
-
-                        if *gravity > 0.0 {
-                            *velocity_y = -7.0;
-                            *gravity = -default_gravity;
-                            *jump_force = -default_jump_force
-                        } else {
-                            *velocity_y = 7.0;
-                            *gravity = default_gravity;
-                            *jump_force = default_jump_force
-                        }
+                        *on_orb = false
                     }
 
-                    *on_pad = true;
                     *is_on_ground = false
                 }
             }
-        }
 
-        if object.id == 4
-        || object.id == 22 {
-            if centered_player.overlaps(&Rect {
-                x: object.x as f32 - 10.0 - world_offset,
-                y: object.y as f32 - 10.0 - player_cam_y as f32,
-                w: 60.0,
-                h: 60.0
-            }) {
-                if *on_orb && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space)) {
-                    if object.id == 4 {
-                        if *gravity > 0.0 {
-                            *velocity_y = -13.0;
-                        } else {
-                            *velocity_y = 13.0
-                        }
-                    } else if object.id == 22 {
-                        if *gravity > 0.0 {
-                            *velocity_y = -7.0;
-                            *gravity = -default_gravity;
-                            *jump_force = -default_jump_force
-                        } else {
-                            *velocity_y = 7.0;
-                            *gravity = default_gravity;
-                            *jump_force = default_jump_force
-                        }
+            5 | 6 | 8 | 9 | 17 | 18 | 19 | 20 => {
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
+                    y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
+                    w: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
+                    h: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 }
+                }) {
+                    if object.id == 5 {
+                        *jump_force = -default_jump_force;
+                        *gravity = -default_gravity;
+                    } else if object.id == 6 {
+                        *jump_force = default_jump_force;
+                        *gravity = default_gravity;
+                    } else if object.id == 8 {
+                        *current_gamemode = GameMode::Cube;
+                        *cc_1003 = GREEN;
+                    } else if object.id == 9 {
+                        *current_gamemode = GameMode::Ship;
+                        *cc_1003 = MAGENTA
+                    } else if object.id == 17 {
+                        *movement_speed = default_movement_speed * 0.85;
+                    } else if object.id == 18 {
+                        *movement_speed = default_movement_speed;
+                    } else if object.id == 19 {
+                        *movement_speed = default_movement_speed * 1.4;
+                    } else if object.id == 20 {
+                        *movement_speed = default_movement_speed * 1.8;
                     }
-                    *on_orb = false
+
+                    *is_on_ground = false
                 }
-
-                *is_on_ground = false
             }
-        }
 
-        if object.id == 5 || object.id == 6
-        || object.id == 8 || object.id == 9
-        || object.id == 17 || object.id == 18 || object.id == 19 || object.id == 20 {
-            if centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
-                y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
-                w: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
-                h: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 }
-            }) {
-                if object.id == 5 {
-                    *jump_force = -default_jump_force;
-                    *gravity = -default_gravity;
-                } else if object.id == 6 {
-                    *jump_force = default_jump_force;
-                    *gravity = default_gravity;
-                } else if object.id == 8 {
-                    *current_gamemode = GameMode::Cube;
-                    *cc_1003 = GREEN;
-                } else if object.id == 9 {
-                    *current_gamemode = GameMode::Ship;
-                    *cc_1003 = MAGENTA
-                } else if object.id == 17 {
-                    *movement_speed = default_movement_speed * 0.85;
-                } else if object.id == 18 {
-                    *movement_speed = default_movement_speed;
-                } else if object.id == 19 {
-                    *movement_speed = default_movement_speed * 1.4;
-                } else if object.id == 20 {
-                    *movement_speed = default_movement_speed * 1.8;
+            7 => {
+                *kill_player |= centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset + 20.0,
+                    y: object.y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                    w: 10.0,
+                    h: 10.0
+                });
+            }
+
+            15 => {
+                if centered_player.overlaps(&Rect {
+                    x: object.x as f32 - world_offset,
+                    y: obj_y,
+                    w: 40.0,
+                    h: 40.0
+                }) {
+                    *game_state = GameState::LevelComplete
                 }
-
-                *is_on_ground = false
             }
-        }
 
-        if object.id == 7 {
-            *kill_player |= centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset + 20.0,
-                y: object.y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
-                w: 10.0,
-                h: 10.0
-            });
-        }
-
-        if object.id == 15 {
-            if centered_player.overlaps(&Rect {
-                x: object.x as f32 - world_offset,
-                y: obj_y,
-                w: 40.0,
-                h: 40.0
-            }) {
-                *game_state = GameState::LevelComplete
-            }
+            _ => {}
         }
     }
 }
