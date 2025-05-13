@@ -6,7 +6,5 @@ return {
     end,
 
     -- This is just an empty function
-    loop = function()
-        print("arghh")
-    end
+    loop = function() end
 }
