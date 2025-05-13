@@ -15,7 +15,7 @@ pub fn hitbox_collision(
     velocity_y: &Cell<f32>,
     gravity: &Cell<f32>,
     default_gravity: f32,
-    jump_force: &mut f32,
+    jump_force: &Cell<f32>,
     default_jump_force: f32,
     movement_speed: &mut f32,
     default_movement_speed: f32,
@@ -119,11 +119,11 @@ pub fn hitbox_collision(
                             if gravity.get() > 0.0 {
                                 velocity_y.set(-7.0);
                                 gravity.set(-default_gravity);
-                                *jump_force = -default_jump_force
+                                jump_force.set(-default_jump_force);
                             } else {
                                 velocity_y.set(7.0);
                                 gravity.set(default_gravity);
-                                *jump_force = default_jump_force
+                                jump_force.set(default_jump_force)
                             }
                         }
 
@@ -151,11 +151,11 @@ pub fn hitbox_collision(
                             if gravity.get() > 0.0 {
                                 velocity_y.set(-7.0);
                                 gravity.set(-default_gravity);
-                                *jump_force = -default_jump_force
+                                jump_force.set(-default_jump_force);
                             } else {
                                 velocity_y.set(7.0);
                                 gravity.set(default_gravity);
-                                *jump_force = default_jump_force
+                                jump_force.set(default_jump_force)
                             }
                         }
                         *on_orb = false
@@ -173,10 +173,10 @@ pub fn hitbox_collision(
                     h: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 }
                 }) {
                     if object.id == 5 {
-                        *jump_force = -default_jump_force;
+                        jump_force.set(-default_jump_force);
                         gravity.set(-default_gravity);
                     } else if object.id == 6 {
-                        *jump_force = default_jump_force;
+                        jump_force.set(default_jump_force);
                         gravity.set(default_gravity);
                     } else if object.id == 8 {
                         *current_gamemode = GameMode::Cube;

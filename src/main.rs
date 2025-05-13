@@ -262,8 +262,8 @@ async fn main() {
     let velocity_y: SharedF32 = SharedF32(Rc::new(Cell::new(0.0)));
     let gravity: SharedF32 = SharedF32(Rc::new(Cell::new(1.0)));
     let default_gravity: SharedF32 = gravity.clone();
-    let mut jump_force: f32 = 16.0;
-    let default_jump_force: f32 = jump_force;
+    let jump_force: SharedF32 = SharedF32(Rc::new(Cell::new(16.0)));
+    let default_jump_force: SharedF32 = jump_force.clone();
     let mut rotation: f32 = 0.0;
     let mut movement_speed: f32 = 6.0;
     let default_movement_speed: f32 = movement_speed;
@@ -408,6 +408,8 @@ async fn main() {
     lua.globals().set("velocity_y", velocity_y.clone()).unwrap();
     lua.globals().set("gravity", gravity.clone()).unwrap();
     lua.globals().set("default_gravity", default_gravity.clone()).unwrap();
+    lua.globals().set("jump_force", jump_force.clone()).unwrap();
+    lua.globals().set("default_jump_force", default_jump_force.clone()).unwrap();
 
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
@@ -548,8 +550,8 @@ async fn main() {
                     &velocity_y.0,
                     &gravity.0,
                     default_gravity.0.get(),
-                    &mut jump_force,
-                    default_jump_force,
+                    &jump_force.0,
+                    default_jump_force.0.get(),
                     &mut movement_speed,
                     default_movement_speed,
                     &mut kill_player,
@@ -570,7 +572,7 @@ async fn main() {
                             &velocity_y.0,
                             gravity.0.get(),
                             &mut on_ground,
-                            jump_force
+                            jump_force.0.get()
                         );
                     }
 
