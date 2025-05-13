@@ -400,8 +400,6 @@ async fn main() {
         let mod_content: String = std::fs::read_to_string(path_str).unwrap();
 
         mod_contents.push(mod_content.clone());
-
-        println!("{}", mod_content);
     }
 
     let lua = mlua::Lua::new();
