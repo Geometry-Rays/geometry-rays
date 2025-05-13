@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
 use game::loading::load_level;
 use game::playing::physics::ship_physics;
@@ -259,7 +259,7 @@ async fn main() {
     println!("Last object id: {}", obj_types.len());
 
     println!("Defining physics values..");
-    let mut velocity_y: f32 = 0.0;
+    let velocity_y: SharedF32 = SharedF32(Rc::new(RefCell::new(0.0)));
     let mut gravity: f32 = 1.0;
     let default_gravity: f32 = gravity;
     let mut jump_force: f32 = 16.0;
@@ -403,6 +403,10 @@ async fn main() {
     }
 
     let lua = mlua::Lua::new();
+
+    // Exposing stuff to lua
+    lua.globals().set("velocity_y", velocity_y.clone()).unwrap();
+
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
 
@@ -524,7 +528,7 @@ async fn main() {
                 // The function for handling the physics of the game
                 playing::physics::physics_handle(
                     &mut player,
-                    &mut velocity_y,
+                    &mut velocity_y.0.borrow_mut(),
                     &mut on_ground,
                     &mut rotation,
                     &mut world_offset,
@@ -539,7 +543,7 @@ async fn main() {
                     &obj_grid,
                     world_offset,
                     player_cam_y,
-                    &mut velocity_y,
+                    &mut velocity_y.0.borrow_mut(),
                     &mut gravity,
                     default_gravity,
                     &mut jump_force,
@@ -561,7 +565,7 @@ async fn main() {
                 match current_gamemode {
                     GameMode::Cube => {
                         playing::physics::cube_physics(
-                            &mut velocity_y,
+                            &mut velocity_y.0.borrow_mut(),
                             gravity,
                             &mut on_ground,
                             jump_force
@@ -572,7 +576,7 @@ async fn main() {
                         ship_physics(
                             touching_block_ceiling,
                             gravity,
-                            &mut velocity_y,
+                            &mut velocity_y.0.borrow_mut(),
                             ship_power,
                             ship_falling_speed
                         );
@@ -583,7 +587,7 @@ async fn main() {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
-                    velocity_y = 0.0;
+                    *velocity_y.0.borrow_mut() = 0.0;
                     movement_speed = default_movement_speed;
                     gravity = default_gravity;
                     kill_player = false;
@@ -607,7 +611,7 @@ async fn main() {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
-                    velocity_y = 0.0;
+                    *velocity_y.0.borrow_mut() = 0.0;
                     movement_speed = default_movement_speed;
                     gravity = default_gravity;
 

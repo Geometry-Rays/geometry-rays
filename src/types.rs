@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use macroquad::prelude::{Rect, Color, Texture2D};
 
 pub enum GameState {
@@ -70,4 +72,17 @@ pub enum GameMode {
 pub struct Timer {
     pub duration: f32,
     pub time: f32,
+}
+
+#[derive(Clone)]
+pub struct SharedF32(pub Rc<RefCell<f32>>);
+
+impl mlua::UserData for SharedF32 {
+    fn add_methods<'lua, M: mlua::UserDataMethods<Self>>(methods: &mut M) {
+        methods.add_method("get", |_, this, ()| Ok(*this.0.borrow()));
+        methods.add_method("set", |_, this, val: f32| {
+            *this.0.borrow_mut() = val;
+            Ok(())
+        });
+    }
 }

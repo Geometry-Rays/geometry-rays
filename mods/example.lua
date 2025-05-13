@@ -5,6 +5,8 @@ return {
         print("Example mod loaded!")
     end,
 
-    -- This is just an empty function
-    loop = function() end
+    -- This runs every frame
+    loop = function()
+        velocity_y:set(-1.0)
+    end
 }
