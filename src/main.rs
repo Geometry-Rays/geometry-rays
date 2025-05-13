@@ -11,6 +11,7 @@ use gr_rodio::*;
 mod funcs;
 mod types;
 use funcs::*;
+use mlua::{Function, Table};
 use types::*;
 
 mod game;
@@ -386,6 +387,38 @@ async fn main() {
     let mut grnd_green: String = "".to_string();
     let mut grnd_blue: String = "".to_string();
 
+    println!("Loading mods...");
+    let mod_paths_kinda = std::fs::read_dir("./mods").unwrap();
+    let mut mod_contents: Vec<String> = vec![];
+    let mut mods: Vec<Table> = vec![];
+
+    for path in mod_paths_kinda {
+        let path_str = path.unwrap().path().to_str().unwrap().to_string();
+
+        let mod_content: String = std::fs::read_to_string(path_str).unwrap();
+
+        mod_contents.push(mod_content.clone());
+
+        println!("{}", mod_content);
+    }
+
+    let lua = mlua::Lua::new();
+    for mod_data in mod_contents {
+        let lua_mod: Table = lua.load(mod_data).eval().unwrap();
+
+        mods.push(lua_mod);
+    }
+
+    for lua_mod in mods.clone() {
+        let active: bool = lua_mod.get("enabled").unwrap();
+
+        if active {
+            let setup_func: Function = lua_mod.get("setup").unwrap();
+
+            setup_func.call::<()>(()).unwrap();
+        }
+    }
+
     println!("Preparing main loop...");
     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
     loop {
@@ -403,6 +436,16 @@ async fn main() {
         let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
         let screen_height_range = (screen_height() - 600.0) * (40.0 / (1005.0 - 600.0));
         let snapped_y = (((mouse_y - (snapped_cam_y * 5)) - (screen_height() - (600.0 + screen_height_range)) as i32) / grid_size as i32) * grid_size as i32;
+
+        for lua_mod in mods.clone() {
+            let active: bool = lua_mod.get("enabled").unwrap();
+
+            if active {
+                let loop_func: Function = lua_mod.get("loop").unwrap();
+
+                loop_func.call::<()>(()).unwrap();
+            }
+        }
 
         match game_state {
             GameState::Menu => {
