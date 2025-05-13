@@ -392,6 +392,8 @@ async fn main() {
     let mut mod_contents: Vec<String> = vec![];
     let mut mods: Vec<Table> = vec![];
 
+    let load_mods: bool = true;
+
     for path in mod_paths_kinda {
         let path_str = path.unwrap().path().to_str().unwrap().to_string();
 
@@ -416,7 +418,7 @@ async fn main() {
     for lua_mod in mods.clone() {
         let active: bool = lua_mod.get("enabled").unwrap();
 
-        if active {
+        if active && load_mods {
             let setup_func: Function = lua_mod.get("setup").unwrap();
 
             setup_func.call::<()>(()).unwrap();
@@ -444,7 +446,7 @@ async fn main() {
         for lua_mod in mods.clone() {
             let active: bool = lua_mod.get("enabled").unwrap();
 
-            if active {
+            if active && load_mods {
                 let loop_func: Function = lua_mod.get("loop").unwrap();
 
                 loop_func.call::<()>(()).unwrap();
