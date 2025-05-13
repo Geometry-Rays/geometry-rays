@@ -929,6 +929,17 @@ async fn main() {
                     &font
                 );
 
+                if cfg!(debug_assertions) {
+                    draw_text_pro(
+                        "Developer Build",
+                        screen_width() - measure_text_ex("Developer Build", 30, &font) - 10.0,
+                        screen_height() - 10.0,
+                        30,
+                        GREEN,
+                        &font
+                    );
+                }
+
                 play_button.draw(false, None, 1.0, false, &font);
                 creator_button.draw(false, None, 1.0, false, &font);
             }
