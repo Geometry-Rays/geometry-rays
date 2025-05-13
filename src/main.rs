@@ -1,4 +1,4 @@
-use std::{cell::RefCell, collections::HashMap, rc::Rc};
+use std::{cell::Cell, collections::HashMap, rc::Rc};
 
 use game::loading::load_level;
 use game::playing::physics::ship_physics;
@@ -259,9 +259,9 @@ async fn main() {
     println!("Last object id: {}", obj_types.len());
 
     println!("Defining physics values..");
-    let velocity_y: SharedF32 = SharedF32(Rc::new(RefCell::new(0.0)));
-    let mut gravity: f32 = 1.0;
-    let default_gravity: f32 = gravity;
+    let velocity_y: SharedF32 = SharedF32(Rc::new(Cell::new(0.0)));
+    let gravity: SharedF32 = SharedF32(Rc::new(Cell::new(1.0)));
+    let default_gravity: SharedF32 = gravity.clone();
     let mut jump_force: f32 = 16.0;
     let default_jump_force: f32 = jump_force;
     let mut rotation: f32 = 0.0;
@@ -406,6 +406,8 @@ async fn main() {
 
     // Exposing stuff to lua
     lua.globals().set("velocity_y", velocity_y.clone()).unwrap();
+    lua.globals().set("gravity", gravity.clone()).unwrap();
+    lua.globals().set("default_gravity", default_gravity.clone()).unwrap();
 
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
@@ -528,7 +530,7 @@ async fn main() {
                 // The function for handling the physics of the game
                 playing::physics::physics_handle(
                     &mut player,
-                    &mut velocity_y.0.borrow_mut(),
+                    &velocity_y.0,
                     &mut on_ground,
                     &mut rotation,
                     &mut world_offset,
@@ -543,9 +545,9 @@ async fn main() {
                     &obj_grid,
                     world_offset,
                     player_cam_y,
-                    &mut velocity_y.0.borrow_mut(),
-                    &mut gravity,
-                    default_gravity,
+                    &velocity_y.0,
+                    &gravity.0,
+                    default_gravity.0.get(),
                     &mut jump_force,
                     default_jump_force,
                     &mut movement_speed,
@@ -565,8 +567,8 @@ async fn main() {
                 match current_gamemode {
                     GameMode::Cube => {
                         playing::physics::cube_physics(
-                            &mut velocity_y.0.borrow_mut(),
-                            gravity,
+                            &velocity_y.0,
+                            gravity.0.get(),
                             &mut on_ground,
                             jump_force
                         );
@@ -575,8 +577,8 @@ async fn main() {
                     GameMode::Ship => {
                         ship_physics(
                             touching_block_ceiling,
-                            gravity,
-                            &mut velocity_y.0.borrow_mut(),
+                            gravity.0.get(),
+                            &velocity_y.0,
                             ship_power,
                             ship_falling_speed
                         );
@@ -587,9 +589,9 @@ async fn main() {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
-                    *velocity_y.0.borrow_mut() = 0.0;
+                    velocity_y.0.set(0.0);
                     movement_speed = default_movement_speed;
-                    gravity = default_gravity;
+                    gravity.0.set(default_gravity.0.get());
                     kill_player = false;
                     restart_audio(&sink);
                 }
@@ -611,9 +613,9 @@ async fn main() {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
-                    *velocity_y.0.borrow_mut() = 0.0;
+                    velocity_y.0.set(0.0);
                     movement_speed = default_movement_speed;
-                    gravity = default_gravity;
+                    gravity.0.set(default_gravity.0.get());
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);

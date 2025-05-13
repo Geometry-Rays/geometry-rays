@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::Cell, rc::Rc};
 
 use macroquad::prelude::{Rect, Color, Texture2D};
 
@@ -75,13 +75,13 @@ pub struct Timer {
 }
 
 #[derive(Clone)]
-pub struct SharedF32(pub Rc<RefCell<f32>>);
+pub struct SharedF32(pub Rc<Cell<f32>>);
 
 impl mlua::UserData for SharedF32 {
     fn add_methods<'lua, M: mlua::UserDataMethods<Self>>(methods: &mut M) {
-        methods.add_method("get", |_, this, ()| Ok(*this.0.borrow()));
+        methods.add_method("get", |_, this, ()| Ok(this.0.get()));
         methods.add_method("set", |_, this, val: f32| {
-            *this.0.borrow_mut() = val;
+            this.0.set(val);
             Ok(())
         });
     }

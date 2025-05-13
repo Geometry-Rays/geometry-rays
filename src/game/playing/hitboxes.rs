@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use macroquad::prelude::*;
 
 use crate::types::{GameMode, GameState, ObjectStruct};
@@ -10,8 +12,8 @@ pub fn hitbox_collision(
     obj_grid: &Vec<ObjectStruct>,
     world_offset: f32,
     player_cam_y: f32,
-    velocity_y: &mut f32,
-    gravity: &mut f32,
+    velocity_y: &Cell<f32>,
+    gravity: &Cell<f32>,
     default_gravity: f32,
     jump_force: &mut f32,
     default_jump_force: f32,
@@ -55,11 +57,11 @@ pub fn hitbox_collision(
                     w: 37.0,
                     h: 3.0
                 }) {
-                    if *velocity_y >= 0.0 {
+                    if velocity_y.get() >= 0.0 {
                         *is_on_ground = true;
                         *rotation = 0.0;
                         player.y = obj_y as f32 - 19.0 - player_cam_y as f32;
-                        *velocity_y = 0.0;
+                        velocity_y.set(0.0);
                     } else {
                         *touching_block_ceiling = true;
                         player.y = obj_y as f32 - 21.0 - player_cam_y as f32;
@@ -74,11 +76,11 @@ pub fn hitbox_collision(
                     w: 37.0,
                     h: 3.0
                 }) {
-                    if *velocity_y <= 0.0 {
+                    if velocity_y.get() <= 0.0 {
                         *is_on_ground = true;
                         *rotation = 0.0;
                         player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
-                        *velocity_y = 0.0;
+                        velocity_y.set(0.0);
                     } else {
                         *touching_block_ceiling = true;
                         player.y = obj_y as f32 + 65.0 - player_cam_y as f32;
@@ -106,21 +108,21 @@ pub fn hitbox_collision(
                 }) {
                     if !*on_pad {
                         if object.id == 3 {
-                            if *gravity > 0.0 {
-                                *velocity_y = -18.0
+                            if gravity.get() > 0.0 {
+                                velocity_y.set(-18.0)
                             } else {
-                                *velocity_y = 18.0
+                                velocity_y.set(18.0)
                             }
                         } else if object.id == 21 {
                             // *gravity = -*gravity;
 
-                            if *gravity > 0.0 {
-                                *velocity_y = -7.0;
-                                *gravity = -default_gravity;
+                            if gravity.get() > 0.0 {
+                                velocity_y.set(-7.0);
+                                gravity.set(-default_gravity);
                                 *jump_force = -default_jump_force
                             } else {
-                                *velocity_y = 7.0;
-                                *gravity = default_gravity;
+                                velocity_y.set(7.0);
+                                gravity.set(default_gravity);
                                 *jump_force = default_jump_force
                             }
                         }
@@ -140,19 +142,19 @@ pub fn hitbox_collision(
                 }) {
                     if *on_orb && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space)) {
                         if object.id == 4 {
-                            if *gravity > 0.0 {
-                                *velocity_y = -13.0;
+                            if gravity.get() > 0.0 {
+                                velocity_y.set(-13.0);
                             } else {
-                                *velocity_y = 13.0
+                                velocity_y.set(13.0);
                             }
                         } else if object.id == 22 {
-                            if *gravity > 0.0 {
-                                *velocity_y = -7.0;
-                                *gravity = -default_gravity;
+                            if gravity.get() > 0.0 {
+                                velocity_y.set(-7.0);
+                                gravity.set(-default_gravity);
                                 *jump_force = -default_jump_force
                             } else {
-                                *velocity_y = 7.0;
-                                *gravity = default_gravity;
+                                velocity_y.set(7.0);
+                                gravity.set(default_gravity);
                                 *jump_force = default_jump_force
                             }
                         }
@@ -172,10 +174,10 @@ pub fn hitbox_collision(
                 }) {
                     if object.id == 5 {
                         *jump_force = -default_jump_force;
-                        *gravity = -default_gravity;
+                        gravity.set(-default_gravity);
                     } else if object.id == 6 {
                         *jump_force = default_jump_force;
-                        *gravity = default_gravity;
+                        gravity.set(default_gravity);
                     } else if object.id == 8 {
                         *current_gamemode = GameMode::Cube;
                         *cc_1003 = GREEN;
