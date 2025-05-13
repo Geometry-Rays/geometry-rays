@@ -17,7 +17,7 @@ pub fn hitbox_collision(
     default_gravity: f32,
     jump_force: &Cell<f32>,
     default_jump_force: f32,
-    movement_speed: &mut f32,
+    movement_speed: &Cell<f32>,
     default_movement_speed: f32,
     kill_player: &mut bool,
     is_on_ground: &mut bool,
@@ -185,13 +185,13 @@ pub fn hitbox_collision(
                         *current_gamemode = GameMode::Ship;
                         *cc_1003 = MAGENTA
                     } else if object.id == 17 {
-                        *movement_speed = default_movement_speed * 0.85;
+                        movement_speed.set(default_movement_speed * 0.85);
                     } else if object.id == 18 {
-                        *movement_speed = default_movement_speed;
+                        movement_speed.set(default_movement_speed);
                     } else if object.id == 19 {
-                        *movement_speed = default_movement_speed * 1.4;
+                        movement_speed.set(default_movement_speed * 1.4);
                     } else if object.id == 20 {
-                        *movement_speed = default_movement_speed * 1.8;
+                        movement_speed.set(default_movement_speed * 1.8);
                     }
 
                     *is_on_ground = false
