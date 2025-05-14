@@ -443,3 +443,18 @@ impl Timer {
         false
     }
 }
+
+#[macro_export]
+macro_rules! impl_lua_fields {
+    ($type:ty) => {
+        impl mlua::UserData for Shared<$type> {
+            fn add_methods<'lua, M: mlua::UserDataMethods<Self>>(methods: &mut M) {
+                methods.add_method("get", |_, this, ()| Ok(this.0.get()));
+                methods.add_method("set", |_, this, val: f32| {
+                    this.0.set(val);
+                    Ok(())
+                });
+            }
+        }
+    };
+}

@@ -2,6 +2,8 @@ use std::{cell::Cell, rc::Rc};
 
 use macroquad::prelude::{Rect, Color, Texture2D};
 
+use crate::impl_lua_fields;
+
 pub enum GameState {
     Menu,
     LevelSelect,
@@ -77,12 +79,4 @@ pub struct Timer {
 #[derive(Clone)]
 pub struct Shared<T: Copy>(pub Rc<Cell<T>>);
 
-impl mlua::UserData for Shared<f32> {
-    fn add_methods<'lua, M: mlua::UserDataMethods<Self>>(methods: &mut M) {
-        methods.add_method("get", |_, this, ()| Ok(this.0.get()));
-        methods.add_method("set", |_, this, val: f32| {
-            this.0.set(val);
-            Ok(())
-        });
-    }
-}
+impl_lua_fields!(f32);
