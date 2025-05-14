@@ -75,9 +75,9 @@ pub struct Timer {
 }
 
 #[derive(Clone)]
-pub struct SharedF32(pub Rc<Cell<f32>>);
+pub struct Shared<T: Copy>(pub Rc<Cell<T>>);
 
-impl mlua::UserData for SharedF32 {
+impl mlua::UserData for Shared<f32> {
     fn add_methods<'lua, M: mlua::UserDataMethods<Self>>(methods: &mut M) {
         methods.add_method("get", |_, this, ()| Ok(this.0.get()));
         methods.add_method("set", |_, this, val: f32| {

@@ -259,16 +259,16 @@ async fn main() {
     println!("Last object id: {}", obj_types.len());
 
     println!("Defining physics values..");
-    let velocity_y: SharedF32 = SharedF32(Rc::new(Cell::new(0.0)));
-    let gravity: SharedF32 = SharedF32(Rc::new(Cell::new(1.0)));
-    let default_gravity: SharedF32 = gravity.clone();
-    let jump_force: SharedF32 = SharedF32(Rc::new(Cell::new(16.0)));
-    let default_jump_force: SharedF32 = jump_force.clone();
+    let velocity_y: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.0)));
+    let gravity: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(1.0)));
+    let default_gravity: Shared<f32> = gravity.clone();
+    let jump_force: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(16.0)));
+    let default_jump_force: Shared<f32> = jump_force.clone();
     let mut rotation: f32 = 0.0;
-    let movement_speed: SharedF32 = SharedF32(Rc::new(Cell::new(6.0)));
-    let default_movement_speed: SharedF32 = movement_speed.clone();
-    let ship_power: SharedF32 = SharedF32(Rc::new(Cell::new(0.7)));
-    let ship_falling_speed: SharedF32 = SharedF32(Rc::new(Cell::new(0.5)));
+    let movement_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(6.0)));
+    let default_movement_speed: Shared<f32> = movement_speed.clone();
+    let ship_power: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.7)));
+    let ship_falling_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.5)));
 
     println!("Setting up editor stuff..");
     let mut current_tab: u8 = 1;
