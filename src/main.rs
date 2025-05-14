@@ -267,8 +267,8 @@ async fn main() {
     let mut rotation: f32 = 0.0;
     let movement_speed: SharedF32 = SharedF32(Rc::new(Cell::new(6.0)));
     let default_movement_speed: SharedF32 = movement_speed.clone();
-    let ship_power: f32 = 0.7;
-    let ship_falling_speed: f32 = 0.5;
+    let ship_power: SharedF32 = SharedF32(Rc::new(Cell::new(0.7)));
+    let ship_falling_speed: SharedF32 = SharedF32(Rc::new(Cell::new(0.5)));
 
     println!("Setting up editor stuff..");
     let mut current_tab: u8 = 1;
@@ -412,6 +412,8 @@ async fn main() {
     lua.globals().set("default_jump_force", default_jump_force.clone()).unwrap();
     lua.globals().set("movement_speed", movement_speed.clone()).unwrap();
     lua.globals().set("default_movement_speed", default_movement_speed.clone()).unwrap();
+    lua.globals().set("ship_power", ship_power.clone()).unwrap();
+    lua.globals().set("ship_falling_speed", ship_falling_speed.clone()).unwrap();
 
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
@@ -583,8 +585,8 @@ async fn main() {
                             touching_block_ceiling,
                             gravity.0.get(),
                             &velocity_y.0,
-                            ship_power,
-                            ship_falling_speed
+                            ship_power.0.get(),
+                            ship_falling_speed.0.get()
                         );
                     }
                 }
