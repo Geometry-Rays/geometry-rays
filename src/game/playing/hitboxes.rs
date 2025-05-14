@@ -27,7 +27,7 @@ pub fn hitbox_collision(
     cc_1001: &mut Color,
     cc_1002: &mut Color,
     cc_1003: &mut Color,
-    game_state: &mut GameState,
+    game_state: &Cell<GameState>,
     on_pad: &mut bool
 ) {
     for object in obj_grid {
@@ -214,7 +214,7 @@ pub fn hitbox_collision(
                     w: 40.0,
                     h: 40.0
                 }) {
-                    *game_state = GameState::LevelComplete
+                    game_state.set(GameState::LevelComplete)
                 }
             }
 

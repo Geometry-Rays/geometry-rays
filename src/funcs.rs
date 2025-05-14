@@ -428,7 +428,6 @@ impl MainLevel {
     }
 }
 
-
 impl Timer {
     pub fn new(duration: f32) -> Self {
         Self { duration, time: 0.0 }
@@ -441,6 +440,20 @@ impl Timer {
             return true;
         }
         false
+    }
+}
+
+impl GameState {
+    pub fn to_string(&self) -> String {
+        match &self {
+            GameState::Menu => return "Menu".to_string(),
+            GameState::LevelSelect => return "LevelSelect".to_string(),
+            GameState::Playing => return "Playing".to_string(),
+            GameState::CreatorMenu => return "CreatorMenu".to_string(),
+            GameState::Editor => return "Editor".to_string(),
+            GameState::LevelComplete => return "LevelComplete".to_string(),
+            GameState::LevelSettings => return "LevelSettings".to_string(),
+        }
     }
 }
 

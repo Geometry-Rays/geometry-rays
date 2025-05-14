@@ -1,9 +1,11 @@
 use std::{cell::Cell, rc::Rc};
 
 use macroquad::prelude::{Rect, Color, Texture2D};
+use mlua::IntoLuaMulti;
 
 use crate::impl_lua_fields;
 
+#[derive(Clone, Copy)]
 pub enum GameState {
     Menu,
     LevelSelect,
@@ -78,5 +80,17 @@ pub struct Timer {
 
 #[derive(Clone)]
 pub struct Shared<T: Copy>(pub Rc<Cell<T>>);
+
+impl IntoLuaMulti for GameState {
+    fn into_lua_multi(self, lua: &mlua::Lua) -> mlua::Result<mlua::MultiValue> {
+        unimplemented!("I'm gonna be so fr I don't know what to put here")
+    }
+}
+
+impl mlua::UserData for Shared<GameState> {
+    fn add_methods<'lua, M: mlua::UserDataMethods<Self>>(methods: &mut M) {
+        methods.add_method("get", |_, this, ()| Ok(this.0.get().to_string()));
+    }
+}
 
 impl_lua_fields!(f32);

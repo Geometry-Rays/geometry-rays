@@ -237,7 +237,7 @@ async fn main() {
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
 
     println!("Defining important game variables..");
-    let mut game_state: GameState = GameState::Menu;
+    let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
     let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
     let mut small_player = player;
@@ -414,6 +414,7 @@ async fn main() {
     lua.globals().set("default_movement_speed", default_movement_speed.clone()).unwrap();
     lua.globals().set("ship_power", ship_power.clone()).unwrap();
     lua.globals().set("ship_falling_speed", ship_falling_speed.clone()).unwrap();
+    lua.globals().set("game_state", game_state.clone()).unwrap();
 
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
@@ -459,17 +460,17 @@ async fn main() {
             }
         }
 
-        match game_state {
+        match game_state.0.get() {
             GameState::Menu => {
                 play_button.update(delta_time);
                 creator_button.update(delta_time);
 
                 if play_button.is_clicked() {
-                    game_state = GameState::LevelSelect
+                    game_state.0.set(GameState::LevelSelect)
                 }
 
                 if creator_button.is_clicked() {
-                    game_state = GameState::CreatorMenu
+                    game_state.0.set(GameState::CreatorMenu)
                 }
 
                 if is_key_pressed(KeyCode::Slash) {
@@ -500,14 +501,14 @@ async fn main() {
                     );
 
                     if load_level_result == "ok" {
-                        game_state = GameState::Playing
+                        game_state.0.set(GameState::Playing)
                     } else {
                         println!("Problem loading level: {}", load_level_result);
                     }
                 }
 
                 if back_button.is_clicked() {
-                    game_state = GameState::Menu
+                    game_state.0.set(GameState::Menu)
                 }
 
                 if is_key_pressed(KeyCode::Left) && current_level > 0 {
@@ -566,7 +567,7 @@ async fn main() {
                     &mut cc_1001,
                     &mut cc_1002,
                     &mut cc_1003,
-                    &mut game_state,
+                    &game_state.0,
                     &mut on_pad
                 );
 
@@ -625,7 +626,7 @@ async fn main() {
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
-                    game_state = GameState::LevelSelect
+                    game_state.0.set(GameState::LevelSelect)
                 }
             }
 
@@ -637,7 +638,7 @@ async fn main() {
                 search_button.update(delta_time);
 
                 if back_button.is_clicked() {
-                    game_state = GameState::Menu
+                    game_state.0.set(GameState::Menu)
                 }
 
                 if create_button.is_clicked() {
@@ -656,7 +657,7 @@ async fn main() {
                     }
 
                     been_to_editor = true;
-                    game_state = GameState::Editor
+                    game_state.0.set(GameState::Editor)
                 }
             }
 
@@ -680,11 +681,11 @@ async fn main() {
                 }
 
                 if editor_back_button.is_clicked() {
-                    game_state = GameState::CreatorMenu
+                    game_state.0.set(GameState::CreatorMenu)
                 }
 
                 if editor_options_button.is_clicked() {
-                    game_state = GameState::LevelSettings
+                    game_state.0.set(GameState::LevelSettings)
                 }
 
                 if build_tab_button.is_clicked() {
@@ -702,7 +703,7 @@ async fn main() {
                 if editor_playtest_button.is_clicked() {
                     stop_audio(&sink);
                     play_audio_path(&current_song, master_volume, false, &sink);
-                    game_state = GameState::Playing
+                    game_state.0.set(GameState::Playing)
                 }
 
                 if editor_save_button.is_clicked() {
@@ -764,7 +765,7 @@ async fn main() {
                 if back_button.is_clicked() {
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
-                    game_state = GameState::Menu
+                    game_state.0.set(GameState::Menu)
                 }
             }
 
@@ -852,7 +853,7 @@ async fn main() {
                     && grnd_red_parse_success
                     && grnd_green_parse_success
                     && grnd_blue_parse_success {
-                        game_state = GameState::Editor
+                        game_state.0.set(GameState::Editor)
                     }
                 }
 
@@ -927,7 +928,7 @@ async fn main() {
         }
 
         // Drawing
-        match game_state {
+        match game_state.0.get() {
             GameState::Menu => {
                 clear_background(BLACK);
                 draw_texture_ex(
