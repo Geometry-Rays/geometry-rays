@@ -416,6 +416,14 @@ async fn main() {
     lua.globals().set("ship_falling_speed", ship_falling_speed.clone()).unwrap();
     lua.globals().set("game_state", game_state.clone()).unwrap();
 
+    let font_clone = font.clone();
+    let draw_text_lua_func = lua.create_function(move |_, (text, x, y, size, r, g, b, a): (String, f32, f32, u8, u8, u8, u8, u8)| {
+        draw_text_pro(&text, x, y, size, Color::from_rgba(r, g, b, a), &font_clone);
+        Ok(())
+    }).unwrap();
+
+    lua.globals().set("draw_text", draw_text_lua_func).unwrap();
+
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
 
@@ -928,9 +936,10 @@ async fn main() {
         }
 
         // Drawing
+        clear_background(BLACK);
+
         match game_state.0.get() {
             GameState::Menu => {
-                clear_background(BLACK);
                 draw_texture_ex(
                     &default_bg_no_gradient,
                     -50.0,
@@ -1001,8 +1010,6 @@ async fn main() {
             }
 
             GameState::LevelSelect => {
-                clear_background(BLACK);
-
                 draw_texture_ex(
                     &default_bg_no_gradient,
                     -50.0,
@@ -1083,7 +1090,7 @@ async fn main() {
             }
 
             GameState::Playing => {
-                clear_background(BLACK);
+                
                 draw_texture_ex(
                     &default_bg,
                     0.0,
@@ -1183,7 +1190,7 @@ async fn main() {
             }
 
             GameState::CreatorMenu => {
-                clear_background(BLACK);
+                
 
                 draw_texture_ex(
                     &default_bg_no_gradient,
@@ -1210,7 +1217,7 @@ async fn main() {
             }
 
             GameState::Editor => {
-                clear_background(BLACK);
+                
 
                 // Draws the background
                 draw_texture_ex(
@@ -1408,7 +1415,7 @@ async fn main() {
             }
 
             GameState::LevelComplete => {
-                clear_background(BLACK);
+                
 
                 draw_texture_ex(
                     &default_bg_no_gradient,
@@ -1441,7 +1448,7 @@ async fn main() {
             }
 
             GameState::LevelSettings => {
-                clear_background(BLACK);
+                
 
                 draw_texture_ex(
                     &default_bg_no_gradient,
@@ -1479,6 +1486,16 @@ async fn main() {
                 grnd_blue_textbox.draw(grnd_blue.clone(), &font);
 
                 back_button.draw(false, None, 1.0, false, &font);
+            }
+        }
+
+        for lua_mod in mods.clone() {
+            let active: bool = lua_mod.get("enabled").unwrap();
+
+            if active && load_mods {
+                let draw_func: Function = lua_mod.get("draw").unwrap();
+
+                draw_func.call::<()>(()).unwrap();
             }
         }
 
