@@ -1,5 +1,5 @@
 return {
-    enabled = true,
+    enabled = false,
 
     setup = function()
         print("Example mod loaded!")
