@@ -354,6 +354,8 @@ async fn main() {
 
     let mut difficulties: Vec<Texture2D> = vec![];
 
+    // This just puts all the difficulty face textures into a vec
+    // This is so the game can easily show difficulties
     println!("Loading difficulty faces...");
     for i in 0..10 {
         difficulties.push(
@@ -392,8 +394,11 @@ async fn main() {
     let mut mod_contents: Vec<String> = vec![];
     let mut mods: Vec<Table> = vec![];
 
+    // Change this to false to disable the mod loader
     let load_mods: bool = true;
 
+    // This just puts the contents of all the lua files in a vec
+    // TODO: Combine the for loops for this and actually loading the mods
     for path in mod_paths_kinda {
         let path_str = path.unwrap().path().to_str().unwrap().to_string();
 
@@ -424,12 +429,14 @@ async fn main() {
 
     lua.globals().set("draw_text", draw_text_lua_func).unwrap();
 
+    // Loads the lua mods
     for mod_data in mod_contents {
         let lua_mod: Table = lua.load(mod_data).eval().unwrap();
 
         mods.push(lua_mod);
     }
 
+    // This runs all of the setup functions of all the mods
     for lua_mod in mods.clone() {
         let active: bool = lua_mod.get("enabled").unwrap();
 
@@ -458,6 +465,7 @@ async fn main() {
         let screen_height_range = (screen_height() - 600.0) * (40.0 / (1005.0 - 600.0));
         let snapped_y = (((mouse_y - (snapped_cam_y * 5)) - (screen_height() - (600.0 + screen_height_range)) as i32) / grid_size as i32) * grid_size as i32;
 
+        // This runs the loop function of all the loaded mods
         for lua_mod in mods.clone() {
             let active: bool = lua_mod.get("enabled").unwrap();
 
@@ -1489,6 +1497,7 @@ async fn main() {
             }
         }
 
+        // Runs the draw function of every mod
         for lua_mod in mods.clone() {
             let active: bool = lua_mod.get("enabled").unwrap();
 
