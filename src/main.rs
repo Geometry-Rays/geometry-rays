@@ -1098,7 +1098,6 @@ async fn main() {
             }
 
             GameState::Playing => {
-                
                 draw_texture_ex(
                     &default_bg,
                     0.0,
@@ -1198,8 +1197,6 @@ async fn main() {
             }
 
             GameState::CreatorMenu => {
-                
-
                 draw_texture_ex(
                     &default_bg_no_gradient,
                     -50.0,
@@ -1225,8 +1222,6 @@ async fn main() {
             }
 
             GameState::Editor => {
-                
-
                 // Draws the background
                 draw_texture_ex(
                     &default_bg,
@@ -1423,8 +1418,6 @@ async fn main() {
             }
 
             GameState::LevelComplete => {
-                
-
                 draw_texture_ex(
                     &default_bg_no_gradient,
                     -50.0,
@@ -1456,8 +1449,6 @@ async fn main() {
             }
 
             GameState::LevelSettings => {
-                
-
                 draw_texture_ex(
                     &default_bg_no_gradient,
                     -50.0,
