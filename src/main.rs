@@ -1,7 +1,6 @@
 use std::{cell::Cell, collections::HashMap, rc::Rc};
 
 use game::loading::load_level;
-use game::playing::physics::ship_physics;
 use macroquad::prelude::*;
 
 use gr_rodio::rodio_raw::OutputStream;
@@ -551,7 +550,7 @@ async fn main() {
                 small_player.h = 20.0;
 
                 // The function for handling the physics of the game
-                playing::physics::physics_handle(
+                playing::physics::main_physics::physics_handle(
                     &mut player,
                     &velocity_y.0,
                     &mut on_ground,
@@ -589,7 +588,7 @@ async fn main() {
 
                 match current_gamemode {
                     GameMode::Cube => {
-                        playing::physics::cube_physics(
+                        playing::physics::cube::physics_handle(
                             &velocity_y.0,
                             gravity.0.get(),
                             &mut on_ground,
@@ -598,7 +597,7 @@ async fn main() {
                     }
 
                     GameMode::Ship => {
-                        ship_physics(
+                        playing::physics::ship::physics_handle(
                             touching_block_ceiling,
                             gravity.0.get(),
                             &velocity_y.0,
