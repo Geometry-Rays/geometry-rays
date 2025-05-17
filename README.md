@@ -7,7 +7,7 @@
 
  The name for the old geometry rays client is now Geometry Rays Legacy.
 
- For now it will still be supported but once this has level uploading and stuff it won't get new features and probably only bugfixes.
+ For now it will still be supported but it won't get new features and will only have bug fixes and minor improvements.
 
  Eventually once this has all the features of legacy the old client will stop being updated entirely and you will have to move to fyre.
 
