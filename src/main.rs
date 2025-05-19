@@ -611,6 +611,7 @@ async fn main() {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
+                    cc_1003 = GREEN;
                     velocity_y.0.set(0.0);
                     movement_speed.0.set(default_movement_speed.0.get());
                     gravity.0.set(default_gravity.0.get());
@@ -635,6 +636,7 @@ async fn main() {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
+                    cc_1003 = GREEN;
                     velocity_y.0.set(0.0);
                     movement_speed.0.set(default_movement_speed.clone().0.get());
                     gravity.0.set(default_gravity.0.get());
