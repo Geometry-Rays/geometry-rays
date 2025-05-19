@@ -70,7 +70,8 @@ pub struct MainLevel {
 
 pub enum GameMode {
     Cube,
-    Ship
+    Ship,
+    Ball
 }
 
 pub struct Timer {

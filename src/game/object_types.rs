@@ -141,6 +141,18 @@ pub async fn create_object_types(
     );
 
     obj_types.insert(
+        24,
+        ObjectType::new(
+            24,
+            "Ball Portal",
+            load_texture("./Resources/objects/portals/ball-portal.png")
+                .await.expect("Failed to load ball portal texture"),
+            obj_btn_offset,
+            obj_types.len() as u16
+        )
+    );
+
+    obj_types.insert(
         10,
         ObjectType::new(
             10,
