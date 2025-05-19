@@ -24,6 +24,9 @@ async fn main() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
     let sink = rodio_raw::Sink::try_new(&stream_handle).unwrap();
 
+    let target_fps: u64 = 60;
+    let frame_duration: std::time::Duration = std::time::Duration::from_micros(1_000_000 / target_fps);
+
     // Buttons
     let mut play_button = Button::new(
         || screen_width() as f32 / 2.0 - 100.0,
@@ -338,8 +341,6 @@ async fn main() {
     ];
     let mut on_pad_timer: Timer = Timer::new(0.1);
     let mut on_pad: bool = false;
-    let target_fps: u64 = 60;
-    let frame_duration: std::time::Duration = std::time::Duration::from_micros(1_000_000 / target_fps);
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
