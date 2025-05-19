@@ -716,6 +716,14 @@ async fn main() {
                 }
 
                 if editor_options_button.is_clicked() {
+                    bg_red = (cc_1001.r * 255.0).floor().to_string();
+                    bg_green = (cc_1001.g * 255.0).floor().to_string();
+                    bg_blue = (cc_1001.b * 255.0).floor().to_string();
+
+                    grnd_red = (cc_1002.r * 255.0).floor().to_string();
+                    grnd_green = (cc_1002.g * 255.0).floor().to_string();
+                    grnd_blue = (cc_1002.b * 255.0).floor().to_string();
+
                     game_state.0.set(GameState::LevelSettings)
                 }
 
