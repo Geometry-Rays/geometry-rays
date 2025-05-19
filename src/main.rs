@@ -338,6 +338,8 @@ async fn main() {
     ];
     let mut on_pad_timer: Timer = Timer::new(0.1);
     let mut on_pad: bool = false;
+    let target_fps: u64 = 60;
+    let frame_duration: std::time::Duration = std::time::Duration::from_micros(1_000_000 / target_fps);
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -449,6 +451,8 @@ async fn main() {
     println!("Preparing main loop...");
     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
     loop {
+        let frame_start = std::time::Instant::now();
+
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
             break;
@@ -1500,6 +1504,12 @@ async fn main() {
             }
         }
 
-        next_frame().await
+        next_frame().await;
+
+        let frame_time = frame_start.elapsed();
+        if frame_time < frame_duration {
+            let sleep_time = frame_duration - frame_time;
+            std::thread::sleep(sleep_time);
+        }
     }
 }
