@@ -278,7 +278,6 @@ async fn main() {
     let mut cam_pos_x: f32 = 0.0;
     let mut current_obj: u16 = 1;
     let grid_size: u8 = 40;
-    let mut been_to_editor: bool = false;
 
     println!("Getting latest version...");
     let version: &str = "F-ALPHA";
@@ -673,21 +672,18 @@ async fn main() {
                 }
 
                 if create_button.is_clicked() {
-                    if !been_to_editor {
-                        let level_data: String = std::fs::read_to_string("./save-data/level.txt").unwrap();
+                    let level_data: String = std::fs::read_to_string("./save-data/level.txt").unwrap();
 
-                        loading::load_level(
-                            level_data,
-                            &mut obj_grid,
-                            &mut cc_1001,
-                            &mut cc_1002,
-                            &mut current_song,
-                            true,
-                            main_levels.clone()
-                        );
-                    }
+                    loading::load_level(
+                        level_data,
+                        &mut obj_grid,
+                        &mut cc_1001,
+                        &mut cc_1002,
+                        &mut current_song,
+                        true,
+                        main_levels.clone()
+                    );
 
-                    been_to_editor = true;
                     game_state.0.set(GameState::Editor)
                 }
             }
