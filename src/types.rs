@@ -83,7 +83,7 @@ pub struct Timer {
 pub struct Shared<T: Copy>(pub Rc<Cell<T>>);
 
 impl IntoLuaMulti for GameState {
-    fn into_lua_multi(self, lua: &mlua::Lua) -> mlua::Result<mlua::MultiValue> {
+    fn into_lua_multi(self, _lua: &mlua::Lua) -> mlua::Result<mlua::MultiValue> {
         unimplemented!("I'm gonna be so fr I don't know what to put here")
     }
 }
