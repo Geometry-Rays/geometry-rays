@@ -192,7 +192,7 @@ impl ObjectType {
         for _ in 0..object_types_amount {
             x_sort += 1;
 
-            if x_sort > 8 {
+            if x_sort > 9 {
                 x_sort = 1;
                 y_sort += 1;
             }
@@ -205,8 +205,8 @@ impl ObjectType {
             button: Button::new(
                 move || 140.0 + (x_sort as f32 * obj_btn_offset),
                 move || screen_height() - (190.0 - (y_sort as f32 * obj_btn_offset)),
-                || 60.0,
-                || 60.0,
+                || 55.0,
+                || 55.0,
                 name,
                 10,
                 false
