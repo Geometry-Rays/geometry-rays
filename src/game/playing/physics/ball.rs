@@ -10,7 +10,7 @@ pub fn physics_handle(
 ) {
     velocity_y.set(velocity_y.get() + gravity.get());
 
-    if *on_ground && (is_key_pressed(KeyCode::Space) || is_mouse_button_pressed(MouseButton::Left)) {
+    if *on_ground && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) || is_key_down(KeyCode::Up)) {
         gravity.set(-gravity.get());
         *player_y = if gravity.get() > 0.0 { *player_y + 1.0 } else { *player_y - 1.0 };
         *on_ground = false;
