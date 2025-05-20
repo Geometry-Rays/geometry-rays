@@ -188,13 +188,13 @@ pub fn hitbox_collision(
                         *current_gamemode = GameMode::Ball;
                         *cc_1003 = RED
                     } else if object.id == 17 {
-                        movement_speed.set(default_movement_speed * 0.85);
+                        movement_speed.set(6.0 * 0.85);
                     } else if object.id == 18 {
-                        movement_speed.set(default_movement_speed);
+                        movement_speed.set(6.0);
                     } else if object.id == 19 {
-                        movement_speed.set(default_movement_speed * 1.4);
+                        movement_speed.set(6.0 * 1.4);
                     } else if object.id == 20 {
-                        movement_speed.set(default_movement_speed * 1.8);
+                        movement_speed.set(6.0 * 1.8);
                     }
 
                     *is_on_ground = false
