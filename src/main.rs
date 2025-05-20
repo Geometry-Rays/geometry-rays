@@ -632,8 +632,9 @@ async fn main() {
                     restart_audio(&sink);
                 }
 
-                if is_mouse_button_released(MouseButton::Left) ||
-                is_key_released(KeyCode::Space) {
+                if is_mouse_button_released(MouseButton::Left)
+                || is_key_released(KeyCode::Space)
+                || is_key_released(KeyCode::Up) {
                     on_orb = true
                 }
 
