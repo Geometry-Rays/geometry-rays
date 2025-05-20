@@ -13,7 +13,7 @@ pub fn physics_handle(
     player.y += velocity_y.get();
     // *velocity_y += gravity;
 
-    // if is_mouse_button_down(MouseButton::Left) && *on_ground {
+    // if is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) || is_key_down(KeyCode::Up) && *on_ground {
     //     *velocity_y -= jump_force;
     //     *on_ground = false;
     // }
