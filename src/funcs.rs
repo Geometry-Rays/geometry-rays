@@ -1,5 +1,4 @@
 use macroquad::prelude::*;
-use futures::executor::block_on;
 
 use crate::types::*;
 
