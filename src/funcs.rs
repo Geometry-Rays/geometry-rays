@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use futures::executor::block_on;
 
 use crate::types::*;
 
@@ -179,10 +180,10 @@ impl Button {
 }
 
 impl ObjectType {
-    pub fn new(
+    pub async fn new(
         id: u16,
         name: &str,
-        texture: Texture2D,
+        texture: &str,
         obj_btn_offset: f32,
         object_types_amount: u16
     ) -> ObjectType {
@@ -201,7 +202,8 @@ impl ObjectType {
         ObjectType {
             id,
             name: name.to_string(),
-            texture,
+            texture: load_texture(texture)
+                .await.expect("Failed to load name texture"),
             button: Button::new(
                 move || 140.0 + (x_sort as f32 * obj_btn_offset),
                 move || screen_height() - (190.0 - (y_sort as f32 * obj_btn_offset)),

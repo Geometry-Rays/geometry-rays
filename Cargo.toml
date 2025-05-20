@@ -8,3 +8,4 @@ macroquad = "0.4.14"
 gr-rodio = "1.1.1"
 ureq = "3.0.11"
 mlua = { version = "0.10.3", features = ["lua54", "vendored"] }
+futures = "0.3.31"

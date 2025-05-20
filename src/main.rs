@@ -257,7 +257,7 @@ async fn main() {
     println!("Defining object types..");
     let obj_btn_offset: f32 = 65.0;
     let mut obj_types: HashMap<u16, ObjectType> = HashMap::new();
-    object_types::create_object_types(&mut obj_types, obj_btn_offset).await;
+    object_types::create_object_types(&mut obj_types, obj_btn_offset);
     println!("Last object id: {}", obj_types.len());
 
     println!("Defining physics values..");
