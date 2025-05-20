@@ -10,7 +10,7 @@ pub fn physics_handle(
     ship_falling_speed: f32,
 ) {
     if !touching_block_ceiling {
-        if is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) {
+        if is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) || is_key_down(KeyCode::Up) {
             if gravity > 0.0 {
                 if velocity_y.get() > -10.0 {
                     velocity_y.set(velocity_y.get() - ship_power)
