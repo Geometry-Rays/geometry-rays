@@ -263,12 +263,12 @@ async fn main() {
     println!("Defining physics values..");
     let velocity_y: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.0)));
     let gravity: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(1.0)));
-    let default_gravity: Shared<f32> = gravity.clone();
+    let default_gravity: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(gravity.0.get())));
     let jump_force: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(16.0)));
-    let default_jump_force: Shared<f32> = jump_force.clone();
+    let default_jump_force: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(jump_force.0.get())));
     let mut rotation: f32 = 0.0;
     let movement_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(6.0)));
-    let default_movement_speed: Shared<f32> = movement_speed.clone();
+    let default_movement_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(movement_speed.0.get())));
     let ship_power: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.7)));
     let ship_falling_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.5)));
 
