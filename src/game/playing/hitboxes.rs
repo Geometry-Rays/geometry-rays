@@ -143,9 +143,9 @@ pub fn hitbox_collision(
                     if *on_orb && (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) || is_key_down(KeyCode::Up)) {
                         if object.id == 4 {
                             if gravity.get() > 0.0 {
-                                velocity_y.set(-13.0);
+                                velocity_y.set(-16.0);
                             } else {
-                                velocity_y.set(13.0);
+                                velocity_y.set(16.0);
                             }
                         } else if object.id == 22 {
                             if gravity.get() > 0.0 {
