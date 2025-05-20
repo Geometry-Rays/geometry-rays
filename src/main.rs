@@ -642,10 +642,6 @@ async fn main() {
                     on_pad = false;
                 }
 
-                // if on_pad_timer.update() {
-                //     println!("ok");
-                // }
-
                 if is_key_pressed(KeyCode::Backspace) {
                     player.y = screen_height() / 1.15;
                     world_offset = 0.0;
