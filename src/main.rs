@@ -671,6 +671,7 @@ async fn main() {
                     velocity_y.0.set(0.0);
                     movement_speed.0.set(default_movement_speed.0.get());
                     gravity.0.set(default_gravity.0.get());
+                    jump_force.0.set(default_jump_force.0.get());
                     kill_player = false;
                     restart_audio(&sink);
                 }
@@ -693,6 +694,7 @@ async fn main() {
                     velocity_y.0.set(0.0);
                     movement_speed.0.set(default_movement_speed.clone().0.get());
                     gravity.0.set(default_gravity.0.get());
+                    jump_force.0.set(default_jump_force.0.get());
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
@@ -844,6 +846,7 @@ async fn main() {
                     velocity_y.0.set(0.0);
                     movement_speed.0.set(default_movement_speed.clone().0.get());
                     gravity.0.set(default_gravity.0.get());
+                    jump_force.0.set(default_jump_force.0.get());
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
