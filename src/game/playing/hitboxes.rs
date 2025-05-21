@@ -77,7 +77,10 @@ pub fn hitbox_collision(
                     h: 3.0
                 }) {
                     if velocity_y.get() <= 0.0 {
-                        *is_on_ground = true;
+                        if gravity.get() < 0.0 {
+                            *is_on_ground = true;
+                        }
+
                         *rotation = 0.0;
                         player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
                         velocity_y.set(0.0);
