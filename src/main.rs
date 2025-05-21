@@ -16,7 +16,15 @@ use types::*;
 mod game;
 use game::*;
 
-#[macroquad::main("Geometry Rays")]
+fn window_conf() -> Conf {
+    Conf {
+        window_title: "Geometry Rays".into(),
+        icon: None,
+        ..Default::default()
+    }
+}
+
+#[macroquad::main(window_conf)]
 async fn main() {
     // This just loads the font used for the game.
     let font: Font = load_ttf_font("./Resources/Acme 9 Regular.ttf").await.unwrap();
