@@ -3,6 +3,8 @@ use std::{cell::Cell, collections::HashMap, rc::Rc};
 use game::loading::load_level;
 use macroquad::prelude::*;
 use miniquad::conf::Icon;
+use image::ImageReader;
+use std::convert::TryInto;
 
 use gr_rodio::rodio_raw::OutputStream;
 
@@ -17,14 +19,24 @@ use types::*;
 mod game;
 use game::*;
 
+fn get_resized_rgba_bytes(path: &str, size: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+    let img = ImageReader::open(path)?.decode()?.to_rgba8();
+    let resized = image::imageops::resize(&img, size, size, image::imageops::Lanczos3);
+    Ok(resized.into_raw())
+}
+
 fn window_conf() -> Conf {
+    let small_vec = get_resized_rgba_bytes("./Resources/logo.png", 16).unwrap();
+    let medium_vec = get_resized_rgba_bytes("./Resources/logo.png", 32).unwrap();
+    let big_vec = get_resized_rgba_bytes("./Resources/logo.png", 64).unwrap();
+
+    let small: [u8; 16*16*4] = small_vec.try_into().unwrap();
+    let medium: [u8; 32*32*4] = medium_vec.try_into().unwrap();
+    let big: [u8; 64*64*4] = big_vec.try_into().unwrap();
+
     Conf {
         window_title: "Geometry Rays".into(),
-        icon: Some(Icon {
-            small: include_bytes!("../Resources/icon_16x16.rgba").clone(),
-            medium: include_bytes!("../Resources/icon_32x32.rgba").clone(),
-            big: include_bytes!("../Resources/icon_64x64.rgba").clone(),
-        }),
+        icon: Some(Icon { small, medium, big }),
         ..Default::default()
     }
 }
