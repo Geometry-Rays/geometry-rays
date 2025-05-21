@@ -1216,10 +1216,10 @@ async fn main() {
                 }
 
                 // Draws the ground
-                for i in 0..screen_width() as i32 / 160 + 1 {
+                for i in 0..screen_width() as i32 / 160 + 2 {
                     draw_texture_ex(
                         &grnd_texture,
-                        i as f32 * 155.0,
+                        i as f32 * 155.0 - (world_offset % 155.0),
                         screen_height() / 1.15,
                         cc_1002,
                         DrawTextureParams {
