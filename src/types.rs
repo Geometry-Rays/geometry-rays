@@ -13,7 +13,8 @@ pub enum GameState {
     CreatorMenu,
     Editor,
     LevelComplete,
-    LevelSettings
+    LevelSettings,
+    SearchPage
 }
 
 pub struct Button {

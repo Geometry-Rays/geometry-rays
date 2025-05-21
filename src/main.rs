@@ -109,7 +109,7 @@ async fn main() {
         || 200.0,
         "Search",
         20,
-        true
+        false
     );
 
     let mut build_tab_button = Button::new(
@@ -741,6 +741,10 @@ async fn main() {
 
                     game_state.0.set(GameState::Editor)
                 }
+
+                if search_button.is_clicked() {
+                    game_state.0.set(GameState::SearchPage);
+                }
             }
 
             GameState::Editor => {
@@ -1027,6 +1031,14 @@ async fn main() {
                 grnd_red_textbox.input(&mut grnd_red);
                 grnd_green_textbox.input(&mut grnd_green);
                 grnd_blue_textbox.input(&mut grnd_blue);
+            }
+
+            GameState::SearchPage => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::CreatorMenu);
+                }
             }
         }
 
@@ -1580,6 +1592,28 @@ async fn main() {
                 grnd_red_textbox.draw(grnd_red.clone(), &font);
                 grnd_green_textbox.draw(grnd_green.clone(), &font);
                 grnd_blue_textbox.draw(grnd_blue.clone(), &font);
+
+                back_button.draw(false, None, 1.0, false, &font);
+            }
+
+            GameState::SearchPage => {
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
 
                 back_button.draw(false, None, 1.0, false, &font);
             }
