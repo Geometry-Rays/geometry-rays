@@ -354,6 +354,15 @@ async fn main() {
             "Fluix",
             std::fs::read_to_string("./Resources/main-levels/3.txt").unwrap()
         ),
+
+        MainLevel::new(
+            "Foundry",
+            2,
+            "./Resources/Music/main-level-songs/4.mp3",
+            "Fluix",
+            "Puppet",
+            std::fs::read_to_string("./Resources/main-levels/4.txt").unwrap()
+        ),
     ];
     let mut current_level: u8 = 0;
     let mut current_song: String = main_levels[0].song.to_string();
