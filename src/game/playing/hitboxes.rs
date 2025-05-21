@@ -165,7 +165,7 @@ pub fn hitbox_collision(
                 }
             }
 
-            5 | 6 | 8 | 9 | 24 | 17 | 18 | 19 | 20 => {
+            5 | 6 | 8 | 9 | 24 | 25 | 17 | 18 | 19 | 20 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
                     y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
@@ -187,6 +187,9 @@ pub fn hitbox_collision(
                     } else if object.id == 24 {
                         *current_gamemode = GameMode::Ball;
                         *cc_1003 = RED
+                    } else if object.id == 25 {
+                        *current_gamemode = GameMode::Wave;
+                        *cc_1003 = Color::from_rgba(0, 255, 255, 255)
                     } else if object.id == 17 {
                         movement_speed.set(default_movement_speed * 0.85);
                     } else if object.id == 18 {

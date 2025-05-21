@@ -296,6 +296,7 @@ async fn main() {
     let default_movement_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(movement_speed.0.get())));
     let ship_power: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.7)));
     let ship_falling_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.5)));
+    let vertical_wave_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(10.0)));
 
     println!("Setting up editor stuff..");
     let mut current_tab: u8 = 1;
@@ -641,6 +642,14 @@ async fn main() {
                             &velocity_y.0,
                             &gravity.0,
                             &mut player.y
+                        );
+                    }
+
+                    GameMode::Wave => {
+                        playing::physics::wave::physics_handle(
+                            &velocity_y.0,
+                            &gravity.0,
+                            &vertical_wave_speed.0
                         );
                     }
                 }
