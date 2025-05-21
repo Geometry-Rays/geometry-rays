@@ -131,7 +131,7 @@ pub fn load_level(
                 obj_id_whar
             };
 
-            if true {
+            if !parts[1].is_empty() {
                 obj_grid.push(ObjectStruct {
                     y: xyrid[0].parse::<i32>().unwrap(),
                     x: xyrid[1].parse::<i32>().unwrap(),
