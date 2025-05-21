@@ -46,7 +46,7 @@ pub fn hitbox_collision(
             2 | 10 | 11 | 12 | 13 | 14 => {
                 *kill_player |= small_player.overlaps(&Rect {
                     x: object.x as f32 - world_offset,
-                    y: object.y as f32 + 10.0 - player_cam_y as f32,
+                    y: obj_y as f32 + 10.0 - player_cam_y as f32,
                     w: 3.0,
                     h: 20.0
                 });
@@ -136,7 +136,7 @@ pub fn hitbox_collision(
             4 | 22 | 26 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - 10.0 - world_offset,
-                    y: object.y as f32 - 10.0 - player_cam_y as f32,
+                    y: obj_y as f32 - 10.0 - player_cam_y as f32,
                     w: 60.0,
                     h: 60.0
                 }) {
@@ -209,7 +209,7 @@ pub fn hitbox_collision(
             7 => {
                 *kill_player |= centered_player.overlaps(&Rect {
                     x: object.x as f32 - world_offset + 20.0,
-                    y: object.y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                    y: obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
                     w: 10.0,
                     h: 10.0
                 });
@@ -278,7 +278,7 @@ pub fn hitbox_draw(
         || object.id == 14 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset,
-                object.y as f32 + 10.0 - player_cam_y as f32,
+                obj_y as f32 + 10.0 - player_cam_y as f32,
                 3.0,
                 20.0,
                 2.0,
@@ -329,7 +329,7 @@ pub fn hitbox_draw(
         || object.id == 22 {
             draw_rectangle_lines(
                 object.x as f32 - 10.0 - world_offset,
-                object.y as f32 - 10.0 - player_cam_y as f32,
+                obj_y as f32 - 10.0 - player_cam_y as f32,
                 60.0,
                 60.0,
                 2.0,
@@ -353,7 +353,7 @@ pub fn hitbox_draw(
         if object.id == 7 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 20.0,
-                object.y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
                 10.0,
                 10.0,
                 2.0,
