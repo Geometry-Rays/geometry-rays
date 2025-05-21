@@ -49,9 +49,6 @@ async fn main() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
     let sink = rodio_raw::Sink::try_new(&stream_handle).unwrap();
 
-    let target_fps: u64 = 60;
-    let frame_duration: std::time::Duration = std::time::Duration::from_micros(1_000_000 / target_fps);
-
     // Buttons
     let mut play_button = Button::new(
         || screen_width() as f32 / 2.0 - 100.0,
@@ -297,6 +294,7 @@ async fn main() {
     let ship_power: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.7)));
     let ship_falling_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.5)));
     let vertical_wave_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(10.0)));
+    let game_tps: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(60.0_f32)));
 
     println!("Setting up editor stuff..");
     let mut current_tab: u8 = 1;
@@ -448,6 +446,7 @@ async fn main() {
     lua.globals().set("ship_falling_speed", ship_falling_speed.clone()).unwrap();
     lua.globals().set("game_state", game_state.clone()).unwrap();
     lua.globals().set("vertical_wave_speed", vertical_wave_speed.clone()).unwrap();
+    lua.globals().set("game_tps", game_tps.clone()).unwrap();
 
     let font_clone = font.clone();
     let draw_text_lua_func = lua.create_function(move |_, (text, x, y, size, r, g, b, a): (String, f32, f32, u8, u8, u8, u8, u8)| {
@@ -1553,6 +1552,7 @@ async fn main() {
         next_frame().await;
 
         let frame_time = frame_start.elapsed();
+        let frame_duration: std::time::Duration = std::time::Duration::from_micros(1_000_000 / game_tps.0.get() as u64);
         if frame_time < frame_duration {
             let sleep_time = frame_duration - frame_time;
             std::thread::sleep(sleep_time);
