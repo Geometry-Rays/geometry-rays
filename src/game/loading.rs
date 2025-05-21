@@ -117,7 +117,19 @@ pub fn load_level(
 
         for object in legacy_objects {
             let xyrid: Vec<&str> = object.split(':').collect();
-            let obj_id: u16 = if level_version == "BETA" { xyrid[3].parse().unwrap() } else { xyrid[5].parse().unwrap() };
+            let obj_id_whar: u16 = if level_version == "BETA" { xyrid[3].parse().unwrap() } else { xyrid[5].parse().unwrap() };
+
+            let obj_id: u16 = if obj_id_whar == 20 {
+                17
+            } else if obj_id_whar == 19 {
+                20
+            } else if obj_id_whar == 17 {
+                18
+            } else if obj_id_whar == 18 {
+                19
+            } else {
+                obj_id_whar
+            };
 
             if true {
                 obj_grid.push(ObjectStruct {
