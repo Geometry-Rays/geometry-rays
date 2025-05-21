@@ -447,6 +447,7 @@ async fn main() {
     lua.globals().set("ship_power", ship_power.clone()).unwrap();
     lua.globals().set("ship_falling_speed", ship_falling_speed.clone()).unwrap();
     lua.globals().set("game_state", game_state.clone()).unwrap();
+    lua.globals().set("vertical_wave_speed", vertical_wave_speed.clone()).unwrap();
 
     let font_clone = font.clone();
     let draw_text_lua_func = lua.create_function(move |_, (text, x, y, size, r, g, b, a): (String, f32, f32, u8, u8, u8, u8, u8)| {
