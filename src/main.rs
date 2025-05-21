@@ -1156,7 +1156,7 @@ async fn main() {
                         let rotation_f32: f32 = object.rotation as f32;
                         draw_texture_ex(
                             &obj_types[&(object.id)].texture,
-                            object.x as f32 - if object.id == 8 || object.id == 9 || object.id == 24 { 40.0 } else { 0.0 } - world_offset as f32,
+                            object.x as f32 - if object.id == 8 || object.id == 9 || object.id == 24 || object.id == 25 { 40.0 } else { 0.0 } - world_offset as f32,
                             obj_y + 6.0,
                             WHITE,
                             DrawTextureParams {
@@ -1289,7 +1289,7 @@ async fn main() {
                     let rotation_f32: f32 = object.rotation as f32;
                     draw_texture_ex(
                         &obj_types[&(object.id)].texture,
-                        object.x as f32 - if object.id == 8 || object.id == 9 || object.id == 24 { 40.0 } else { 0.0 } - cam_pos_x * 5.0,
+                        object.x as f32 - if object.id == 8 || object.id == 9 || object.id == 24 || object.id == 25 { 40.0 } else { 0.0 } - cam_pos_x * 5.0,
                         obj_y + cam_pos_y * 5.0,
                         if object.selected { GREEN } else { WHITE },
                         DrawTextureParams {
