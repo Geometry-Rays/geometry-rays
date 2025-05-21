@@ -293,7 +293,7 @@ async fn main() {
     let default_movement_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(movement_speed.0.get())));
     let ship_power: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.7)));
     let ship_falling_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(0.5)));
-    let vertical_wave_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(10.0)));
+    let vertical_wave_speed: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(7.0)));
     let game_tps: Shared<f32> = Shared::<f32>(Rc::new(Cell::new(60.0)));
 
     println!("Setting up editor stuff..");
