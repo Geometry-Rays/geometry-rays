@@ -86,6 +86,19 @@ pub fn create_object_types(
     );
 
     obj_types.insert(
+        26,
+        block_on(
+            ObjectType::new(
+                26,
+                "Death Orb",
+                "./Resources/objects/orbs/death-orb.png",
+                obj_btn_offset,
+                obj_types.len() as u16
+            )
+        )
+    );
+
+    obj_types.insert(
         5,
         block_on(
             ObjectType::new(

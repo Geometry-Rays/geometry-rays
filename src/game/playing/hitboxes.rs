@@ -133,7 +133,7 @@ pub fn hitbox_collision(
                 }
             }
 
-            4 | 22 => {
+            4 | 22 | 26 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - 10.0 - world_offset,
                     y: object.y as f32 - 10.0 - player_cam_y as f32,
@@ -157,6 +157,8 @@ pub fn hitbox_collision(
                                 gravity.set(default_gravity);
                                 jump_force.set(default_jump_force)
                             }
+                        } else if object.id == 26 {
+                            *kill_player = true
                         }
                         *on_orb = false
                     }
