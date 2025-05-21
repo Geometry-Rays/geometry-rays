@@ -1,0 +1,25 @@
+name: Test build
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: Install packages
+        run: sudo apt update && sudo apt install libasound2-dev pkg-config -y
+
+      - name: Build with Rust
+        run: cargo build --release
