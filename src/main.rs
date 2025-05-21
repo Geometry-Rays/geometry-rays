@@ -2,6 +2,7 @@ use std::{cell::Cell, collections::HashMap, rc::Rc};
 
 use game::loading::load_level;
 use macroquad::prelude::*;
+use miniquad::conf::Icon;
 
 use gr_rodio::rodio_raw::OutputStream;
 
@@ -19,7 +20,11 @@ use game::*;
 fn window_conf() -> Conf {
     Conf {
         window_title: "Geometry Rays".into(),
-        icon: None,
+        icon: Some(Icon {
+            small: include_bytes!("../Resources/icon_16x16.rgba").clone(),
+            medium: include_bytes!("../Resources/icon_32x32.rgba").clone(),
+            big: include_bytes!("../Resources/icon_64x64.rgba").clone(),
+        }),
         ..Default::default()
     }
 }
