@@ -14,9 +14,9 @@ echo Creating folders
 rm -rf Geometry-Rays
 mkdir Geometry-Rays
 
-echo Moving executables
-mv ./target/x86_64-unknown-linux-gnu/release/geometry-rays-fyre ./Geometry-Rays
-mv ./target/x86_64-pc-windows-gnu/release/geometry-rays-fyre.exe ./Geometry-Rays
+echo Copying compiled executables
+cp ./target/x86_64-unknown-linux-gnu/release/geometry-rays-fyre ./Geometry-Rays
+cp ./target/x86_64-pc-windows-gnu/release/geometry-rays-fyre.exe ./Geometry-Rays
 
 echo Copying required folders
 cp -r ./Resources ./Geometry-Rays
