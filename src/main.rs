@@ -829,6 +829,13 @@ async fn main() {
                 back_button.update(delta_time);
 
                 if back_button.is_clicked() {
+                    world_offset = 0.0;
+                    current_gamemode = GameMode::Cube;
+                    cc_1003 = GREEN;
+                    velocity_y.0.set(0.0);
+                    movement_speed.0.set(default_movement_speed.clone().0.get());
+                    gravity.0.set(default_gravity.0.get());
+
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
                     game_state.0.set(GameState::Menu)
