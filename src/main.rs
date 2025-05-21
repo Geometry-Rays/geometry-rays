@@ -676,6 +676,7 @@ async fn main() {
                     jump_force.0.set(default_jump_force.0.get());
                     from_editor = false;
                     kill_player = false;
+                    player_trail.clear();
                     restart_audio(&sink);
                 }
 
@@ -761,6 +762,7 @@ async fn main() {
                 }
 
                 if editor_back_button.is_clicked() {
+                    player_trail.clear();
                     game_state.0.set(GameState::CreatorMenu)
                 }
 
@@ -790,6 +792,7 @@ async fn main() {
 
                 if editor_playtest_button.is_clicked() {
                     from_editor = true;
+                    player_trail.clear();
                     stop_audio(&sink);
                     play_audio_path(&current_song, master_volume, false, &sink);
                     game_state.0.set(GameState::Playing)
@@ -860,6 +863,7 @@ async fn main() {
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
                     from_editor = false;
+                    player_trail.clear();
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
