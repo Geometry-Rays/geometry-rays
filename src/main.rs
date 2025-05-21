@@ -1393,6 +1393,10 @@ async fn main() {
                     }
                 }
 
+                for point in &player_trail {
+                    draw_circle(point.x - cam_pos_x * 5.0, point.y + cam_pos_y * 5.0, 5.0, LIME);
+                }
+
                 draw_rectangle(
                     0.0,
                     screen_height() - 200.0,
