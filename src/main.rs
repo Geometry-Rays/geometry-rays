@@ -1,6 +1,6 @@
 use std::{cell::Cell, collections::HashMap, rc::Rc};
 
-use game::loading::load_level;
+use game::{loading::load_level, parsing::parse_level_download_response};
 use macroquad::prelude::*;
 use miniquad::conf::Icon;
 use image::ImageReader;
@@ -256,9 +256,46 @@ async fn main() {
         active: false
     };
 
+    let mut level_download_button = Button::new(
+        || screen_width() - 140.0,
+        || 75.0,
+        || 130.0,
+        || 75.0,
+        "Download",
+        15,
+        false
+    );
+
+    let mut level_id_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() - 140.0,
+            y: 10.0,
+            w: 130.0,
+            h: 55.0
+        },
+        text: "Level ID".to_string(),
+        text_size: 18,
+        max_length: 6,
+        spaces_allowed: false,
+        active: false
+    };
+
+
+
+    let mut level_play_button = Button::new(
+        || screen_width() as f32 / 2.0 - 100.0,
+        || screen_height() as f32 / 2.0 - 50.0,
+        || 200.0,
+        || 100.0,
+        "Play",
+        20,
+        false
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
+    let download_url: String = format!("{}download-level.php", main_url);
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
@@ -424,6 +461,18 @@ async fn main() {
     let mut grnd_red: String = "".to_string();
     let mut grnd_green: String = "".to_string();
     let mut grnd_blue: String = "".to_string();
+
+    let mut level_id: String = "".to_string();
+
+    // Values for server responses
+    let mut level_download_response: String = "".to_string();
+    let mut online_level_name = "".to_string();
+    let mut online_level_desc = "".to_string();
+    let mut online_level_data = "".to_string();
+    let mut online_level_diff: u8 = 0;
+    let mut online_level_rated: bool = false;
+    let mut online_level_creator = "".to_string();
+    let mut show_level_not_found: bool = false;
 
     println!("Loading mods...");
     let mod_paths_kinda = std::fs::read_dir("./mods").unwrap();
@@ -1035,9 +1084,82 @@ async fn main() {
 
             GameState::SearchPage => {
                 back_button.update(delta_time);
+                level_download_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::CreatorMenu);
+                }
+
+                if level_download_button.is_clicked() {
+                    level_download_response = ureq::get(download_url.clone())
+                        .query("id", &level_id)
+                        .call()
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap();
+
+                    
+                    if level_download_response.clone().contains(";;;;;") {
+                        parse_level_download_response(
+                            level_download_response.clone(),
+                            &mut online_level_name,
+                            &mut online_level_desc,
+                            &mut online_level_diff,
+                            &mut online_level_rated,
+                            &mut online_level_creator,
+                            &mut online_level_data
+                        );
+
+                        game_state.0.set(GameState::LevelPage);
+                    } else {
+                        show_level_not_found = true;
+                    }
+                }
+
+                if level_id_textbox.is_clicked() {
+                    level_id_textbox.active = true
+                }
+
+                if level_id_textbox.is_not_clicked() {
+                    level_id_textbox.active = false
+                }
+
+                level_id_textbox.input(&mut level_id);
+            }
+
+            GameState::LevelPage => {
+                back_button.update(delta_time);
+                level_play_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::SearchPage);
+                }
+
+                if level_play_button.is_clicked() {
+                    let load_level_result = load_level(
+                        online_level_data.clone(),
+                        &mut obj_grid,
+                        &mut cc_1001,
+                        &mut cc_1002,
+                        &mut current_song,
+                        true,
+                        main_levels.clone()
+                    );
+
+                    stop_audio(&sink);
+                    play_audio_path(
+                        &current_song,
+                        master_volume,
+                        false,
+                        &sink
+                    );
+
+                    if load_level_result == "ok" {
+                        game_state.0.set(GameState::Playing);
+                    } else {
+                        println!("Problem loading level: {}", load_level_result);
+                    }
                 }
             }
         }
@@ -1615,7 +1737,43 @@ async fn main() {
                     }
                 );
 
+                if show_level_not_found {
+                    draw_text_pro(
+                        &level_download_response,
+                        screen_width() / 2.0 - measure_text_ex(&level_download_response, 30, &font) / 2.0,
+                        screen_height() / 2.0,
+                        30,
+                        RED,
+                        &font
+                    );
+                }
+
                 back_button.draw(false, None, 1.0, false, &font);
+                level_download_button.draw(false, None, 1.0, false, &font);
+                level_id_textbox.draw(level_id.clone(), &font);
+            }
+
+            GameState::LevelPage => {
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
+                back_button.draw(false, None, 1.0, false, &font);
+                level_play_button.draw(false, None, 1.0, false, &font);
             }
         }
 
