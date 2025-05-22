@@ -1731,6 +1731,25 @@ async fn main() {
                     &font
                 );
 
+                match (bg_red.parse::<u8>(), bg_green.parse::<u8>(), bg_blue.parse::<u8>()) {
+                    (Ok(bg_red), Ok(bg_green), Ok(bg_blue)) => {
+                        draw_rectangle(
+                            screen_width() - 450.0,
+                            10.0,
+                            50.0,
+                            50.0,
+                            Color::from_rgba(
+                                bg_red,
+                                bg_green,
+                                bg_blue,
+                                255
+                            )
+                        );
+                    }
+
+                    _ => {}
+                }
+
                 bg_red_textbox.draw(bg_red.clone(), &font);
                 bg_green_textbox.draw(bg_green.clone(), &font);
                 bg_blue_textbox.draw(bg_blue.clone(), &font);
