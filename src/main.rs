@@ -1731,43 +1731,14 @@ async fn main() {
                     &font
                 );
 
-                match (bg_red.parse::<u8>(), bg_green.parse::<u8>(), bg_blue.parse::<u8>()) {
-                    (Ok(bg_red), Ok(bg_green), Ok(bg_blue)) => {
-                        draw_rectangle(
-                            screen_width() - 450.0,
-                            10.0,
-                            50.0,
-                            50.0,
-                            Color::from_rgba(
-                                bg_red,
-                                bg_green,
-                                bg_blue,
-                                255
-                            )
-                        );
-                    }
-
-                    _ => {}
-                }
-
-                match (grnd_red.parse::<u8>(), grnd_green.parse::<u8>(), grnd_blue.parse::<u8>()) {
-                    (Ok(grnd_red), Ok(grnd_green), Ok(grnd_blue)) => {
-                        draw_rectangle(
-                            screen_width() - 450.0,
-                            80.0,
-                            50.0,
-                            50.0,
-                            Color::from_rgba(
-                                grnd_red,
-                                grnd_green,
-                                grnd_blue,
-                                255
-                            )
-                        );
-                    }
-
-                    _ => {}
-                }
+                editor::draw_color_preview_boxes(
+                    &bg_red,
+                    &bg_green,
+                    &bg_blue,
+                    &grnd_red,
+                    &grnd_green,
+                    &grnd_blue
+                );
 
                 bg_red_textbox.draw(bg_red.clone(), &font);
                 bg_green_textbox.draw(bg_green.clone(), &font);

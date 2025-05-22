@@ -240,3 +240,51 @@ pub fn panning(
     *cam_pos_x += mouse_delta.x * 70.0;
     *cam_pos_y -= mouse_delta.y * 60.0;
 }
+
+pub fn draw_color_preview_boxes(
+    bg_red: &String,
+    bg_green: &String,
+    bg_blue: &String,
+
+    grnd_red: &String,
+    grnd_green: &String,
+    grnd_blue: &String
+) {
+    match (bg_red.parse::<u8>(), bg_green.parse::<u8>(), bg_blue.parse::<u8>()) {
+        (Ok(bg_red), Ok(bg_green), Ok(bg_blue)) => {
+            draw_rectangle(
+                screen_width() - 450.0,
+                10.0,
+                50.0,
+                50.0,
+                Color::from_rgba(
+                    bg_red,
+                    bg_green,
+                    bg_blue,
+                    255
+                )
+            );
+        }
+
+        _ => {}
+    }
+
+    match (grnd_red.parse::<u8>(), grnd_green.parse::<u8>(), grnd_blue.parse::<u8>()) {
+        (Ok(grnd_red), Ok(grnd_green), Ok(grnd_blue)) => {
+            draw_rectangle(
+                screen_width() - 450.0,
+                80.0,
+                50.0,
+                50.0,
+                Color::from_rgba(
+                    grnd_red,
+                    grnd_green,
+                    grnd_blue,
+                    255
+                )
+            );
+        }
+
+        _ => {}
+    }
+}
