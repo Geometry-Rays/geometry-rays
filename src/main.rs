@@ -424,6 +424,8 @@ async fn main() {
         .await.expect("Failed to load background texture");
     let grnd_texture = load_texture("./Resources/ground.png")
         .await.expect("Failed to load ground texture");
+    let star_texture = load_texture("./Resources/star.png")
+        .await.expect("Failed to load star texture");
 
     let mut difficulties: Vec<Texture2D> = vec![];
 
@@ -1770,6 +1772,94 @@ async fn main() {
                         flip_y: false,
                         pivot: None
                     }
+                );
+
+                draw_text_pro(
+                    &online_level_name,
+                    screen_width() / 2.0 - measure_text_ex(&online_level_name, 50, &font) / 2.0,
+                    150.0,
+                    50,
+                    WHITE,
+                    &font
+                );
+
+                draw_rectangle(
+                    screen_width() / 2.0 - 394.0,
+                    screen_height() / 2.0 + 100.0,
+                    789.0,
+                    50.0,
+                    Color::from_rgba(
+                        50,
+                        50,
+                        50,
+                        100
+                    )
+                );
+
+                draw_text_pro(
+                    &online_level_desc,
+                    screen_width() / 2.0 - measure_text_ex(&online_level_desc, 20, &font) / 2.0,
+                    screen_height() / 2.0 + 100.0 + 35.0,
+                    20,
+                    WHITE,
+                    &font
+                );
+
+                let weird_vec2_idk: Vec2 = if online_level_diff == 0 { Vec2::new(10.0, 60.0) } else { Vec2::new(-50.0, 0.0) };
+                draw_texture_ex(
+                    &difficulties[online_level_diff as usize],
+                    weird_vec2_idk.x,
+                    weird_vec2_idk.y,
+                    WHITE,
+                    DrawTextureParams {
+                        dest_size: Some(vec2(
+                            difficulties[online_level_diff as usize].width() * if online_level_diff == 0 { 0.3 } else { 0.2 },
+                            difficulties[online_level_diff as usize].height() * if online_level_diff == 0 { 0.3 } else { 0.2 }
+                        )),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
+                if online_level_rated {
+                    draw_text_pro(
+                        &format!("{}", online_level_diff),
+                        175.0,
+                        300.0,
+                        30,
+                        WHITE,
+                        &font
+                    );
+
+                    draw_texture_ex(
+                        &star_texture,
+                        30.0,
+                        175.0,
+                        WHITE,
+                        DrawTextureParams {
+                            dest_size: Some(vec2(
+                                star_texture.width() * 0.13,
+                                star_texture.height() * 0.13
+                            )),
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: None
+                        }
+                    );
+                }
+
+                draw_text_pro(
+                    &online_level_creator,
+                    screen_width() / 2.0 - measure_text_ex(&online_level_creator, 50, &font) / 2.0,
+                    80.0,
+                    50,
+                    WHITE,
+                    &font
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
