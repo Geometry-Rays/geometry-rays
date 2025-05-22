@@ -353,7 +353,7 @@ async fn main() {
         .unwrap();
     println!("Preparing more values...");
     let default_level: &str = &format!(
-        "version:{};song:./Resources/Music/main-level-songs/0.mp3;cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
+        "version:{};song:./Resources/Music/main-level-songs/0.mp3;cc_1001:0,0,0.392;cc_1002:0,0,0.392;;;x:400;y:480;rot:0;id:1",
         level_version
     );
     let mut main_levels: Vec<MainLevel> = vec![
