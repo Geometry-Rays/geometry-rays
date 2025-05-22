@@ -1559,7 +1559,10 @@ async fn main() {
                 }
 
                 for point in &player_trail {
-                    draw_circle(point.x - cam_pos_x * 5.0, point.y + cam_pos_y * 5.0, 5.0, LIME);
+                    if point.x - cam_pos_x * 5.0 > -10.0
+                    && point.x - cam_pos_x * 5.0 < screen_width() + 10.0 {
+                        draw_circle(point.x - cam_pos_x * 5.0, point.y + cam_pos_y * 5.0, 5.0, LIME);
+                    }
                 }
 
                 draw_rectangle(
