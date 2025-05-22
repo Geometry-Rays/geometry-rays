@@ -1094,6 +1094,7 @@ async fn main() {
                 level_download_button.update(delta_time);
 
                 if back_button.is_clicked() {
+                    show_level_not_found = false;
                     game_state.0.set(GameState::CreatorMenu);
                 }
 
@@ -1106,7 +1107,6 @@ async fn main() {
                         .read_to_string()
                         .unwrap();
 
-                    
                     if level_download_response.clone().contains(";;;;;") {
                         parse_level_download_response(
                             level_download_response.clone(),
@@ -1118,6 +1118,7 @@ async fn main() {
                             &mut online_level_data
                         );
 
+                        show_level_not_found = false;
                         game_state.0.set(GameState::LevelPage);
                     } else {
                         show_level_not_found = true;
