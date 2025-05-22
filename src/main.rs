@@ -1432,7 +1432,9 @@ async fn main() {
 
                 if level_mode == 2 {
                     for point in &player_trail {
-                        draw_circle(point.x - world_offset, point.y, 5.0, LIME);
+                        if point.x - world_offset > -10.0 {
+                            draw_circle(point.x - world_offset, point.y, 5.0, LIME);
+                        }
                     }
                 }
 
