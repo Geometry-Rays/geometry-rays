@@ -1093,6 +1093,8 @@ async fn main() {
                 back_button.update(delta_time);
                 level_download_button.update(delta_time);
 
+                level_id_textbox.rect.x = screen_width() - 140.0;
+
                 if back_button.is_clicked() {
                     show_level_not_found = false;
                     game_state.0.set(GameState::CreatorMenu);
