@@ -2,7 +2,7 @@ use std::cell::Cell;
 
 use macroquad::prelude::*;
 
-use crate::types::{GameMode, GameState, ObjectStruct};
+use crate::types::{GameMode, GameState, MainLevel, ObjectStruct};
 
 pub fn hitbox_collision(
     player: &mut Rect,
@@ -28,7 +28,11 @@ pub fn hitbox_collision(
     cc_1002: &mut Color,
     cc_1003: &mut Color,
     game_state: &Cell<GameState>,
-    on_pad: &mut bool
+    on_pad: &mut bool,
+    stars: &mut u32,
+    main_levels: &mut Vec<MainLevel>,
+    level_mode: u8,
+    current_level: u8
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -225,6 +229,10 @@ pub fn hitbox_collision(
                     w: 40.0,
                     h: 40.0
                 }) {
+                    if level_mode == 1 && !main_levels[current_level as usize].completed {
+                        main_levels[current_level as usize].completed = true;
+                        *stars += main_levels[current_level as usize].difficulty as u32
+                    }
                     game_state.set(GameState::LevelComplete)
                 }
             }

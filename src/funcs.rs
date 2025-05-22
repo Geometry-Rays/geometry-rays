@@ -423,7 +423,7 @@ impl MainLevel {
             song: song.to_string(),
             artist: artist.to_string(),
             creator: creator.to_string(),
-            // completed: false,
+            completed: false,
             data: data.to_string()
         }
     }

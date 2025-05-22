@@ -339,7 +339,7 @@ async fn main() {
     let mut cam_pos_x: f32 = 0.0;
     let mut current_obj: u16 = 1;
     let grid_size: u8 = 40;
-    let mut from_editor: bool = false;
+    let mut level_mode: u8 = 1;
 
     println!("Getting latest version...");
     let version: &str = "F-ALPHA";
@@ -356,7 +356,7 @@ async fn main() {
         "version:{};song:./Resources/Music/main-level-songs/0.mp3;cc_1001:0,0,0.2;cc_1002:0,0,0.3;;;x:400;y:480;rot:0;id:1",
         level_version
     );
-    let main_levels: Vec<MainLevel> = vec![
+    let mut main_levels: Vec<MainLevel> = vec![
         MainLevel::new(
             "Plummet",
             1,
@@ -412,6 +412,7 @@ async fn main() {
     let mut on_pad_timer: Timer = Timer::new(0.1);
     let mut on_pad: bool = false;
     let mut player_trail: Vec<Vec2> = vec![];
+    let mut stars: u32 = 0;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -675,7 +676,11 @@ async fn main() {
                     &mut cc_1002,
                     &mut cc_1003,
                     &game_state.0,
-                    &mut on_pad
+                    &mut on_pad,
+                    &mut stars,
+                    &mut main_levels,
+                    level_mode,
+                    current_level
                 );
 
                 match current_gamemode {
@@ -726,7 +731,7 @@ async fn main() {
                     movement_speed.0.set(default_movement_speed.0.get());
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
-                    from_editor = false;
+                    level_mode = 1;
                     kill_player = false;
                     player_trail.clear();
                     restart_audio(&sink);
@@ -742,7 +747,7 @@ async fn main() {
                     on_pad = false;
                 }
 
-                if from_editor {
+                if level_mode == 2 {
                     player_trail.push(vec2(
                         player.x + world_offset,
                         player.y
@@ -758,7 +763,7 @@ async fn main() {
                     movement_speed.0.set(default_movement_speed.clone().0.get());
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
-                    from_editor = false;
+                    level_mode = 1;
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
@@ -847,7 +852,7 @@ async fn main() {
                 }
 
                 if editor_playtest_button.is_clicked() {
-                    from_editor = true;
+                    level_mode = 2;
                     player_trail.clear();
                     stop_audio(&sink);
                     play_audio_path(&current_song, master_volume, false, &sink);
@@ -918,7 +923,7 @@ async fn main() {
                     movement_speed.0.set(default_movement_speed.clone().0.get());
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
-                    from_editor = false;
+                    level_mode = 1;
                     player_trail.clear();
 
                     stop_audio(&sink);
@@ -1158,6 +1163,7 @@ async fn main() {
                     );
 
                     if load_level_result == "ok" {
+                        level_mode = 3;
                         game_state.0.set(GameState::Playing);
                     } else {
                         println!("Problem loading level: {}", load_level_result);
@@ -1220,6 +1226,15 @@ async fn main() {
                     &format!("Latest Version: {}", latest_version),
                     20.0,
                     80.0,
+                    20,
+                    RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    &format!("Stars: {}", stars),
+                    20.0,
+                    120.0,
                     20,
                     RED,
                     &font
@@ -1408,7 +1423,7 @@ async fn main() {
                     );
                 }
 
-                if from_editor {
+                if level_mode == 2 {
                     for point in &player_trail {
                         draw_circle(point.x - world_offset, point.y, 5.0, LIME);
                     }

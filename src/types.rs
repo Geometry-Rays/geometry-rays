@@ -66,7 +66,7 @@ pub struct MainLevel {
     pub song: String,
     pub artist: String,
     pub creator: String,
-    // pub completed: bool,
+    pub completed: bool,
     pub data: String
 }
 
