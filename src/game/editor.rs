@@ -230,3 +230,13 @@ pub fn object_ped(
         println!("wtf did you do bro");
     }
 }
+
+pub fn panning(
+    cam_pos_x: &mut f32,
+    cam_pos_y: &mut f32
+) {
+    let mouse_delta = mouse_delta_position();
+
+    *cam_pos_x += mouse_delta.x * 70.0;
+    *cam_pos_y -= mouse_delta.y * 60.0;
+}

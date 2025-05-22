@@ -910,6 +910,10 @@ async fn main() {
                     &mut cam_pos_x,
                     &mut obj_grid
                 );
+
+                if is_mouse_button_down(MouseButton::Middle) {
+                    editor::panning(&mut cam_pos_x, &mut cam_pos_y);
+                }
             }
 
             GameState::LevelComplete => {
