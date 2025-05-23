@@ -35,6 +35,7 @@ pub struct Button {
 pub struct TextBox {
     pub rect: Rect,
     pub text: String,
+    pub input: String,
     pub text_size: u8,
     pub max_length: u8,
     pub spaces_allowed: bool,

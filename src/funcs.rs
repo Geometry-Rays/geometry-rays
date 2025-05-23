@@ -227,7 +227,7 @@ impl TextBox {
         !self.rect.contains(mouse_pos.into()) && is_mouse_button_pressed(MouseButton::Left)
     }
 
-    pub fn draw(&self, text: String, font: &Font) {
+    pub fn draw(&self, font: &Font) {
         draw_rectangle(
             self.rect.x,
             self.rect.y,
@@ -242,167 +242,167 @@ impl TextBox {
         );
 
         draw_text_pro(
-            if !text.is_empty() { text.as_str() } else { self.text.as_str() },
+            if !self.input.is_empty() { self.input.as_str() } else { self.text.as_str() },
             self.rect.x + 10.0,
             self.rect.y + self.rect.h / 2.0 + self.text_size as f32 / 2.0,
             self.text_size,
-            if !text.is_empty() { WHITE } else { GRAY },
+            if !self.input.is_empty() { WHITE } else { GRAY },
             &font
         );
     }
 
-    pub fn input(&self, text: &mut String) {
-        if is_key_pressed(KeyCode::Backspace) && text.len() > 0 && self.active {
-            text.pop();
+    pub fn input(&mut self) {
+        if is_key_pressed(KeyCode::Backspace) && self.input.len() > 0 && self.active {
+            self.input.pop();
         }
 
-        if self.active && text.len() < self.max_length as usize {
+        if self.active && self.input.len() < self.max_length as usize {
             if is_key_pressed(KeyCode::A) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'A' } else { 'a' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'A' } else { 'a' });
             }
 
             else if is_key_pressed(KeyCode::B) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'B' } else { 'b' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'B' } else { 'b' });
             }
 
             else if is_key_pressed(KeyCode::C) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'C' } else { 'c' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'C' } else { 'c' });
             }
 
             else if is_key_pressed(KeyCode::D) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'D' } else { 'd' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'D' } else { 'd' });
             }
 
             else if is_key_pressed(KeyCode::E) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'E' } else { 'e' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'E' } else { 'e' });
             }
 
             else if is_key_pressed(KeyCode::F) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'F' } else { 'f' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'F' } else { 'f' });
             }
 
             else if is_key_pressed(KeyCode::G) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'G' } else { 'g' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'G' } else { 'g' });
             }
 
             else if is_key_pressed(KeyCode::H) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'H' } else { 'h' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'H' } else { 'h' });
             }
 
             else if is_key_pressed(KeyCode::I) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'I' } else { 'i' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'I' } else { 'i' });
             }
 
             else if is_key_pressed(KeyCode::J) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'J' } else { 'j' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'J' } else { 'j' });
             }
 
             else if is_key_pressed(KeyCode::K) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'K' } else { 'k' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'K' } else { 'k' });
             }
 
             else if is_key_pressed(KeyCode::L) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'L' } else { 'l' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'L' } else { 'l' });
             }
 
             else if is_key_pressed(KeyCode::M) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'M' } else { 'm' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'M' } else { 'm' });
             }
 
             else if is_key_pressed(KeyCode::N) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'N' } else { 'n' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'N' } else { 'n' });
             }
 
             else if is_key_pressed(KeyCode::O) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'O' } else { 'o' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'O' } else { 'o' });
             }
 
             else if is_key_pressed(KeyCode::P) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'P' } else { 'p' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'P' } else { 'p' });
             }
 
             else if is_key_pressed(KeyCode::Q) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'Q' } else { 'q' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'Q' } else { 'q' });
             }
 
             else if is_key_pressed(KeyCode::R) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'R' } else { 'r' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'R' } else { 'r' });
             }
 
             else if is_key_pressed(KeyCode::S) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'S' } else { 's' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'S' } else { 's' });
             }
 
             else if is_key_pressed(KeyCode::T) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'T' } else { 't' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'T' } else { 't' });
             }
 
             else if is_key_pressed(KeyCode::U) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'U' } else { 'u' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'U' } else { 'u' });
             }
 
             else if is_key_pressed(KeyCode::V) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'V' } else { 'v' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'V' } else { 'v' });
             }
 
             else if is_key_pressed(KeyCode::W) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'W' } else { 'w' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'W' } else { 'w' });
             }
 
             else if is_key_pressed(KeyCode::X) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'X' } else { 'x' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'X' } else { 'x' });
             }
 
             else if is_key_pressed(KeyCode::Y) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'Y' } else { 'y' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'Y' } else { 'y' });
             }
 
             else if is_key_pressed(KeyCode::Z) {
-                text.push(if is_key_down(KeyCode::LeftShift) { 'Z' } else { 'z' });
+                self.input.push(if is_key_down(KeyCode::LeftShift) { 'Z' } else { 'z' });
             }
 
             else if is_key_pressed(KeyCode::Space) && self.spaces_allowed {
-                text.push(' ');
+                self.input.push(' ');
             }
 
             else if is_key_pressed(KeyCode::Key1) {
-                text.push('1');
+                self.input.push('1');
             }
 
             else if is_key_pressed(KeyCode::Key2) {
-                text.push('2');
+                self.input.push('2');
             }
 
             else if is_key_pressed(KeyCode::Key3) {
-                text.push('3');
+                self.input.push('3');
             }
 
             else if is_key_pressed(KeyCode::Key4) {
-                text.push('4');
+                self.input.push('4');
             }
 
             else if is_key_pressed(KeyCode::Key5) {
-                text.push('5');
+                self.input.push('5');
             }
 
             else if is_key_pressed(KeyCode::Key6) {
-                text.push('6');
+                self.input.push('6');
             }
 
             else if is_key_pressed(KeyCode::Key7) {
-                text.push('7');
+                self.input.push('7');
             }
 
             else if is_key_pressed(KeyCode::Key8) {
-                text.push('8');
+                self.input.push('8');
             }
 
             else if is_key_pressed(KeyCode::Key9) {
-                text.push('9');
+                self.input.push('9');
             }
 
             else if is_key_pressed(KeyCode::Key0) {
-                text.push('0');
+                self.input.push('0');
             }
         }
     }

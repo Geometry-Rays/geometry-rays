@@ -180,6 +180,7 @@ async fn main() {
             h: 50.0
         },
         text: "Red".to_string(),
+        input: "".to_string(),
         text_size: 25,
         max_length: 3,
         spaces_allowed: false,
@@ -194,6 +195,7 @@ async fn main() {
             h: 50.0
         },
         text: "Green".to_string(),
+        input: "".to_string(),
         text_size: 20,
         max_length: 3,
         spaces_allowed: false,
@@ -208,6 +210,7 @@ async fn main() {
             h: 50.0
         },
         text: "Blue".to_string(),
+        input: "".to_string(),
         text_size: 25,
         max_length: 3,
         spaces_allowed: false,
@@ -222,6 +225,7 @@ async fn main() {
             h: 50.0
         },
         text: "Red".to_string(),
+        input: "".to_string(),
         text_size: 25,
         max_length: 3,
         spaces_allowed: false,
@@ -236,6 +240,7 @@ async fn main() {
             h: 50.0
         },
         text: "Green".to_string(),
+        input: "".to_string(),
         text_size: 20,
         max_length: 3,
         spaces_allowed: false,
@@ -250,6 +255,7 @@ async fn main() {
             h: 50.0
         },
         text: "Blue".to_string(),
+        input: "".to_string(),
         text_size: 25,
         max_length: 3,
         spaces_allowed: false,
@@ -274,6 +280,7 @@ async fn main() {
             h: 55.0
         },
         text: "Level ID".to_string(),
+        input: "".to_string(),
         text_size: 18,
         max_length: 6,
         spaces_allowed: false,
@@ -465,17 +472,6 @@ async fn main() {
             println!("{}", error);
         }
     }
-
-    // Values for textboxes
-    let mut bg_red: String = "".to_string();
-    let mut bg_green: String = "".to_string();
-    let mut bg_blue: String = "".to_string();
-
-    let mut grnd_red: String = "".to_string();
-    let mut grnd_green: String = "".to_string();
-    let mut grnd_blue: String = "".to_string();
-
-    let mut level_id: String = "".to_string();
 
     // Values for server responses
     let mut level_download_response: String = "".to_string();
@@ -843,13 +839,13 @@ async fn main() {
                 }
 
                 if editor_options_button.is_clicked() {
-                    bg_red = (cc_1001.r * 255.0).floor().to_string();
-                    bg_green = (cc_1001.g * 255.0).floor().to_string();
-                    bg_blue = (cc_1001.b * 255.0).floor().to_string();
+                    bg_red_textbox.input = (cc_1001.r * 255.0).floor().to_string();
+                    bg_green_textbox.input = (cc_1001.g * 255.0).floor().to_string();
+                    bg_blue_textbox.input = (cc_1001.b * 255.0).floor().to_string();
 
-                    grnd_red = (cc_1002.r * 255.0).floor().to_string();
-                    grnd_green = (cc_1002.g * 255.0).floor().to_string();
-                    grnd_blue = (cc_1002.b * 255.0).floor().to_string();
+                    grnd_red_textbox.input = (cc_1002.r * 255.0).floor().to_string();
+                    grnd_green_textbox.input = (cc_1002.g * 255.0).floor().to_string();
+                    grnd_blue_textbox.input = (cc_1002.b * 255.0).floor().to_string();
 
                     game_state.0.set(GameState::LevelSettings)
                 }
@@ -956,7 +952,7 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     let mut bg_red_parse_success: bool = false;
-                    match bg_red.parse::<u8>() {
+                    match bg_red_textbox.input.parse::<u8>() {
                         Ok(value) => {
                             cc_1001.r = value as f32 / 255.0;
                             bg_red_parse_success = true;
@@ -968,7 +964,7 @@ async fn main() {
                     }
 
                     let mut bg_green_parse_success: bool = false;
-                    match bg_green.parse::<u8>() {
+                    match bg_green_textbox.input.parse::<u8>() {
                         Ok(value) => {
                             cc_1001.g = value as f32 / 255.0;
                             bg_green_parse_success = true;
@@ -980,7 +976,7 @@ async fn main() {
                     }
 
                     let mut bg_blue_parse_success: bool = false;
-                    match bg_blue.parse::<u8>() {
+                    match bg_blue_textbox.input.parse::<u8>() {
                         Ok(value) => {
                             cc_1001.b = value as f32 / 255.0;
                             bg_blue_parse_success = true;
@@ -994,7 +990,7 @@ async fn main() {
 
 
                     let mut grnd_red_parse_success: bool = false;
-                    match grnd_red.parse::<u8>() {
+                    match grnd_red_textbox.input.parse::<u8>() {
                         Ok(value) => {
                             cc_1002.r = value as f32 / 255.0;
                             grnd_red_parse_success = true;
@@ -1006,7 +1002,7 @@ async fn main() {
                     }
 
                     let mut grnd_green_parse_success: bool = false;
-                    match grnd_green.parse::<u8>() {
+                    match grnd_green_textbox.input.parse::<u8>() {
                         Ok(value) => {
                             cc_1002.g = value as f32 / 255.0;
                             grnd_green_parse_success = true;
@@ -1018,7 +1014,7 @@ async fn main() {
                     }
 
                     let mut grnd_blue_parse_success: bool = false;
-                    match grnd_blue.parse::<u8>() {
+                    match grnd_blue_textbox.input.parse::<u8>() {
                         Ok(value) => {
                             cc_1002.b = value as f32 / 255.0;
                             grnd_blue_parse_success = true;
@@ -1099,13 +1095,13 @@ async fn main() {
                     grnd_blue_textbox.active = false
                 }
 
-                bg_red_textbox.input(&mut bg_red);
-                bg_green_textbox.input(&mut bg_green);
-                bg_blue_textbox.input(&mut bg_blue);
+                bg_red_textbox.input();
+                bg_green_textbox.input();
+                bg_blue_textbox.input();
 
-                grnd_red_textbox.input(&mut grnd_red);
-                grnd_green_textbox.input(&mut grnd_green);
-                grnd_blue_textbox.input(&mut grnd_blue);
+                grnd_red_textbox.input();
+                grnd_green_textbox.input();
+                grnd_blue_textbox.input();
             }
 
             GameState::SearchPage => {
@@ -1121,7 +1117,7 @@ async fn main() {
 
                 if level_download_button.is_clicked() {
                     level_download_response = ureq::get(download_url.clone())
-                        .query("id", &level_id)
+                        .query("id", &level_id_textbox.input)
                         .call()
                         .unwrap()
                         .into_body()
@@ -1154,7 +1150,7 @@ async fn main() {
                     level_id_textbox.active = false
                 }
 
-                level_id_textbox.input(&mut level_id);
+                level_id_textbox.input();
             }
 
             GameState::LevelPage => {
@@ -1761,21 +1757,21 @@ async fn main() {
                 );
 
                 editor::draw_color_preview_boxes(
-                    &bg_red,
-                    &bg_green,
-                    &bg_blue,
-                    &grnd_red,
-                    &grnd_green,
-                    &grnd_blue
+                    &bg_red_textbox.input,
+                    &bg_green_textbox.input,
+                    &bg_blue_textbox.input,
+                    &grnd_red_textbox.input,
+                    &grnd_green_textbox.input,
+                    &grnd_blue_textbox.input
                 );
 
-                bg_red_textbox.draw(bg_red.clone(), &font);
-                bg_green_textbox.draw(bg_green.clone(), &font);
-                bg_blue_textbox.draw(bg_blue.clone(), &font);
+                bg_red_textbox.draw(&font);
+                bg_green_textbox.draw(&font);
+                bg_blue_textbox.draw(&font);
 
-                grnd_red_textbox.draw(grnd_red.clone(), &font);
-                grnd_green_textbox.draw(grnd_green.clone(), &font);
-                grnd_blue_textbox.draw(grnd_blue.clone(), &font);
+                grnd_red_textbox.draw(&font);
+                grnd_green_textbox.draw(&font);
+                grnd_blue_textbox.draw(&font);
 
                 back_button.draw(false, None, 1.0, false, &font);
             }
@@ -1812,7 +1808,7 @@ async fn main() {
 
                 back_button.draw(false, None, 1.0, false, &font);
                 level_download_button.draw(false, None, 1.0, false, &font);
-                level_id_textbox.draw(level_id.clone(), &font);
+                level_id_textbox.draw(&font);
             }
 
             GameState::LevelPage => {
