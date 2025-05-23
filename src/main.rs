@@ -292,6 +292,16 @@ async fn main() {
         false
     );
 
+    let mut account_button = Button::new(
+        || screen_width() as f32 - 210.0,
+        || 10.0,
+        || 200.0,
+        || 100.0,
+        "Account",
+        20,
+        false
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -572,6 +582,7 @@ async fn main() {
             GameState::Menu => {
                 play_button.update(delta_time);
                 creator_button.update(delta_time);
+                account_button.update(delta_time);
 
                 if play_button.is_clicked() {
                     game_state.0.set(GameState::LevelSelect)
@@ -579,6 +590,10 @@ async fn main() {
 
                 if creator_button.is_clicked() {
                     game_state.0.set(GameState::CreatorMenu)
+                }
+
+                if account_button.is_clicked() {
+                    game_state.0.set(GameState::AccountPage);
                 }
 
                 if is_key_pressed(KeyCode::Slash) {
@@ -1177,6 +1192,14 @@ async fn main() {
                     }
                 }
             }
+
+            GameState::AccountPage => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::Menu);
+                }
+            }
         }
 
         // Drawing
@@ -1260,6 +1283,7 @@ async fn main() {
 
                 play_button.draw(false, None, 1.0, false, &font);
                 creator_button.draw(false, None, 1.0, false, &font);
+                account_button.draw(false, None, 1.0, false, &font);
             }
 
             GameState::LevelSelect => {
@@ -1900,6 +1924,28 @@ async fn main() {
 
                 back_button.draw(false, None, 1.0, false, &font);
                 level_play_button.draw(false, None, 1.0, false, &font);
+            }
+
+            GameState::AccountPage => {
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
