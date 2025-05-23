@@ -309,6 +309,36 @@ async fn main() {
         false
     );
 
+    let mut username_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
+            y: screen_height() / 2.0 - 27.5 - 32.5,
+            w: 20.0 * 18.0,
+            h: 55.0
+        },
+        text: "Username".to_string(),
+        input: "".to_string(),
+        text_size: 18,
+        max_length: 20,
+        spaces_allowed: false,
+        active: false
+    };
+
+    let mut password_textbox = TextBox {
+        rect: Rect {
+            x: screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
+            y: screen_height() / 2.0 - 27.5 + 32.5,
+            w: 20.0 * 18.0,
+            h: 55.0
+        },
+        text: "Password".to_string(),
+        input: "".to_string(),
+        text_size: 18,
+        max_length: 20,
+        spaces_allowed: false,
+        active: false
+    };
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -1195,6 +1225,25 @@ async fn main() {
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu);
                 }
+
+                if username_textbox.is_clicked() {
+                    username_textbox.active = true
+                }
+
+                if username_textbox.is_not_clicked() {
+                    username_textbox.active = false
+                }
+
+                if password_textbox.is_clicked() {
+                    password_textbox.active = true
+                }
+
+                if password_textbox.is_not_clicked() {
+                    password_textbox.active = false
+                }
+
+                username_textbox.input();
+                password_textbox.input();
             }
         }
 
@@ -1942,6 +1991,8 @@ async fn main() {
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
+                username_textbox.draw(&font);
+                password_textbox.draw(&font);
             }
         }
 
