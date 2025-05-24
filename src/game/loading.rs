@@ -18,8 +18,13 @@ pub fn load_level(
     let parts: Vec<&str> = level_data.split(";;;").collect();
 
     let metadata_pairs: Vec<&str> = parts[0].split(";").collect();
-    let objects: Vec<&str> = parts[1].split(";;").collect();
-    let legacy_objects: Vec<&str> = parts[1].split(";").collect();
+    let mut objects: Vec<&str> = vec![];
+    let mut legacy_objects: Vec<&str> = vec![];
+
+    if parts.len() > 1 {
+        objects = parts[1].split(";;").collect();
+        legacy_objects = parts[1].split(";").collect();
+    }
 
     // This isn't used yet
     // It will be useful once object data gets changed in a future update
