@@ -26,18 +26,22 @@ pub fn load_level(
     // Probably when groups get added
     let mut level_version: &str = "";
 
+    let valid_versions: Vec<&str> = vec![
+        "BETA",
+        "1.3",
+        "1.4",
+        "1.5",
+        "1.6",
+        "F-ALPHA"
+    ];
+
     obj_grid.clear();
     for pair in metadata_pairs {
         let key: &str = pair.split(":").collect::<Vec<&str>>()[0];
         let value: &str = pair.split(":").collect::<Vec<&str>>()[1];
 
         if key == "version" {
-            if value == "BETA"
-            || value == "1.3"
-            || value == "1.4"
-            || value == "1.5"
-            || value == "1.6"
-            || value == "F-ALPHA" {
+            if valid_versions.contains(&value) {
                 level_version = value;
             } else {
                 return "invalid_version".to_string();
