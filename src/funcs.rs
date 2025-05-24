@@ -218,6 +218,43 @@ impl ObjectType {
 }
 
 impl TextBox {
+    pub fn new<Fx, Fy, Fw, Fh>(
+        x: Fx,
+        y: Fy,
+        width: Fw,
+        height: Fh,
+        text: &str,
+        text_size: u8,
+        max_length: u8,
+        spaces_allowed: bool
+    ) -> Self
+    where
+        Fx: 'static + Fn() -> f32 + Clone,
+        Fy: 'static + Fn() -> f32 + Clone,
+        Fw: 'static + Fn() -> f32 + Clone,
+        Fh: 'static + Fn() -> f32 + Clone,
+    {
+        let x_clone = x.clone();
+        let y_clone = y.clone();
+        let w_clone = width.clone();
+        let h_clone = height.clone();
+
+        let rect_fn = Box::new(move || {
+            Rect::new(x_clone(), y_clone(), w_clone(), h_clone())
+        });
+
+        TextBox {
+            rect: Rect::new(x(), y(), width(), height()),
+            rect_fn,
+            text: text.to_string(),
+            input: "".to_string(),
+            text_size,
+            max_length,
+            spaces_allowed,
+            active: false
+        }
+    }
+
     pub fn is_clicked(&self) -> bool {
         let mouse_pos = mouse_position();
         self.rect.contains(mouse_pos.into()) && is_mouse_button_pressed(MouseButton::Left)
@@ -253,6 +290,8 @@ impl TextBox {
     }
 
     pub fn input(&mut self) {
+        self.rect = (self.rect_fn)();
+
         if is_key_pressed(KeyCode::Backspace) && self.input.len() > 0 && self.active {
             self.input.pop();
         }

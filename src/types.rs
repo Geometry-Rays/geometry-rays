@@ -35,6 +35,7 @@ pub struct Button {
 
 pub struct TextBox {
     pub rect: Rect,
+    pub rect_fn: Box<dyn Fn() -> Rect>,
     pub text: String,
     pub input: String,
     pub text_size: u8,

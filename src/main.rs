@@ -175,95 +175,71 @@ async fn main() {
         false
     );
 
-    let mut bg_red_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 120.0,
-            y: 10.0,
-            w: 110.0,
-            h: 50.0
-        },
-        text: "Red".to_string(),
-        input: "".to_string(),
-        text_size: 25,
-        max_length: 3,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut bg_red_textbox = TextBox::new(
+        || screen_width() - 120.0,
+        || 10.0,
+        || 110.0,
+        || 50.0,
+        "Red",
+        25,
+        3,
+        false
+    );
 
-    let mut bg_green_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 240.0,
-            y: 10.0,
-            w: 110.0,
-            h: 50.0
-        },
-        text: "Green".to_string(),
-        input: "".to_string(),
-        text_size: 20,
-        max_length: 3,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut bg_green_textbox = TextBox::new(
+        || screen_width() - 240.0,
+        || 10.0,
+        || 110.0,
+        || 50.0,
+        "Green",
+        20,
+        3,
+        false
+    );
 
-    let mut bg_blue_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 360.0,
-            y: 10.0,
-            w: 110.0,
-            h: 50.0
-        },
-        text: "Blue".to_string(),
-        input: "".to_string(),
-        text_size: 25,
-        max_length: 3,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut bg_blue_textbox = TextBox::new(
+        || screen_width() - 360.0,
+        || 10.0,
+        || 110.0,
+        || 50.0,
+        "Blue",
+        25,
+        3,
+        false
+    );
 
-    let mut grnd_red_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 120.0,
-            y: 80.0,
-            w: 110.0,
-            h: 50.0
-        },
-        text: "Red".to_string(),
-        input: "".to_string(),
-        text_size: 25,
-        max_length: 3,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut grnd_red_textbox = TextBox::new(
+        || screen_width() - 120.0,
+        || 80.0,
+        || 110.0,
+        || 50.0,
+        "Red",
+        25,
+        3,
+        false
+    );
 
-    let mut grnd_green_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 240.0,
-            y: 80.0,
-            w: 110.0,
-            h: 50.0
-        },
-        text: "Green".to_string(),
-        input: "".to_string(),
-        text_size: 20,
-        max_length: 3,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut grnd_green_textbox = TextBox::new(
+        || screen_width() - 240.0,
+        || 80.0,
+        || 110.0,
+        || 50.0,
+        "Green",
+        20,
+        3,
+        false
+    );
 
-    let mut grnd_blue_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 360.0,
-            y: 80.0,
-            w: 110.0,
-            h: 50.0
-        },
-        text: "Blue".to_string(),
-        input: "".to_string(),
-        text_size: 25,
-        max_length: 3,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut grnd_blue_textbox = TextBox::new(
+        || screen_width() - 360.0,
+        || 80.0,
+        || 110.0,
+        || 50.0,
+        "Blue",
+        25,
+        3,
+        false
+    );
 
     let mut level_download_button = Button::new(
         || screen_width() - 140.0,
@@ -275,20 +251,16 @@ async fn main() {
         false
     );
 
-    let mut level_id_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() - 140.0,
-            y: 10.0,
-            w: 130.0,
-            h: 55.0
-        },
-        text: "Level ID".to_string(),
-        input: "".to_string(),
-        text_size: 18,
-        max_length: 6,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut level_id_textbox = TextBox::new(
+        || screen_width() - 140.0,
+        || 10.0,
+        || 130.0,
+        || 55.0,
+        "Level ID",
+        18,
+        6,
+        false,
+    );
 
 
 
@@ -312,35 +284,27 @@ async fn main() {
         false
     );
 
-    let mut username_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
-            y: screen_height() / 2.0 - 27.5 - 32.5,
-            w: 20.0 * 18.0,
-            h: 55.0
-        },
-        text: "Username".to_string(),
-        input: "".to_string(),
-        text_size: 18,
-        max_length: 20,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut username_textbox = TextBox::new(
+        || screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
+        || screen_height() / 2.0 - 27.5 - 32.5,
+        || 20.0 * 18.0,
+        || 55.0,
+        "Username",
+        18,
+        20,
+        false
+    );
 
-    let mut password_textbox = TextBox {
-        rect: Rect {
-            x: screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
-            y: screen_height() / 2.0 - 27.5 + 32.5,
-            w: 20.0 * 18.0,
-            h: 55.0
-        },
-        text: "Password".to_string(),
-        input: "".to_string(),
-        text_size: 18,
-        max_length: 20,
-        spaces_allowed: false,
-        active: false
-    };
+    let mut password_textbox = TextBox::new(
+        || screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
+        || screen_height() / 2.0 - 27.5 + 32.5,
+        || 20.0 * 18.0,
+        || 55.0,
+        "Password",
+        18,
+        20,
+        false
+    );
 
     let mut login_button: Button = Button::new(
         || screen_width() / 2.0 - 100.0,
@@ -1159,8 +1123,6 @@ async fn main() {
             GameState::SearchPage => {
                 back_button.update(delta_time);
                 level_download_button.update(delta_time);
-
-                level_id_textbox.rect.x = screen_width() - 140.0;
 
                 if back_button.is_clicked() {
                     show_level_not_found = false;
