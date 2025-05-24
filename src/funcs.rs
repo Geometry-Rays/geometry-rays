@@ -457,6 +457,7 @@ impl GameState {
             GameState::SearchPage => return "SearchPage".to_string(),
             GameState::LevelPage => return "LevelPage".to_string(),
             GameState::AccountPage => return "AccountPage".to_string(),
+            GameState::LevelUpload => return "LevelUpload".to_string(),
         }
     }
 }

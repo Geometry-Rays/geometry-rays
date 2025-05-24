@@ -904,6 +904,10 @@ async fn main() {
                     game_state.0.set(GameState::LevelSettings)
                 }
 
+                if editor_upload_button.is_clicked() {
+                    game_state.0.set(GameState::LevelUpload);
+                }
+
                 if build_tab_button.is_clicked() {
                     current_tab = 1;
                     build_tab_button.is_disabled = false;
@@ -956,7 +960,8 @@ async fn main() {
                 && !editor_back_button.rect.contains(mouse_position().into())
                 && !editor_playtest_button.rect.contains(mouse_position().into())
                 && !editor_save_button.rect.contains(mouse_position().into())
-                && !editor_options_button.rect.contains(mouse_position().into()) {
+                && !editor_options_button.rect.contains(mouse_position().into())
+                && !editor_upload_button.rect.contains(mouse_position().into()) {
                     editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
@@ -1281,6 +1286,14 @@ async fn main() {
 
                 username_textbox.input();
                 password_textbox.input();
+            }
+
+            GameState::LevelUpload => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::Editor);
+                }
             }
         }
 
@@ -2041,6 +2054,28 @@ async fn main() {
                 login_button.draw(false, None, 1.0, false, &font);
                 username_textbox.draw(&font);
                 password_textbox.draw(&font);
+            }
+
+            GameState::LevelUpload => {
+                draw_texture_ex(
+                    &default_bg_no_gradient,
+                    -50.0,
+                    -75.0,
+                    Color::from_rgba(20, 20, 20, 255),
+                    DrawTextureParams {
+                        dest_size: Some(Vec2 {
+                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                        }),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
+                );
+
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
