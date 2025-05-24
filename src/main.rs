@@ -400,7 +400,7 @@ async fn main() {
     let mut level_mode: u8 = 1;
 
     println!("Getting latest version...");
-    let version: &str = "F-ALPHA";
+    let version: &str = "F-BETA";
     let level_version: &str = "F-ALPHA";
     let latest_version: String = ureq::get(latest_version_url)
         .query("fyre", "fyre")
