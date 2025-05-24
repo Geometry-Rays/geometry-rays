@@ -1094,56 +1094,6 @@ async fn main() {
                     current_song = main_levels[current_song_index as usize].song.clone();
                 }
 
-                if bg_red_textbox.is_clicked() {
-                    bg_red_textbox.active = true
-                }
-
-                if bg_red_textbox.is_not_clicked() {
-                    bg_red_textbox.active = false
-                }
-
-                if bg_green_textbox.is_clicked() {
-                    bg_green_textbox.active = true
-                }
-
-                if bg_green_textbox.is_not_clicked() {
-                    bg_green_textbox.active = false
-                }
-
-                if bg_blue_textbox.is_clicked() {
-                    bg_blue_textbox.active = true
-                }
-
-                if bg_blue_textbox.is_not_clicked() {
-                    bg_blue_textbox.active = false
-                }
-
-
-
-                if grnd_red_textbox.is_clicked() {
-                    grnd_red_textbox.active = true
-                }
-
-                if grnd_red_textbox.is_not_clicked() {
-                    grnd_red_textbox.active = false
-                }
-
-                if grnd_green_textbox.is_clicked() {
-                    grnd_green_textbox.active = true
-                }
-
-                if grnd_green_textbox.is_not_clicked() {
-                    grnd_green_textbox.active = false
-                }
-
-                if grnd_blue_textbox.is_clicked() {
-                    grnd_blue_textbox.active = true
-                }
-
-                if grnd_blue_textbox.is_not_clicked() {
-                    grnd_blue_textbox.active = false
-                }
-
                 bg_red_textbox.input();
                 bg_green_textbox.input();
                 bg_blue_textbox.input();
@@ -1187,14 +1137,6 @@ async fn main() {
                     } else {
                         show_level_not_found = true;
                     }
-                }
-
-                if level_id_textbox.is_clicked() {
-                    level_id_textbox.active = true
-                }
-
-                if level_id_textbox.is_not_clicked() {
-                    level_id_textbox.active = false
                 }
 
                 level_id_textbox.input();
@@ -1256,22 +1198,6 @@ async fn main() {
                         .unwrap()
                 }
 
-                if username_textbox.is_clicked() {
-                    username_textbox.active = true
-                }
-
-                if username_textbox.is_not_clicked() {
-                    username_textbox.active = false
-                }
-
-                if password_textbox.is_clicked() {
-                    password_textbox.active = true
-                }
-
-                if password_textbox.is_not_clicked() {
-                    password_textbox.active = false
-                }
-
                 username_textbox.input();
                 password_textbox.input();
             }
@@ -1282,22 +1208,6 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Editor);
-                }
-
-                if level_name_textbox.is_clicked() {
-                    level_name_textbox.active = true
-                }
-
-                if level_name_textbox.is_not_clicked() {
-                    level_name_textbox.active = false
-                }
-
-                if level_desc_textbox.is_clicked() {
-                    level_desc_textbox.active = true
-                }
-
-                if level_desc_textbox.is_not_clicked() {
-                    level_desc_textbox.active = false
                 }
 
                 level_name_textbox.input();

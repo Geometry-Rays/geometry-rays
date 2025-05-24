@@ -292,6 +292,14 @@ impl TextBox {
     pub fn input(&mut self) {
         self.rect = (self.rect_fn)();
 
+        if self.is_clicked() {
+            self.active = true
+        }
+
+        if self.is_not_clicked() {
+            self.active = false
+        }
+
         if is_key_pressed(KeyCode::Backspace) && self.input.len() > 0 && self.active {
             self.input.pop();
         }
