@@ -339,6 +339,16 @@ async fn main() {
         active: false
     };
 
+    let mut login_button: Button = Button::new(
+        || screen_width() / 2.0 - 100.0,
+        || screen_height() - 200.0,
+        || 200.0,
+        || 100.0,
+        "Login",
+        20,
+        false
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -1222,6 +1232,7 @@ async fn main() {
 
             GameState::AccountPage => {
                 back_button.update(delta_time);
+                login_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu);
@@ -1992,6 +2003,7 @@ async fn main() {
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
+                login_button.draw(false, None, 1.0, false, &font);
                 username_textbox.draw(&font);
                 password_textbox.draw(&font);
             }
