@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use image::ImageReader;
 
 use crate::types::*;
 
@@ -475,4 +476,10 @@ macro_rules! impl_lua_fields {
             }
         }
     };
+}
+
+pub fn get_resized_rgba_bytes(path: &str, size: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+    let img = ImageReader::open(path)?.decode()?.to_rgba8();
+    let resized = image::imageops::resize(&img, size, size, image::imageops::Lanczos3);
+    Ok(resized.into_raw())
 }

@@ -3,7 +3,6 @@ use std::{cell::Cell, collections::HashMap, rc::Rc};
 use game::{loading::load_level, parsing::parse_level_download_response};
 use macroquad::prelude::*;
 use miniquad::conf::Icon;
-use image::ImageReader;
 use std::convert::TryInto;
 
 use gr_rodio::rodio_raw::OutputStream;
@@ -18,12 +17,6 @@ use types::*;
 
 mod game;
 use game::*;
-
-fn get_resized_rgba_bytes(path: &str, size: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-    let img = ImageReader::open(path)?.decode()?.to_rgba8();
-    let resized = image::imageops::resize(&img, size, size, image::imageops::Lanczos3);
-    Ok(resized.into_raw())
-}
 
 fn window_conf() -> Conf {
     let small_vec = get_resized_rgba_bytes("./Resources/logo.png", 16).unwrap();
