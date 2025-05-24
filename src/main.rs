@@ -324,7 +324,7 @@ async fn main() {
         "Name",
         20,
         20,
-        false
+        true
     );
 
     let mut level_desc_textbox = TextBox::new(
@@ -335,7 +335,7 @@ async fn main() {
         "Description",
         20,
         50,
-        false
+        true
     );
 
     let mut upload_button: Button = Button::new(
@@ -353,6 +353,7 @@ async fn main() {
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
     let download_url: String = format!("{}download-level.php", main_url);
+    let upload_url: String = format!("{}upload-level.php", main_url).to_string();
     let login_url: String = format!("{}login.php", main_url);
 
     println!("Defining important game variables..");
@@ -471,6 +472,9 @@ async fn main() {
     let mut on_pad: bool = false;
     let mut player_trail: Vec<Vec2> = vec![];
     let mut stars: u32 = 0;
+    let mut username: String = "".to_string();
+    let mut password: String = "".to_string();
+    let mut logged_in: bool = false;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -524,6 +528,7 @@ async fn main() {
     let mut online_level_creator: String = "".to_string();
     let mut show_level_not_found: bool = false;
     let mut login_response: String = "".to_string();
+    let mut level_upload_response: String = "".to_string();
 
     println!("Loading mods...");
     let mod_paths_kinda = std::fs::read_dir("./mods").unwrap();
@@ -1189,13 +1194,19 @@ async fn main() {
                 if login_button.is_clicked() {
                     login_response = ureq::post(&login_url)
                         .send_form([
-                            ("user", username_textbox.input.as_str()),
-                            ("pass", password_textbox.input.as_str()),
+                            ("user", username_textbox.input.clone().as_str()),
+                            ("pass", password_textbox.input.clone().as_str()),
                         ])
                         .unwrap()
                         .into_body()
                         .read_to_string()
-                        .unwrap()
+                        .unwrap();
+
+                    if login_response == "Logged in!" {
+                        username = username_textbox.input.clone();
+                        password = password_textbox.input.clone();
+                        logged_in = true;
+                    }
                 }
 
                 username_textbox.input();
@@ -1208,6 +1219,30 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Editor);
+                }
+
+                if upload_button.is_clicked() && logged_in {
+                    let level_data: String = saving::level_to_string(
+                        &obj_grid,
+                        level_version,
+                        cc_1001,
+                        cc_1002,
+                        current_song.clone()
+                    );
+
+                    level_upload_response = ureq::post(&upload_url)
+                        .send_form([
+                            ("name", level_name_textbox.input.clone().as_str()),
+                            ("desc", level_desc_textbox.input.clone().as_str()),
+                            ("data", &level_data),
+                            ("creator", &username),
+                            ("pass", &password),
+                            ("diff", "2")
+                        ])
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap();
                 }
 
                 level_name_textbox.input();
@@ -1991,6 +2026,15 @@ async fn main() {
                         flip_y: false,
                         pivot: None
                     }
+                );
+
+                draw_text_pro(
+                    &level_upload_response,
+                    screen_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
+                    200.0,
+                    20,
+                    RED,
+                    &font
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
