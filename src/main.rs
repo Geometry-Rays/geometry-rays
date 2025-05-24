@@ -162,6 +162,16 @@ async fn main() {
         false
     );
 
+    let mut editor_upload_button = Button::new(
+        || screen_width() - 160.0,
+        || 275.0,
+        || 150.0,
+        || 75.0,
+        "Upload",
+        15,
+        false
+    );
+
     let mut editor_playtest_button = Button::new(
         || 20.0,
         || screen_height() / 2.0 - 65.0,
@@ -861,6 +871,7 @@ async fn main() {
                 editor_back_button.update(delta_time);
                 editor_save_button.update(delta_time);
                 editor_options_button.update(delta_time);
+                editor_upload_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
                 editor_playtest_button.update(delta_time);
@@ -1767,6 +1778,7 @@ async fn main() {
                 editor_back_button.draw(false, None, 1.0, false, &font);
                 editor_save_button.draw(false, None, 1.0, false, &font);
                 editor_options_button.draw(false, None, 1.0, false, &font);
+                editor_upload_button.draw(false, None, 1.0, false, &font);
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
                 editor_playtest_button.draw(false, None, 1.0, false, &font);
