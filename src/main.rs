@@ -316,6 +316,39 @@ async fn main() {
         false
     );
 
+    let mut level_name_textbox = TextBox::new(
+        || screen_width() as f32 / 2.0 - 20.0 * 30.0 / 1.9 / 2.0,
+        || screen_height() as f32 / 2.0 - 50.0,
+        || 20.0 * 30.0 / 1.9,
+        || 50.0,
+        "Name",
+        20,
+        20,
+        false
+    );
+
+    let mut level_desc_textbox = TextBox::new(
+        || screen_width() as f32 / 2.0 - 50.0 * 30.0 / 1.9 / 2.0,
+        || screen_height() as f32 / 2.0 + 50.0,
+        || 50.0 * 30.0 / 1.9,
+        || 50.0,
+        "Description",
+        20,
+        50,
+        false
+    );
+
+    let mut upload_button: Button = Button::new(
+        || screen_width() / 2.0 - 100.0,
+        || screen_height() - 150.0,
+        || 200.0,
+        || 100.0,
+        "Upload",
+        20,
+        false
+    );
+
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -1245,10 +1278,30 @@ async fn main() {
 
             GameState::LevelUpload => {
                 back_button.update(delta_time);
+                upload_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Editor);
                 }
+
+                if level_name_textbox.is_clicked() {
+                    level_name_textbox.active = true
+                }
+
+                if level_name_textbox.is_not_clicked() {
+                    level_name_textbox.active = false
+                }
+
+                if level_desc_textbox.is_clicked() {
+                    level_desc_textbox.active = true
+                }
+
+                if level_desc_textbox.is_not_clicked() {
+                    level_desc_textbox.active = false
+                }
+
+                level_name_textbox.input();
+                level_desc_textbox.input();
             }
         }
 
@@ -2031,6 +2084,9 @@ async fn main() {
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
+                upload_button.draw(false, None, 1.0, false, &font);
+                level_name_textbox.draw(&font);
+                level_desc_textbox.draw(&font);
             }
         }
 
