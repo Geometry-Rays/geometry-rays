@@ -353,6 +353,7 @@ async fn main() {
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
     let download_url: String = format!("{}download-level.php", main_url);
+    let login_url: String = format!("{}login.php", main_url);
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
@@ -515,13 +516,14 @@ async fn main() {
 
     // Values for server responses
     let mut level_download_response: String = "".to_string();
-    let mut online_level_name = "".to_string();
-    let mut online_level_desc = "".to_string();
-    let mut online_level_data = "".to_string();
+    let mut online_level_name: String = "".to_string();
+    let mut online_level_desc: String = "".to_string();
+    let mut online_level_data: String = "".to_string();
     let mut online_level_diff: u8 = 0;
     let mut online_level_rated: bool = false;
-    let mut online_level_creator = "".to_string();
+    let mut online_level_creator: String = "".to_string();
     let mut show_level_not_found: bool = false;
+    let mut login_response: String = "".to_string();
 
     println!("Loading mods...");
     let mod_paths_kinda = std::fs::read_dir("./mods").unwrap();
@@ -1236,6 +1238,18 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu);
+                }
+
+                if login_button.is_clicked() {
+                    login_response = ureq::post(&login_url)
+                        .send_form([
+                            ("user", username_textbox.input.as_str()),
+                            ("pass", password_textbox.input.as_str()),
+                        ])
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap()
                 }
 
                 if username_textbox.is_clicked() {
@@ -2000,6 +2014,15 @@ async fn main() {
                         flip_y: false,
                         pivot: None
                     }
+                );
+
+                draw_text_pro(
+                    &login_response,
+                    screen_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
+                    200.0,
+                    20,
+                    RED,
+                    &font
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
