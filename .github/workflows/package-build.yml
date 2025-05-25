@@ -1,0 +1,65 @@
+name: Package Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - run: sudo apt update && sudo apt install libasound2-dev pkg-config p7zip-full -y
+      - run: cargo build --release
+      - run: |
+          mkdir Geometry-Rays
+          cp ./target/release/geometry-rays-fyre ./Geometry-Rays
+          cp -r Resources mods save-data Geometry-Rays
+          7z a -tzip Geometry-Rays-linux.zip Geometry-Rays
+          rm -rf Geometry-Rays
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geometry-Rays-linux
+          path: Geometry-Rays-linux.zip
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - run: cargo build --release
+      - run: |
+          mkdir Geometry-Rays
+          copy .\target\release\geometry-rays-fyre.exe .\Geometry-Rays\
+          xcopy Resources Geometry-Rays\Resources /E /I
+          xcopy mods Geometry-Rays\mods /E /I
+          xcopy save-data Geometry-Rays\save-data /E /I
+          7z a -tzip Geometry-Rays-windows.zip Geometry-Rays
+          rmdir /S /Q Geometry-Rays
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geometry-Rays-windows
+          path: Geometry-Rays-windows.zip
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - run: cargo build --release
+      - run: |
+          mkdir Geometry-Rays
+          cp ./target/release/geometry-rays-fyre ./Geometry-Rays
+          cp -r Resources mods save-data Geometry-Rays
+          7z a -tzip Geometry-Rays-macos.zip Geometry-Rays
+          rm -rf Geometry-Rays
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geometry-Rays-macos
+          path: Geometry-Rays-macos.zip
