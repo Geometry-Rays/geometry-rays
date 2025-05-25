@@ -2047,8 +2047,8 @@ async fn main() {
 
                 draw_texture_ex(
                     &difficulties[current_difficulty as usize],
-                    0.0,
-                    40.0,
+                    screen_width() / 2.0 - 200.0,
+                    -30.0,
                     WHITE,
                     DrawTextureParams {
                         dest_size: Some(vec2(
