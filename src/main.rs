@@ -2038,7 +2038,7 @@ async fn main() {
 
                 draw_text_pro(
                     &level_upload_response,
-                    screen_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
+                    screen_width() / 2.0 - measure_text_ex(&level_upload_response, 20, &font) / 2.0,
                     200.0,
                     20,
                     RED,
