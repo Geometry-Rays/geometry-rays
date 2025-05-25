@@ -34,12 +34,11 @@ jobs:
       - run: cargo build --release
       - run: |
           mkdir Geometry-Rays
-          copy .\target\release\geometry-rays-fyre.exe .\Geometry-Rays\
-          xcopy Resources Geometry-Rays\Resources /E /I
-          xcopy mods Geometry-Rays\mods /E /I
-          xcopy save-data Geometry-Rays\save-data /E /I
+          Copy-Item .\target\release\geometry-rays-fyre.exe .\Geometry-Rays\
+          Copy-Item -Recurse Resources,mods,'save-data' -Destination .\Geometry-Rays
           7z a -tzip Geometry-Rays-windows.zip Geometry-Rays
-          rmdir /S /Q Geometry-Rays
+          Remove-Item -Recurse -Force Geometry-Rays
+        shell: pwsh
       - uses: actions/upload-artifact@v4
         with:
           name: Geometry-Rays-windows
