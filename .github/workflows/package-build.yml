@@ -47,10 +47,13 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
-      - run: cargo build --release
+      - run: rustup target add x86_64-apple-darwin
+      - run: cargo build --release --target x86_64-apple-darwin
+      - run: cargo build --release --target aarch64-apple-darwin
       - run: |
           mkdir Geometry-Rays
-          cp ./target/release/geometry-rays-fyre ./Geometry-Rays
+          cp ./target/x86_64-apple-darwin/release/geometry-rays-fyre ./Geometry-Rays/geometry-rays-intel
+          cp ./target/aarch64-apple-darwin/release/geometry-rays-fyre ./Geometry-Rays/geometry-rays-silicon
           cp -r Resources mods save-data Geometry-Rays
       - uses: actions/upload-artifact@v4
         with:
