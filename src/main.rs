@@ -1221,7 +1221,7 @@ async fn main() {
                 if is_key_pressed(KeyCode::Left) && current_difficulty > 0 {
                     current_difficulty -= 1;
                 } else if is_key_pressed(KeyCode::Right)
-                && current_difficulty < difficulties.len() as u8 - 1 {
+                && current_difficulty < 5 {
                     current_difficulty += 1;
                 }
 
