@@ -17,12 +17,10 @@ jobs:
           mkdir Geometry-Rays
           cp ./target/release/geometry-rays-fyre ./Geometry-Rays
           cp -r Resources mods save-data Geometry-Rays
-          7z a -tzip Geometry-Rays-linux.zip Geometry-Rays
-          rm -rf Geometry-Rays
       - uses: actions/upload-artifact@v4
         with:
           name: Geometry-Rays-linux
-          path: Geometry-Rays-linux.zip
+          path: Geometry-Rays
 
   windows:
     runs-on: windows-latest
@@ -36,13 +34,11 @@ jobs:
           mkdir Geometry-Rays
           Copy-Item .\target\release\geometry-rays-fyre.exe .\Geometry-Rays\
           Copy-Item -Recurse Resources,mods,'save-data' -Destination .\Geometry-Rays
-          7z a -tzip Geometry-Rays-windows.zip Geometry-Rays
-          Remove-Item -Recurse -Force Geometry-Rays
         shell: pwsh
       - uses: actions/upload-artifact@v4
         with:
           name: Geometry-Rays-windows
-          path: Geometry-Rays-windows.zip
+          path: Geometry-Rays
 
   macos:
     runs-on: macos-latest
@@ -56,9 +52,7 @@ jobs:
           mkdir Geometry-Rays
           cp ./target/release/geometry-rays-fyre ./Geometry-Rays
           cp -r Resources mods save-data Geometry-Rays
-          7z a -tzip Geometry-Rays-macos.zip Geometry-Rays
-          rm -rf Geometry-Rays
       - uses: actions/upload-artifact@v4
         with:
           name: Geometry-Rays-macos
-          path: Geometry-Rays-macos.zip
+          path: Geometry-Rays
