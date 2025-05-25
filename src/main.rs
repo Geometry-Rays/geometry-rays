@@ -475,6 +475,7 @@ async fn main() {
     let mut username: String = "".to_string();
     let mut password: String = "".to_string();
     let mut logged_in: bool = false;
+    let mut current_difficulty: u8 = 0;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -495,7 +496,7 @@ async fn main() {
     // This just puts all the difficulty face textures into a vec
     // This is so the game can easily show difficulties
     println!("Loading difficulty faces...");
-    for i in 0..10 {
+    for i in 0..11 {
         difficulties.push(
             load_texture(&format!("./Resources/difficulties/{}.png", i))
                 .await.expect("Failed to load difficulty face")
@@ -1217,6 +1218,13 @@ async fn main() {
                 back_button.update(delta_time);
                 upload_button.update(delta_time);
 
+                if is_key_pressed(KeyCode::Left) && current_difficulty > 0 {
+                    current_difficulty -= 1;
+                } else if is_key_pressed(KeyCode::Right)
+                && current_difficulty < difficulties.len() as u8 - 1 {
+                    current_difficulty += 1;
+                }
+
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Editor);
                 }
@@ -1237,7 +1245,7 @@ async fn main() {
                             ("data", &level_data),
                             ("creator", &username),
                             ("pass", &password),
-                            ("diff", "2")
+                            ("diff", &current_difficulty.to_string())
                         ])
                         .unwrap()
                         .into_body()
@@ -2035,6 +2043,24 @@ async fn main() {
                     20,
                     RED,
                     &font
+                );
+
+                draw_texture_ex(
+                    &difficulties[current_difficulty as usize],
+                    0.0,
+                    40.0,
+                    WHITE,
+                    DrawTextureParams {
+                        dest_size: Some(vec2(
+                            400.0,
+                            400.0
+                        )),
+                        source: None,
+                        rotation: 0.0,
+                        flip_x: false,
+                        flip_y: false,
+                        pivot: None
+                    }
                 );
 
                 back_button.draw(false, None, 1.0, false, &font);
