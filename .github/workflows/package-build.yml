@@ -1,0 +1,61 @@
+name: Package Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - run: sudo apt update && sudo apt install libasound2-dev pkg-config p7zip-full -y
+      - run: cargo build --release
+      - run: |
+          mkdir Geometry-Rays
+          cp ./target/release/geometry-rays-fyre ./Geometry-Rays
+          cp -r Resources mods save-data Geometry-Rays
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geometry-Rays-linux
+          path: Geometry-Rays
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - run: cargo build --release
+      - run: |
+          mkdir Geometry-Rays
+          Copy-Item .\target\release\geometry-rays-fyre.exe .\Geometry-Rays\
+          Copy-Item -Recurse Resources,mods,'save-data' -Destination .\Geometry-Rays
+        shell: pwsh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geometry-Rays-windows
+          path: Geometry-Rays
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - run: rustup target add x86_64-apple-darwin
+      - run: cargo build --release --target x86_64-apple-darwin
+      - run: cargo build --release --target aarch64-apple-darwin
+      - run: |
+          mkdir Geometry-Rays
+          cp ./target/x86_64-apple-darwin/release/geometry-rays-fyre ./Geometry-Rays/geometry-rays-intel
+          cp ./target/aarch64-apple-darwin/release/geometry-rays-fyre ./Geometry-Rays/geometry-rays-silicon
+          cp -r Resources mods save-data Geometry-Rays
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geometry-Rays-macos
+          path: Geometry-Rays
