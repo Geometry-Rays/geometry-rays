@@ -1261,26 +1261,26 @@ async fn main() {
         // Drawing
         clear_background(BLACK);
 
+        draw_texture_ex(
+            &default_bg_no_gradient,
+            -50.0,
+            -75.0,
+            Color::from_rgba(20, 20, 20, 255),
+            DrawTextureParams {
+                dest_size: Some(Vec2 {
+                    x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
+                    y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                }),
+                source: None,
+                rotation: 0.0,
+                flip_x: false,
+                flip_y: false,
+                pivot: None
+            }
+        );
+
         match game_state.0.get() {
             GameState::Menu => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 draw_text_pro(
                     "Geometry Rays",
                     screen_width() as f32 / 2.0 - measure_text_ex("Geometry Rays", 40, &font) / 2.0,
@@ -1343,24 +1343,6 @@ async fn main() {
             }
 
             GameState::LevelSelect => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 draw_text_pro(
                     &format!("Creator: {}", &main_levels[current_level as usize].creator),
                     10.0,
@@ -1530,24 +1512,6 @@ async fn main() {
             }
 
             GameState::CreatorMenu => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 back_button.draw(false, None, 1.0, false, &font);
                 featured_button.draw(false, None, 1.0, false, &font);
                 create_button.draw(false, None, 1.0, false, &font);
@@ -1790,24 +1754,6 @@ async fn main() {
             }
 
             GameState::LevelSettings => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 draw_text_pro(
                     &main_levels[current_song_index as usize].name,
                     screen_width() / 2.0 - measure_text_ex(&main_levels[current_song_index as usize].name, 30, &font) / 2.0,
@@ -1838,24 +1784,6 @@ async fn main() {
             }
 
             GameState::SearchPage => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 if show_level_not_found {
                     draw_text_pro(
                         &level_download_response,
@@ -1873,24 +1801,6 @@ async fn main() {
             }
 
             GameState::LevelPage => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 draw_text_pro(
                     &online_level_name,
                     screen_width() / 2.0 - measure_text_ex(&online_level_name, 50, &font) / 2.0,
@@ -1984,24 +1894,6 @@ async fn main() {
             }
 
             GameState::AccountPage => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 draw_text_pro(
                     &login_response,
                     screen_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
@@ -2018,24 +1910,6 @@ async fn main() {
             }
 
             GameState::LevelUpload => {
-                draw_texture_ex(
-                    &default_bg_no_gradient,
-                    -50.0,
-                    -75.0,
-                    Color::from_rgba(20, 20, 20, 255),
-                    DrawTextureParams {
-                        dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
-                        }),
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
-
                 draw_text_pro(
                     &level_upload_response,
                     screen_width() / 2.0 - measure_text_ex(&level_upload_response, 20, &font) / 2.0,
