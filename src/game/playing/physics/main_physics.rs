@@ -8,7 +8,8 @@ pub fn physics_handle(
     on_ground: &mut bool,
     rotation: &mut f32,
     world_offset: &mut f32,
-    movement_speed: f32
+    movement_speed: f32,
+    current_mode: &String
 ) {
     player.y += velocity_y.get();
     // *velocity_y += gravity;
@@ -27,5 +28,13 @@ pub fn physics_handle(
         *rotation += 0.1
     }
 
-    *world_offset += movement_speed
+    if current_mode == "2" {
+        if is_key_down(KeyCode::Left) {
+            *world_offset -= movement_speed
+        } else if is_key_down(KeyCode::Right) {
+            *world_offset += movement_speed
+        }
+    } else {
+        *world_offset += movement_speed
+    }
 }
