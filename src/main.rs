@@ -476,6 +476,7 @@ async fn main() {
     let mut password: String = "".to_string();
     let mut logged_in: bool = false;
     let mut current_difficulty: u8 = 0;
+    let mut bg_offset: f32 = 0.0;
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -828,6 +829,12 @@ async fn main() {
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
                     game_state.0.set(GameState::LevelSelect)
+                }
+
+                if movement_speed.0.get() > default_movement_speed.0.get() * 1.3 {
+                    bg_offset += 0.4 * movement_speed.0.get()
+                } else {
+                    bg_offset += 0.2 * movement_speed.0.get()
                 }
             }
 
@@ -1405,20 +1412,22 @@ async fn main() {
             }
 
             GameState::Playing => {
-                draw_texture_ex(
-                    &default_bg,
-                    0.0,
-                    0.0,
-                    cc_1001,
-                    DrawTextureParams {
-                        dest_size: None,
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
+                for i in 0..2 {
+                    draw_texture_ex(
+                        &default_bg,
+                        (i * 1920) as f32 - (bg_offset % 1920.0),
+                        0.0,
+                        cc_1001,
+                        DrawTextureParams {
+                            dest_size: None,
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: None
+                        }
+                    );
+                }
 
                 draw_rectangle_ex(
                     player.x,
