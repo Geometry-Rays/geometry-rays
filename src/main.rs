@@ -1435,7 +1435,7 @@ async fn main() {
             }
 
             GameState::Playing => {
-                for i in 0..2 {
+                for i in -1..2 {
                     draw_texture_ex(
                         &default_bg,
                         (i * 1920) as f32 - (bg_offset % 1920.0),
@@ -1504,7 +1504,7 @@ async fn main() {
                 }
 
                 // Draws the ground
-                for i in 0..screen_width() as i32 / 160 + 2 {
+                for i in -1..screen_width() as i32 / 160 + 2 {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0 - (world_offset % 155.0),
