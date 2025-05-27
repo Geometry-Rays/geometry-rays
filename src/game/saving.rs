@@ -8,13 +8,15 @@ pub fn level_to_string(
     cc_1001: Color,
     cc_1002: Color,
 
-    current_song: String
+    current_song: String,
+    current_mode: String
 ) -> String {
     let mut level_string: String = format!(
-        "version:{};song:{};cc_1001:{},{},{};cc_1002:{},{},{};;;",
+        "version:{};song:{};mode:{};cc_1001:{},{},{};cc_1002:{},{},{};;;",
 
         level_version,
         current_song,
+        current_mode,
 
         cc_1001.r,
         cc_1001.g,

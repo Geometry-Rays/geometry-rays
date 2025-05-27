@@ -10,7 +10,7 @@ pub fn hitbox_collision(
     small_player: Rect,
     rotation: &mut f32,
     obj_grid: &Vec<ObjectStruct>,
-    world_offset: f32,
+    world_offset: &mut f32,
     player_cam_y: f32,
     velocity_y: &Cell<f32>,
     gravity: &Cell<f32>,
@@ -32,7 +32,8 @@ pub fn hitbox_collision(
     stars: &mut u32,
     main_levels: &mut Vec<MainLevel>,
     level_mode: u8,
-    current_level: u8
+    current_level: u8,
+    current_mode: String
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -40,7 +41,7 @@ pub fn hitbox_collision(
         match object.id {
             1 => {
                 *kill_player |= centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset + 15.0,
+                    x: object.x as f32 - *world_offset + 15.0,
                     y: obj_y as f32 + 5.0,
                     w: 10.0,
                     h: 20.0
@@ -48,17 +49,35 @@ pub fn hitbox_collision(
             }
 
             2 | 10 | 11 | 12 | 13 | 14 => {
-                *kill_player |= small_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset,
-                    y: obj_y as f32 + 10.0 - player_cam_y as f32,
-                    w: 3.0,
-                    h: 20.0
-                });
+                if current_mode == "2" {
+                    if centered_player.overlaps(&Rect {
+                        x: object.x as f32 - *world_offset,
+                        y: obj_y as f32 + 20.0 - player_cam_y as f32,
+                        w: 3.0,
+                        h: 3.0
+                    }) {
+                        *world_offset = object.x as f32 - 220.0
+                    } else if centered_player.overlaps(&Rect {
+                        x: object.x as f32 + 40.0 - *world_offset,
+                        y: obj_y as f32 + 20.0 - player_cam_y as f32,
+                        w: 3.0,
+                        h: 3.0
+                    }) {
+                        *world_offset = object.x as f32 - 140.0
+                    }
+                } else {
+                    *kill_player |= small_player.overlaps(&Rect {
+                        x: object.x as f32 - *world_offset,
+                        y: obj_y as f32 + 10.0 - player_cam_y as f32,
+                        w: 3.0,
+                        h: 20.0
+                    });
+                }
 
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset + 3.0,
+                    x: object.x as f32 - *world_offset + 3.0,
                     y: obj_y as f32 + 1.0 - player_cam_y as f32,
-                    w: 37.0,
+                    w: 35.0,
                     h: 3.0
                 }) {
                     if velocity_y.get() >= 0.0 {
@@ -75,9 +94,9 @@ pub fn hitbox_collision(
                 }
 
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset + 3.0,
+                    x: object.x as f32 - *world_offset + 3.0,
                     y: obj_y as f32 + 38.0 - player_cam_y as f32,
-                    w: 37.0,
+                    w: 35.0,
                     h: 3.0
                 }) {
                     if velocity_y.get() <= 0.0 {
@@ -97,7 +116,7 @@ pub fn hitbox_collision(
                 }
 
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset + 80.0,
+                    x: object.x as f32 - *world_offset + 80.0,
                     y: obj_y as f32 - player_cam_y as f32 + 10.0,
                     w: 3.0,
                     h: 20.0,
@@ -108,7 +127,7 @@ pub fn hitbox_collision(
 
             3 | 21 => {
                 if centered_player.overlaps( &Rect {
-                    x: object.x as f32 - world_offset,
+                    x: object.x as f32 - *world_offset,
                     y: obj_y as f32 - player_cam_y as f32 + 35.0,
                     w: 40.0,
                     h: 5.0
@@ -142,7 +161,7 @@ pub fn hitbox_collision(
 
             4 | 22 | 26 => {
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - 10.0 - world_offset,
+                    x: object.x as f32 - 10.0 - *world_offset,
                     y: obj_y as f32 - 10.0 - player_cam_y as f32,
                     w: 60.0,
                     h: 60.0
@@ -176,7 +195,7 @@ pub fn hitbox_collision(
 
             5 | 6 | 8 | 9 | 24 | 25 | 17 | 18 | 19 | 20 => {
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
+                    x: object.x as f32 - *world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
                     y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
                     w: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
                     h: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 }
@@ -215,7 +234,7 @@ pub fn hitbox_collision(
 
             7 => {
                 *kill_player |= centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset + 20.0,
+                    x: object.x as f32 - *world_offset + 20.0,
                     y: obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
                     w: 10.0,
                     h: 10.0
@@ -224,7 +243,7 @@ pub fn hitbox_collision(
 
             15 => {
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset,
+                    x: object.x as f32 - *world_offset,
                     y: obj_y,
                     w: 40.0,
                     h: 40.0
@@ -239,7 +258,7 @@ pub fn hitbox_collision(
 
             23 => {
                 if centered_player.overlaps(&Rect {
-                    x: object.x as f32 - world_offset,
+                    x: object.x as f32 - *world_offset,
                     y: obj_y - player_cam_y,
                     w: 40.0,
                     h: 40.0
@@ -299,7 +318,7 @@ pub fn hitbox_draw(
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
                 obj_y as f32 + 1.0 - player_cam_y as f32,
-                37.0,
+                35.0,
                 3.0,
                 2.0,
                 BLUE
@@ -308,7 +327,7 @@ pub fn hitbox_draw(
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
                 obj_y as f32 + 38.0 - player_cam_y as f32,
-                37.0,
+                35.0,
                 3.0,
                 2.0,
                 BLUE

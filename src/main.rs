@@ -477,6 +477,7 @@ async fn main() {
     let mut logged_in: bool = false;
     let mut current_difficulty: u8 = 0;
     let mut bg_offset: f32 = 0.0;
+    let mut current_mode: String = "1".to_string();
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -656,6 +657,7 @@ async fn main() {
                         &mut obj_grid,
                         &mut cc_1001,
                         &mut cc_1002,
+                        &mut current_mode,
                         &mut current_song,
                         false,
                         main_levels.clone()
@@ -710,7 +712,8 @@ async fn main() {
                     &mut on_ground,
                     &mut rotation,
                     &mut world_offset,
-                    movement_speed.0.get()
+                    movement_speed.0.get(),
+                    &current_mode
                 );
 
                 playing::hitboxes::hitbox_collision(
@@ -719,7 +722,7 @@ async fn main() {
                     small_player,
                     &mut rotation,
                     &obj_grid,
-                    world_offset,
+                    &mut world_offset,
                     player_cam_y,
                     &velocity_y.0,
                     &gravity.0,
@@ -741,7 +744,8 @@ async fn main() {
                     &mut stars,
                     &mut main_levels,
                     level_mode,
-                    current_level
+                    current_level,
+                    current_mode.clone()
                 );
 
                 match current_gamemode {
@@ -831,9 +835,25 @@ async fn main() {
                 }
 
                 if movement_speed.0.get() > default_movement_speed.0.get() * 1.3 {
-                    bg_offset += 0.4 * movement_speed.0.get()
+                    if current_mode == "2" {
+                        if is_key_down(KeyCode::Left) {
+                            bg_offset -= 0.4 * movement_speed.0.get()
+                        } else if is_key_down(KeyCode::Right) {
+                            bg_offset += 0.4 * movement_speed.0.get()
+                        }
+                    } else {
+                        bg_offset += 0.4 * movement_speed.0.get()
+                    }
                 } else {
-                    bg_offset += 0.2 * movement_speed.0.get()
+                    if current_mode == "2" {
+                        if is_key_down(KeyCode::Left) {
+                            bg_offset -= 0.2 * movement_speed.0.get()
+                        } else if is_key_down(KeyCode::Right) {
+                            bg_offset += 0.2 * movement_speed.0.get()
+                        }
+                    } else {
+                        bg_offset += 0.2 * movement_speed.0.get()
+                    }
                 }
             }
 
@@ -856,6 +876,7 @@ async fn main() {
                         &mut obj_grid,
                         &mut cc_1001,
                         &mut cc_1002,
+                        &mut current_mode,
                         &mut current_song,
                         true,
                         main_levels.clone()
@@ -938,7 +959,8 @@ async fn main() {
                         level_version,
                         cc_1001,
                         cc_1002,
-                        current_song.clone()
+                        current_song.clone(),
+                        current_mode.clone()
                     );
 
                     let save_result: Result<(), std::io::Error> = std::fs::write(
@@ -1168,6 +1190,7 @@ async fn main() {
                         &mut obj_grid,
                         &mut cc_1001,
                         &mut cc_1002,
+                        &mut current_mode,
                         &mut current_song,
                         true,
                         main_levels.clone()
@@ -1241,7 +1264,8 @@ async fn main() {
                         level_version,
                         cc_1001,
                         cc_1002,
-                        current_song.clone()
+                        current_song.clone(),
+                        current_mode.clone()
                     );
 
                     level_upload_response = ureq::post(&upload_url)

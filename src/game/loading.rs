@@ -11,6 +11,8 @@ pub fn load_level(
     cc_1001: &mut Color,
     cc_1002: &mut Color,
 
+    current_mode: &mut String,
+
     current_song: &mut String,
     load_song: bool,
     main_levels: Vec<MainLevel>
@@ -77,6 +79,8 @@ pub fn load_level(
             } else {
                 main_levels[value.parse::<usize>().unwrap()].song.to_string()
             }
+        } else if key == "mode" {
+            *current_mode = value.to_string();
         }
     }
 
