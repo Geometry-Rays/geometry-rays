@@ -792,7 +792,6 @@ async fn main() {
                     movement_speed.0.set(default_movement_speed.0.get());
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
-                    level_mode = 1;
                     kill_player = false;
                     player_trail.clear();
                     restart_audio(&sink);
