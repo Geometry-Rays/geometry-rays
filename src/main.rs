@@ -722,7 +722,7 @@ async fn main() {
                     small_player,
                     &mut rotation,
                     &obj_grid,
-                    world_offset,
+                    &mut world_offset,
                     player_cam_y,
                     &velocity_y.0,
                     &gravity.0,
@@ -744,7 +744,8 @@ async fn main() {
                     &mut stars,
                     &mut main_levels,
                     level_mode,
-                    current_level
+                    current_level,
+                    current_mode.clone()
                 );
 
                 match current_gamemode {
