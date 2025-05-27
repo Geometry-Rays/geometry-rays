@@ -25,7 +25,13 @@ pub fn physics_handle(
         *on_ground = true;
         *rotation = 0.0
     } else if player.y < screen_height() / 1.15 - 21.0 {
-        *rotation += 0.1
+        if is_key_down(KeyCode::Right) || current_mode == "1" {
+            *rotation += 0.1
+        } else if is_key_down(KeyCode::Left) {
+            *rotation -= 0.1
+        } else {
+            *rotation = 0.0
+        }
     }
 
     if current_mode == "2" {
