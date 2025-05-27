@@ -174,7 +174,8 @@ pub fn object_ped(
     grid_size: u8,
 
     current_tab: u8,
-    current_obj: u16
+    current_obj: u16,
+    selected_obj: &mut u16
 ) {
     if current_tab == 1 {
         object_grid.push(ObjectStruct {
@@ -221,6 +222,7 @@ pub fn object_ped(
                 }
 
                 object_grid[obj_index].selected = true;
+                *selected_obj = object_grid[obj_index].id;
                 break;
             }
 
@@ -248,7 +250,9 @@ pub fn draw_color_preview_boxes(
 
     grnd_red: &String,
     grnd_green: &String,
-    grnd_blue: &String
+    grnd_blue: &String,
+
+    level_options_type: u8
 ) {
     match (bg_red.parse::<u8>(), bg_green.parse::<u8>(), bg_blue.parse::<u8>()) {
         (Ok(bg_red), Ok(bg_green), Ok(bg_blue)) => {
@@ -269,22 +273,24 @@ pub fn draw_color_preview_boxes(
         _ => {}
     }
 
-    match (grnd_red.parse::<u8>(), grnd_green.parse::<u8>(), grnd_blue.parse::<u8>()) {
-        (Ok(grnd_red), Ok(grnd_green), Ok(grnd_blue)) => {
-            draw_rectangle(
-                screen_width() - 450.0,
-                80.0,
-                50.0,
-                50.0,
-                Color::from_rgba(
-                    grnd_red,
-                    grnd_green,
-                    grnd_blue,
-                    255
-                )
-            );
+    if level_options_type == 1 {
+        match (grnd_red.parse::<u8>(), grnd_green.parse::<u8>(), grnd_blue.parse::<u8>()) {
+            (Ok(grnd_red), Ok(grnd_green), Ok(grnd_blue)) => {
+                draw_rectangle(
+                    screen_width() - 450.0,
+                    80.0,
+                    50.0,
+                    50.0,
+                    Color::from_rgba(
+                        grnd_red,
+                        grnd_green,
+                        grnd_blue,
+                        255
+                    )
+                );
+            }
+    
+            _ => {}
         }
-
-        _ => {}
     }
 }

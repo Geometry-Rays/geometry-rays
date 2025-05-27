@@ -165,6 +165,16 @@ async fn main() {
         false
     );
 
+    let mut edit_obj_button = Button::new(
+        || screen_width() - 329.0,
+        || 20.0,
+        || 150.0,
+        || 75.0,
+        "Edit Obj",
+        15,
+        false
+    );
+
     let mut editor_playtest_button = Button::new(
         || 20.0,
         || screen_height() / 2.0 - 65.0,
@@ -397,8 +407,10 @@ async fn main() {
     let mut cam_pos_y: f32 = 0.0;
     let mut cam_pos_x: f32 = 0.0;
     let mut current_obj: u16 = 1;
+    let mut selected_obj: u16 = 0;
     let grid_size: u8 = 40;
     let mut level_mode: u8 = 1;
+    let mut level_options_type: u8 = 1;
 
     println!("Getting latest version...");
     let version: &str = "F-BETA";
@@ -895,6 +907,7 @@ async fn main() {
                 editor_save_button.update(delta_time);
                 editor_options_button.update(delta_time);
                 editor_upload_button.update(delta_time);
+                edit_obj_button.update(delta_time);
                 build_tab_button.update(delta_time);
                 edit_tab_button.update(delta_time);
                 editor_playtest_button.update(delta_time);
@@ -924,6 +937,27 @@ async fn main() {
                     grnd_green_textbox.input = (cc_1002.g * 255.0).floor().to_string();
                     grnd_blue_textbox.input = (cc_1002.b * 255.0).floor().to_string();
 
+                    level_options_type = 1;
+                    game_state.0.set(GameState::LevelSettings)
+                }
+
+                if edit_obj_button.is_clicked() && selected_obj == 23 {
+                    let mut color_trigger_color = Color::from_rgba(0, 0, 0, 255);
+                    for object in &obj_grid {
+                        if object.selected && object.id == 23 {
+                            let red: u8 = object.properties.clone().unwrap()[0].parse().unwrap();
+                            let green: u8 = object.properties.clone().unwrap()[1].parse().unwrap();
+                            let blue: u8 = object.properties.clone().unwrap()[2].parse().unwrap();
+
+                            color_trigger_color = Color::from_rgba(red, green, blue, 255)
+                        }
+                    }
+
+                    bg_red_textbox.input = (color_trigger_color.r * 255.0).floor().to_string();
+                    bg_green_textbox.input = (color_trigger_color.g * 255.0).floor().to_string();
+                    bg_blue_textbox.input = (color_trigger_color.b * 255.0).floor().to_string();
+
+                    level_options_type = 2;
                     game_state.0.set(GameState::LevelSettings)
                 }
 
@@ -985,7 +1019,8 @@ async fn main() {
                 && !editor_playtest_button.rect.contains(mouse_position().into())
                 && !editor_save_button.rect.contains(mouse_position().into())
                 && !editor_options_button.rect.contains(mouse_position().into())
-                && !editor_upload_button.rect.contains(mouse_position().into()) {
+                && !editor_upload_button.rect.contains(mouse_position().into())
+                && !edit_obj_button.rect.contains(mouse_position().into()) {
                     editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
@@ -994,7 +1029,8 @@ async fn main() {
                         cam_pos_y,
                         grid_size,
                         current_tab,
-                        current_obj
+                        current_obj,
+                        &mut selected_obj
                     );
                 }
 
@@ -1037,7 +1073,15 @@ async fn main() {
                     let mut bg_red_parse_success: bool = false;
                     match bg_red_textbox.input.parse::<u8>() {
                         Ok(value) => {
-                            cc_1001.r = value as f32 / 255.0;
+                            if level_options_type == 1 {
+                                cc_1001.r = value as f32 / 255.0;
+                            } else {
+                                for object in &mut obj_grid {
+                                    if object.selected && object.id == 23 {
+                                        object.properties.as_mut().unwrap()[0] = value.to_string();
+                                    }
+                                }
+                            }
                             bg_red_parse_success = true;
                         }
 
@@ -1049,7 +1093,15 @@ async fn main() {
                     let mut bg_green_parse_success: bool = false;
                     match bg_green_textbox.input.parse::<u8>() {
                         Ok(value) => {
-                            cc_1001.g = value as f32 / 255.0;
+                            if level_options_type == 1 {
+                                cc_1001.g = value as f32 / 255.0;
+                            } else {
+                                for object in &mut obj_grid {
+                                    if object.selected && object.id == 23 {
+                                        object.properties.as_mut().unwrap()[1] = value.to_string();
+                                    }
+                                }
+                            }
                             bg_green_parse_success = true;
                         }
 
@@ -1061,7 +1113,15 @@ async fn main() {
                     let mut bg_blue_parse_success: bool = false;
                     match bg_blue_textbox.input.parse::<u8>() {
                         Ok(value) => {
-                            cc_1001.b = value as f32 / 255.0;
+                            if level_options_type == 1 {
+                                cc_1001.b = value as f32 / 255.0;
+                            } else {
+                                for object in &mut obj_grid {
+                                    if object.selected && object.id == 23 {
+                                        object.properties.as_mut().unwrap()[2] = value.to_string();
+                                    }
+                                }
+                            }
                             bg_blue_parse_success = true;
                         }
 
@@ -1073,39 +1133,51 @@ async fn main() {
 
 
                     let mut grnd_red_parse_success: bool = false;
-                    match grnd_red_textbox.input.parse::<u8>() {
-                        Ok(value) => {
-                            cc_1002.r = value as f32 / 255.0;
-                            grnd_red_parse_success = true;
-                        }
+                    if level_options_type == 1 {
+                        match grnd_red_textbox.input.parse::<u8>() {
+                            Ok(value) => {
+                                cc_1002.r = value as f32 / 255.0;
+                                grnd_red_parse_success = true;
+                            }
 
-                        Err(error) => {
-                            println!("Error parsing grnd_red: {}", error);
+                            Err(error) => {
+                                println!("Error parsing grnd_red: {}", error);
+                            }
                         }
+                    } else {
+                        grnd_red_parse_success = true
                     }
 
                     let mut grnd_green_parse_success: bool = false;
-                    match grnd_green_textbox.input.parse::<u8>() {
-                        Ok(value) => {
-                            cc_1002.g = value as f32 / 255.0;
-                            grnd_green_parse_success = true;
-                        }
+                    if level_options_type == 1 {
+                        match grnd_green_textbox.input.parse::<u8>() {
+                            Ok(value) => {
+                                cc_1002.g = value as f32 / 255.0;
+                                grnd_green_parse_success = true;
+                            }
 
-                        Err(error) => {
-                            println!("Error parsing grnd_green: {}", error);
+                            Err(error) => {
+                                println!("Error parsing grnd_green: {}", error);
+                            }
                         }
+                    } else {
+                        grnd_green_parse_success = true
                     }
 
                     let mut grnd_blue_parse_success: bool = false;
-                    match grnd_blue_textbox.input.parse::<u8>() {
-                        Ok(value) => {
-                            cc_1002.b = value as f32 / 255.0;
-                            grnd_blue_parse_success = true;
-                        }
+                    if level_options_type == 1 {
+                        match grnd_blue_textbox.input.parse::<u8>() {
+                            Ok(value) => {
+                                cc_1002.b = value as f32 / 255.0;
+                                grnd_blue_parse_success = true;
+                            }
 
-                        Err(error) => {
-                            println!("Error parsing grnd_blue: {}", error);
+                            Err(error) => {
+                                println!("Error parsing grnd_blue: {}", error);
+                            }
                         }
+                    } else {
+                        grnd_blue_parse_success = true
                     }
 
                     if bg_red_parse_success
@@ -1118,12 +1190,12 @@ async fn main() {
                     }
                 }
 
-                if is_key_pressed(KeyCode::Left) && current_song_index > 0 {
+                if is_key_pressed(KeyCode::Left) && current_song_index > 0 && level_options_type == 1 {
                     current_song_index -= 1;
                     current_song = main_levels[current_song_index as usize].song.clone();
                 }
 
-                if is_key_pressed(KeyCode::Right) && current_song_index < main_levels.len() as u8 - 1 {
+                if is_key_pressed(KeyCode::Right) && current_song_index < main_levels.len() as u8 - 1 && level_options_type == 1 {
                     current_song_index += 1;
                     current_song = main_levels[current_song_index as usize].song.clone();
                 }
@@ -1749,6 +1821,7 @@ async fn main() {
                 editor_save_button.draw(false, None, 1.0, false, &font);
                 editor_options_button.draw(false, None, 1.0, false, &font);
                 editor_upload_button.draw(false, None, 1.0, false, &font);
+                edit_obj_button.draw(false, None, 1.0, false, &font);
                 build_tab_button.draw(false, None, 1.0, false, &font);
                 edit_tab_button.draw(false, None, 1.0, false, &font);
                 editor_playtest_button.draw(false, None, 1.0, false, &font);
@@ -1786,14 +1859,16 @@ async fn main() {
             }
 
             GameState::LevelSettings => {
-                draw_text_pro(
-                    &main_levels[current_song_index as usize].name,
-                    screen_width() / 2.0 - measure_text_ex(&main_levels[current_song_index as usize].name, 30, &font) / 2.0,
-                    screen_height() - 30.0,
-                    30,
-                    WHITE,
-                    &font
-                );
+                if level_options_type == 1 {
+                    draw_text_pro(
+                        &main_levels[current_song_index as usize].name,
+                        screen_width() / 2.0 - measure_text_ex(&main_levels[current_song_index as usize].name, 30, &font) / 2.0,
+                        screen_height() - 30.0,
+                        30,
+                        WHITE,
+                        &font
+                    );
+                }
 
                 editor::draw_color_preview_boxes(
                     &bg_red_textbox.input,
@@ -1801,16 +1876,19 @@ async fn main() {
                     &bg_blue_textbox.input,
                     &grnd_red_textbox.input,
                     &grnd_green_textbox.input,
-                    &grnd_blue_textbox.input
+                    &grnd_blue_textbox.input,
+                    level_options_type
                 );
 
                 bg_red_textbox.draw(&font);
                 bg_green_textbox.draw(&font);
                 bg_blue_textbox.draw(&font);
 
-                grnd_red_textbox.draw(&font);
-                grnd_green_textbox.draw(&font);
-                grnd_blue_textbox.draw(&font);
+                if level_options_type == 1 {
+                    grnd_red_textbox.draw(&font);
+                    grnd_green_textbox.draw(&font);
+                    grnd_blue_textbox.draw(&font);
+                }
 
                 back_button.draw(false, None, 1.0, false, &font);
             }
