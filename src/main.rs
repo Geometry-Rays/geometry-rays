@@ -1568,7 +1568,7 @@ async fn main() {
                 );
 
                 // Draws the ground
-                for i in 0..screen_width() as i32 / 160 + 2 {
+                for i in -1..screen_width() as i32 / 160 + 2 {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0 - (cam_pos_x*5.0 % 155.0),
