@@ -836,9 +836,25 @@ async fn main() {
                 }
 
                 if movement_speed.0.get() > default_movement_speed.0.get() * 1.3 {
-                    bg_offset += 0.4 * movement_speed.0.get()
+                    if current_mode == "2" {
+                        if is_key_down(KeyCode::Left) {
+                            bg_offset -= 0.4 * movement_speed.0.get()
+                        } else if is_key_down(KeyCode::Right) {
+                            bg_offset += 0.4 * movement_speed.0.get()
+                        }
+                    } else {
+                        bg_offset += 0.4 * movement_speed.0.get()
+                    }
                 } else {
-                    bg_offset += 0.2 * movement_speed.0.get()
+                    if current_mode == "2" {
+                        if is_key_down(KeyCode::Left) {
+                            bg_offset -= 0.2 * movement_speed.0.get()
+                        } else if is_key_down(KeyCode::Right) {
+                            bg_offset += 0.2 * movement_speed.0.get()
+                        }
+                    } else {
+                        bg_offset += 0.2 * movement_speed.0.get()
+                    }
                 }
             }
 
