@@ -186,7 +186,7 @@ async fn main() {
     );
 
     let mut bg_red_textbox = TextBox::new(
-        || screen_width() - 120.0,
+        || screen_width() - 360.0,
         || 10.0,
         || 110.0,
         || 50.0,
@@ -208,7 +208,7 @@ async fn main() {
     );
 
     let mut bg_blue_textbox = TextBox::new(
-        || screen_width() - 360.0,
+        || screen_width() - 120.0,
         || 10.0,
         || 110.0,
         || 50.0,
@@ -219,7 +219,7 @@ async fn main() {
     );
 
     let mut grnd_red_textbox = TextBox::new(
-        || screen_width() - 120.0,
+        || screen_width() - 360.0,
         || 80.0,
         || 110.0,
         || 50.0,
@@ -241,7 +241,7 @@ async fn main() {
     );
 
     let mut grnd_blue_textbox = TextBox::new(
-        || screen_width() - 360.0,
+        || screen_width() - 120.0,
         || 80.0,
         || 110.0,
         || 50.0,
