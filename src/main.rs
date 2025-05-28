@@ -368,6 +368,25 @@ async fn main() {
         false
     );
 
+    let mut bg_color_button = Button::new(
+        || 20.0,
+        || screen_height() - 170.0,
+        || 150.0,
+        || 150.0,
+        "Bg",
+        15,
+        false
+    );
+
+    let mut grnd_color_button = Button::new(
+        || 180.0,
+        || screen_height() - 170.0,
+        || 150.0,
+        || 150.0,
+        "Ground",
+        15,
+        false
+    );
 
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
@@ -1079,6 +1098,8 @@ async fn main() {
             GameState::LevelSettings => {
                 back_button.update(delta_time);
                 plat_classic_button.update(delta_time);
+                bg_color_button.update(delta_time);
+                grnd_color_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     let mut bg_red_parse_success: bool = false;
@@ -1211,13 +1232,29 @@ async fn main() {
                     current_song = main_levels[current_song_index as usize].song.clone();
                 }
 
-                if plat_classic_button.is_clicked() {
+                if plat_classic_button.is_clicked() && level_options_type == 1 {
                     if current_mode == "1" {
                         plat_classic_button.text = "Plat".to_string();
                         current_mode = "2".to_string();
                     } else {
                         plat_classic_button.text = "Classic".to_string();
                         current_mode = "1".to_string();
+                    }
+                }
+
+                if bg_color_button.is_clicked() && level_options_type == 2 {
+                    for object in &mut obj_grid {
+                        if object.selected && object.id == 23 {
+                            object.properties.as_mut().unwrap()[3] = "1".to_string();
+                        }
+                    }
+                }
+
+                if grnd_color_button.is_clicked() && level_options_type == 2 {
+                    for object in &mut obj_grid {
+                        if object.selected && object.id == 23 {
+                            object.properties.as_mut().unwrap()[3] = "2".to_string();
+                        }
                     }
                 }
 
@@ -1911,8 +1948,16 @@ async fn main() {
                     grnd_blue_textbox.draw(&font);
                 }
 
+                if level_options_type == 2 {
+                    bg_color_button.draw(false, None, 1.0, false, &font);
+                    grnd_color_button.draw(false, None, 1.0, false, &font);
+                }
+
                 back_button.draw(false, None, 1.0, false, &font);
-                plat_classic_button.draw(false, None, 1.0, false, &font);
+
+                if level_options_type == 1 {
+                    plat_classic_button.draw(false, None, 1.0, false, &font);
+                }
             }
 
             GameState::SearchPage => {
