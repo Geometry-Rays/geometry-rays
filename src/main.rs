@@ -358,6 +358,16 @@ async fn main() {
         false
     );
 
+    let mut plat_classic_button = Button::new(
+        || 20.0,
+        || screen_height() - 170.0,
+        || 150.0,
+        || 150.0,
+        "Classic",
+        15,
+        false
+    );
+
 
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
@@ -1068,6 +1078,7 @@ async fn main() {
 
             GameState::LevelSettings => {
                 back_button.update(delta_time);
+                plat_classic_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     let mut bg_red_parse_success: bool = false;
@@ -1198,6 +1209,16 @@ async fn main() {
                 if is_key_pressed(KeyCode::Right) && current_song_index < main_levels.len() as u8 - 1 && level_options_type == 1 {
                     current_song_index += 1;
                     current_song = main_levels[current_song_index as usize].song.clone();
+                }
+
+                if plat_classic_button.is_clicked() {
+                    if current_mode == "1" {
+                        plat_classic_button.text = "Plat".to_string();
+                        current_mode = "2".to_string();
+                    } else {
+                        plat_classic_button.text = "Classic".to_string();
+                        current_mode = "1".to_string();
+                    }
                 }
 
                 bg_red_textbox.input();
@@ -1891,6 +1912,7 @@ async fn main() {
                 }
 
                 back_button.draw(false, None, 1.0, false, &font);
+                plat_classic_button.draw(false, None, 1.0, false, &font);
             }
 
             GameState::SearchPage => {
