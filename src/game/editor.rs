@@ -178,6 +178,9 @@ pub fn object_ped(
     selected_obj: &mut u16
 ) {
     if current_tab == 1 {
+        for object in &mut *object_grid {
+            object.selected = false;
+        }
         object_grid.push(ObjectStruct {
             x: snapped_x,
             y: snapped_y,
@@ -185,7 +188,7 @@ pub fn object_ped(
             no_touch: 0,
             hide: 0,
             id: current_obj,
-            selected: false,
+            selected: true,
             properties: if current_obj == 23 {
                 Some(vec![
                     "0".to_string(),
