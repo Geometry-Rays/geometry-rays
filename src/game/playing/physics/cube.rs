@@ -8,7 +8,10 @@ pub fn physics_handle(
     on_ground: &mut bool,
     jump_force: f32
 ) {
-    velocity_y.set(velocity_y.get() + gravity);
+    if velocity_y.get() < 20.0
+    && velocity_y.get() > -20.0 {
+        velocity_y.set(velocity_y.get() + gravity);
+    }
 
     if (is_mouse_button_down(MouseButton::Left) || is_key_down(KeyCode::Space) || is_key_down(KeyCode::Up)) && *on_ground {
         velocity_y.set(velocity_y.get() - jump_force);
