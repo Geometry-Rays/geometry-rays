@@ -9,7 +9,8 @@ pub fn physics_handle(
     rotation: &mut f32,
     world_offset: &mut f32,
     movement_speed: f32,
-    current_mode: &String
+    current_mode: &String,
+    player_cam_y: &mut f32
 ) {
     player.y += velocity_y.get();
     // *velocity_y += gravity;
@@ -19,12 +20,12 @@ pub fn physics_handle(
     //     *on_ground = false;
     // }
 
-    if player.y > screen_height() / 1.15 - 20.0 {
+    if player.y > screen_height() / 1.15 - 20.0 + *player_cam_y {
         player.y = screen_height() / 1.15 - 20.0;
         velocity_y.set(0.0);
         *on_ground = true;
         *rotation = 0.0
-    } else if player.y < screen_height() / 1.15 - 21.0 {
+    } else if player.y < screen_height() / 1.15 - 21.0 + *player_cam_y {
         if is_key_down(KeyCode::Right) || current_mode == "1" {
             *rotation += 0.1
         } else if is_key_down(KeyCode::Left) {
@@ -42,5 +43,13 @@ pub fn physics_handle(
         }
     } else {
         *world_offset += movement_speed
+    }
+
+    if player.y < 20.0 {
+        *player_cam_y -= velocity_y.get();
+        player.y = 20.0
+    } else if player.y > screen_height() / 1.15 - 20.0 {
+        *player_cam_y -= velocity_y.get();
+        player.y = screen_height() / 1.15 - 20.0
     }
 }

@@ -405,7 +405,7 @@ async fn main() {
     let mut obj_grid: Vec<ObjectStruct> = vec![];
     let mut debug_mode: bool = false;
     let mut world_offset: f32 = 0.0;
-    let player_cam_y: f32 = 0.0;
+    let mut player_cam_y: f32 = 0.0;
     let mut kill_player: bool = false;
     let mut on_orb: bool = false;
     let mut current_gamemode: GameMode = GameMode::Cube;
@@ -754,7 +754,8 @@ async fn main() {
                     &mut rotation,
                     &mut world_offset,
                     movement_speed.0.get(),
-                    &current_mode
+                    &current_mode,
+                    &mut player_cam_y
                 );
 
                 playing::hitboxes::hitbox_collision(
@@ -855,7 +856,7 @@ async fn main() {
                 if level_mode == 2 {
                     player_trail.push(vec2(
                         player.x + world_offset,
-                        player.y
+                        player.y - player_cam_y
                     ));
                 }
 
@@ -1602,7 +1603,7 @@ async fn main() {
                         draw_texture_ex(
                             &obj_types[&(object.id)].texture,
                             object.x as f32 - if object.id == 8 || object.id == 9 || object.id == 24 || object.id == 25 { 40.0 } else { 0.0 } - world_offset as f32,
-                            obj_y + 6.0,
+                            obj_y + 6.0 + player_cam_y,
                             WHITE,
                             DrawTextureParams {
                                 dest_size: Some(vec2(
@@ -1638,7 +1639,7 @@ async fn main() {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0 - (world_offset % 155.0),
-                        screen_height() / 1.15,
+                        screen_height() / 1.15 + player_cam_y,
                         cc_1002,
                         DrawTextureParams {
                             dest_size: Some(vec2(
@@ -1657,7 +1658,7 @@ async fn main() {
                 if level_mode == 2 {
                     for point in &player_trail {
                         if point.x - world_offset > -10.0 {
-                            draw_circle(point.x - world_offset, point.y, 5.0, LIME);
+                            draw_circle(point.x - world_offset, point.y + player_cam_y, 5.0, LIME);
                         }
                     }
                 }

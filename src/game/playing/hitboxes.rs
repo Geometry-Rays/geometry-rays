@@ -42,7 +42,7 @@ pub fn hitbox_collision(
             1 => {
                 *kill_player |= centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset + 15.0,
-                    y: obj_y as f32 + 5.0,
+                    y: obj_y as f32 + 5.0 + player_cam_y,
                     w: 10.0,
                     h: 20.0
                 });
@@ -52,14 +52,14 @@ pub fn hitbox_collision(
                 if current_mode == "2" {
                     if centered_player.overlaps(&Rect {
                         x: object.x as f32 - *world_offset,
-                        y: obj_y as f32 + 20.0 - player_cam_y as f32,
+                        y: obj_y as f32 + 20.0 + player_cam_y as f32,
                         w: 3.0,
                         h: 3.0
                     }) {
                         *world_offset = object.x as f32 - 220.0
                     } else if centered_player.overlaps(&Rect {
                         x: object.x as f32 + 40.0 - *world_offset,
-                        y: obj_y as f32 + 20.0 - player_cam_y as f32,
+                        y: obj_y as f32 + 20.0 + player_cam_y as f32,
                         w: 3.0,
                         h: 3.0
                     }) {
@@ -68,7 +68,7 @@ pub fn hitbox_collision(
                 } else {
                     *kill_player |= small_player.overlaps(&Rect {
                         x: object.x as f32 - *world_offset,
-                        y: obj_y as f32 + 10.0 - player_cam_y as f32,
+                        y: obj_y as f32 + 10.0 + player_cam_y as f32,
                         w: 3.0,
                         h: 20.0
                     });
@@ -76,18 +76,18 @@ pub fn hitbox_collision(
 
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset + 3.0,
-                    y: obj_y as f32 + 1.0 - player_cam_y as f32,
+                    y: obj_y as f32 + 1.0 + player_cam_y as f32,
                     w: 35.0,
                     h: 3.0
                 }) {
                     if velocity_y.get() >= 0.0 {
                         *is_on_ground = true;
                         *rotation = 0.0;
-                        player.y = obj_y as f32 - 19.0 - player_cam_y as f32;
+                        player.y = obj_y as f32 - 19.0 + player_cam_y as f32;
                         velocity_y.set(0.0);
                     } else {
                         *touching_block_ceiling = true;
-                        player.y = obj_y as f32 - 21.0 - player_cam_y as f32;
+                        player.y = obj_y as f32 - 21.0 + player_cam_y as f32;
                     }
                 } else {
                     *touching_block_ceiling = false;
@@ -95,7 +95,7 @@ pub fn hitbox_collision(
 
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset + 3.0,
-                    y: obj_y as f32 + 38.0 - player_cam_y as f32,
+                    y: obj_y as f32 + 38.0 + player_cam_y as f32,
                     w: 35.0,
                     h: 3.0
                 }) {
@@ -105,11 +105,11 @@ pub fn hitbox_collision(
                         }
 
                         *rotation = 0.0;
-                        player.y = obj_y as f32 + 61.0 - player_cam_y as f32;
+                        player.y = obj_y as f32 + 61.0 + player_cam_y as f32;
                         velocity_y.set(0.0);
                     } else {
                         *touching_block_ceiling = true;
-                        player.y = obj_y as f32 + 65.0 - player_cam_y as f32;
+                        player.y = obj_y as f32 + 65.0 + player_cam_y as f32;
                     }
                 } else {
                     *touching_block_ceiling = false;
@@ -117,7 +117,7 @@ pub fn hitbox_collision(
 
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset + 80.0,
-                    y: obj_y as f32 - player_cam_y as f32 + 10.0,
+                    y: obj_y as f32 + player_cam_y as f32 + 10.0,
                     w: 3.0,
                     h: 20.0,
                 }) {
@@ -128,7 +128,7 @@ pub fn hitbox_collision(
             3 | 21 => {
                 if centered_player.overlaps( &Rect {
                     x: object.x as f32 - *world_offset,
-                    y: obj_y as f32 - player_cam_y as f32 + 35.0,
+                    y: obj_y as f32 + player_cam_y as f32 + 35.0,
                     w: 40.0,
                     h: 5.0
                 }) {
@@ -162,7 +162,7 @@ pub fn hitbox_collision(
             4 | 22 | 26 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - 10.0 - *world_offset,
-                    y: obj_y as f32 - 10.0 - player_cam_y as f32,
+                    y: obj_y as f32 - 10.0 + player_cam_y as f32,
                     w: 60.0,
                     h: 60.0
                 }) {
@@ -196,7 +196,7 @@ pub fn hitbox_collision(
             5 | 6 | 8 | 9 | 24 | 25 | 17 | 18 | 19 | 20 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
-                    y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
+                    y: obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } + player_cam_y as f32,
                     w: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
                     h: if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 }
                 }) {
@@ -235,7 +235,7 @@ pub fn hitbox_collision(
             7 => {
                 *kill_player |= centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset + 20.0,
-                    y: obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                    y: obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } + player_cam_y as f32,
                     w: 10.0,
                     h: 10.0
                 });
@@ -244,7 +244,7 @@ pub fn hitbox_collision(
             15 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset,
-                    y: obj_y,
+                    y: obj_y + player_cam_y,
                     w: 40.0,
                     h: 40.0
                 }) {
@@ -259,7 +259,7 @@ pub fn hitbox_collision(
             23 => {
                 if centered_player.overlaps(&Rect {
                     x: object.x as f32 - *world_offset,
-                    y: obj_y - player_cam_y,
+                    y: obj_y + player_cam_y,
                     w: 40.0,
                     h: 40.0
                 }) {
@@ -308,7 +308,7 @@ pub fn hitbox_draw(
         || object.id == 14 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset,
-                obj_y as f32 + 10.0 - player_cam_y as f32,
+                obj_y as f32 + 10.0 + player_cam_y as f32,
                 3.0,
                 20.0,
                 2.0,
@@ -317,7 +317,7 @@ pub fn hitbox_draw(
 
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
-                obj_y as f32 + 1.0 - player_cam_y as f32,
+                obj_y as f32 + 1.0 + player_cam_y as f32,
                 35.0,
                 3.0,
                 2.0,
@@ -326,7 +326,7 @@ pub fn hitbox_draw(
 
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 3.0,
-                obj_y as f32 + 38.0 - player_cam_y as f32,
+                obj_y as f32 + 38.0 + player_cam_y as f32,
                 35.0,
                 3.0,
                 2.0,
@@ -335,7 +335,7 @@ pub fn hitbox_draw(
 
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 80.0,
-                obj_y as f32 - player_cam_y as f32 + 10.0,
+                obj_y as f32 + player_cam_y as f32 + 10.0,
                 3.0,
                 20.0,
                 2.0,
@@ -347,7 +347,7 @@ pub fn hitbox_draw(
         || object.id == 21 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset,
-                obj_y as f32 - player_cam_y as f32 + 35.0,
+                obj_y as f32 + player_cam_y as f32 + 35.0,
                 40.0,
                 5.0,
                 2.0,
@@ -359,7 +359,7 @@ pub fn hitbox_draw(
         || object.id == 22 {
             draw_rectangle_lines(
                 object.x as f32 - 10.0 - world_offset,
-                obj_y as f32 - 10.0 - player_cam_y as f32,
+                obj_y as f32 - 10.0 + player_cam_y as f32,
                 60.0,
                 60.0,
                 2.0,
@@ -372,7 +372,7 @@ pub fn hitbox_draw(
         || object.id == 17 || object.id == 18 || object.id == 19 || object.id == 20 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 10.0 } else { -20.0 },
-                obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } - player_cam_y as f32,
+                obj_y as f32 - if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 0.0 } else { -31.0 } + player_cam_y as f32,
                 if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 20.0 } else { 80.0 },
                 if object.rotation == 0 || object.rotation == 180 || object.rotation == -180 { 80.0 } else { 20.0 },
                 2.0,
@@ -383,7 +383,7 @@ pub fn hitbox_draw(
         if object.id == 7 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 20.0,
-                obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } - player_cam_y as f32,
+                obj_y as f32 + if object.rotation > 145 || object.rotation < -145 { 5.0 } else { 25.0 } + player_cam_y as f32,
                 10.0,
                 10.0,
                 2.0,
@@ -394,7 +394,7 @@ pub fn hitbox_draw(
         if object.id == 15 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset,
-                obj_y - player_cam_y,
+                obj_y + player_cam_y,
                 40.0,
                 40.0,
                 2.0,
