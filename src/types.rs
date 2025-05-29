@@ -45,6 +45,7 @@ pub struct TextBox {
 }
 
 #[allow(dead_code)]
+#[derive(Clone)]
 pub struct ObjectStruct {
     pub x: i32,
     pub y: i32,
