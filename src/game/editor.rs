@@ -46,13 +46,28 @@ pub fn keybind_handler(
     }
 
     if is_key_pressed(KeyCode::D) {
-        let mut obj_index = 0;
-        while obj_index < object_grid.len() {
-            if object_grid[obj_index].selected {
-                object_grid[obj_index].x += 40;
-                obj_index += 1;
-            } else {
-                obj_index += 1;
+        if is_key_down(KeyCode::LeftAlt) {
+            for object in object_grid.iter_mut() {
+                object.selected = false;
+            }
+        } else if is_key_down(KeyCode::LeftControl) {
+            let mut duplicates = vec![];
+            for object in &mut *object_grid {
+                if object.selected {
+                    duplicates.push(object.clone());
+                    object.selected = false;
+                }
+            }
+            object_grid.extend(duplicates);
+        } else {
+            let mut obj_index = 0;
+            while obj_index < object_grid.len() {
+                if object_grid[obj_index].selected {
+                    object_grid[obj_index].x += 40;
+                    obj_index += 1;
+                } else {
+                    obj_index += 1;
+                }
             }
         }
     }
