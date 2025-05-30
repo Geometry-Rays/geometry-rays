@@ -513,12 +513,13 @@ async fn main() {
     let mut on_pad: bool = false;
     let mut player_trail: Vec<Vec2> = vec![];
     let mut stars: u32 = 0;
-    let mut username: String = "".to_string();
-    let mut password: String = "".to_string();
+    let mut username: String = "0".to_string();
+    let mut password: String = "0".to_string();
     let mut logged_in: bool = false;
     let mut current_difficulty: u8 = 0;
     let mut bg_offset: f32 = 0.0;
     let mut current_mode: String = "1".to_string();
+    let mut online_levels_beaten: Vec<u16> = vec![];
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -562,6 +563,23 @@ async fn main() {
         }
     }
 
+    // This handles changing save.txt to the default save file if it isn't already a save file
+    let default_save_file: String = "stars:0;user:0;pass:0;;;0:0;1:0;2:0;3:0;4:0;;;0".to_string();
+    match std::fs::read_to_string("./save-data/save.txt") {
+        Ok(save_file) => {
+            if !save_file.starts_with("stars:") {
+                let _ = std::fs::write(
+                    "./save-data/save.txt",
+                    default_save_file
+                );
+            }
+        }
+
+        Err(error) => {
+            println!("{}", error);
+        }
+    }
+
     // Values for server responses
     let mut level_download_response: String = "".to_string();
     let mut online_level_name: String = "".to_string();
@@ -573,6 +591,72 @@ async fn main() {
     let mut show_level_not_found: bool = false;
     let mut login_response: String = "".to_string();
     let mut level_upload_response: String = "".to_string();
+
+    let save_file: String = std::fs::read_to_string("./save-data/save.txt")
+        .expect("Failed to load save file");
+
+    println!("Loading save data...");
+    // Totally not copied from the old client at all
+    let values_levels: Vec<&str> = save_file.split(";;;").collect();
+    let save_pairs: Vec<&str> = values_levels[0].split(";").collect();
+    let levels_completed: Vec<&str> = values_levels[1].split(";").collect();
+    let online_levels_completed: Vec<&str> = values_levels[2].split(";").collect();
+    for pair in save_pairs {
+        let key_value: Vec<&str> = pair.split(":").collect();
+
+        if key_value[0] == "stars" {
+            stars = key_value[1].parse::<u32>().unwrap();
+        }
+
+        if key_value[0] == "user" {
+            if key_value[1] != "0" {
+                username = key_value[1].to_string();
+            }
+        }
+
+        if key_value[0] == "pass" {
+            if key_value[1] != "0" {
+                password = key_value[1].to_string();
+            }
+        }
+    }
+
+    // This is for checking what main levels you have completed
+    let level_index: u8 = 0;
+    for level in levels_completed {
+        let key_value: Vec<&str> = level.split(":").collect();
+        if key_value[1] == "1" {
+            main_levels[level_index as usize].completed = true
+        }
+    }
+
+    // This is for checking what online levels you have completed
+    for level in online_levels_completed {
+        online_levels_beaten.push(level.parse().unwrap());
+    }
+
+    // This is for auto login
+    // Auto login only runs if you have already logged in using the login page
+    if username != "0" && password != "0" {
+        println!("Logging in...");
+        login_response = ureq::post(&login_url)
+            .send_form([
+                ("user", &username),
+                ("pass", &password),
+            ])
+            .unwrap()
+            .into_body()
+            .read_to_string()
+            .unwrap();
+
+        if login_response == "Logged in!" {
+            logged_in = true;
+            // TODO: Add level rating to fyre
+            // if username == "Puppet" {
+            //     is_mod = true
+            // }
+        }
+    }
 
     println!("Loading mods...");
     let mod_paths_kinda = std::fs::read_dir("./mods").unwrap();
@@ -2145,4 +2229,32 @@ async fn main() {
             std::thread::sleep(sleep_time);
         }
     }
+
+    let mut save_string = format!(
+        "stars:{};user:{};pass:{};;;",
+
+        stars,
+        username,
+        password
+    );
+
+    let mut saving_index: u8 = 0;
+    for main_level in main_levels {
+        if main_level.completed {
+            save_string.push_str(&format!("{}:1;", saving_index));
+        } else {
+            save_string.push_str(&format!("{}:0;", saving_index));
+        }
+
+        saving_index += 1
+    }
+
+    save_string.push_str(";;0;");
+    for id in online_levels_beaten.iter().skip(1) {
+        save_string.push_str(&format!("{};", id));
+    }
+
+    save_string.pop();
+
+    let _ = std::fs::write("./save-data/save.txt", save_string);
 }
