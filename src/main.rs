@@ -838,6 +838,7 @@ async fn main() {
                     movement_speed.0.set(default_movement_speed.0.get());
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
+                    player_cam_y = 0.0;
                     kill_player = false;
                     player_trail.clear();
                     restart_audio(&sink);
@@ -870,6 +871,7 @@ async fn main() {
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
                     level_mode = 1;
+                    player_cam_y = 0.0;
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
@@ -1088,6 +1090,7 @@ async fn main() {
                     gravity.0.set(default_gravity.0.get());
                     jump_force.0.set(default_jump_force.0.get());
                     level_mode = 1;
+                    player_cam_y = 0.0;
                     player_trail.clear();
 
                     stop_audio(&sink);
