@@ -33,7 +33,11 @@ pub fn hitbox_collision(
     main_levels: &mut Vec<MainLevel>,
     level_mode: u8,
     current_level: u8,
-    current_mode: String
+    current_mode: String,
+    online_levels_beaten: &mut Vec<u16>,
+    online_level_diff: u8,
+    online_level_rated: bool,
+    level_id: u16
 ) {
     for object in obj_grid {
         let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
@@ -251,6 +255,9 @@ pub fn hitbox_collision(
                     if level_mode == 1 && !main_levels[current_level as usize].completed {
                         main_levels[current_level as usize].completed = true;
                         *stars += main_levels[current_level as usize].difficulty as u32
+                    } else if level_mode == 3 && !online_levels_beaten.contains(&level_id) && online_level_rated {
+                        online_levels_beaten.push(level_id);
+                        *stars += online_level_diff as u32
                     }
                     game_state.set(GameState::LevelComplete)
                 }

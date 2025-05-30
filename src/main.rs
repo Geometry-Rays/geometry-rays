@@ -871,7 +871,11 @@ async fn main() {
                     &mut main_levels,
                     level_mode,
                     current_level,
-                    current_mode.clone()
+                    current_mode.clone(),
+                    &mut online_levels_beaten,
+                    online_level_diff,
+                    online_level_rated,
+                    level_id_textbox.input.parse().unwrap(),
                 );
 
                 match current_gamemode {
