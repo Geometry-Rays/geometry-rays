@@ -875,7 +875,7 @@ async fn main() {
                     &mut online_levels_beaten,
                     online_level_diff,
                     online_level_rated,
-                    level_id_textbox.input.parse().unwrap(),
+                    if level_id_textbox.input == "" { 0 } else { level_id_textbox.input.parse().unwrap() },
                 );
 
                 match current_gamemode {
