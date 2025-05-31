@@ -622,12 +622,14 @@ async fn main() {
     }
 
     // This is for checking what main levels you have completed
-    let level_index: u8 = 0;
+    let mut level_index: u8 = 0;
     for level in levels_completed {
         let key_value: Vec<&str> = level.split(":").collect();
         if key_value[1] == "1" {
             main_levels[level_index as usize].completed = true
         }
+
+        level_index += 1;
     }
 
     // This is for checking what online levels you have completed
