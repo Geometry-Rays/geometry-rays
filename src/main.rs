@@ -905,7 +905,8 @@ async fn main() {
                             &mut on_ground,
                             &velocity_y.0,
                             &gravity.0,
-                            &mut player.y
+                            &jump_force.0,
+                            &mut player.y,
                         );
                     }
 
