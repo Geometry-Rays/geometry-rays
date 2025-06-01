@@ -1619,11 +1619,11 @@ async fn main() {
                     &main_levels[current_level as usize].name,
                     screen_width() / 2.0 - measure_text_ex(
                         &main_levels[current_level as usize].name,
-                        40,
+                        25,
                         &font
                     ) / 2.0,
                     100.0,
-                    40,
+                    25,
                     RED,
                     &font
                 );
