@@ -1777,20 +1777,22 @@ async fn main() {
 
             GameState::Editor => {
                 // Draws the background
-                draw_texture_ex(
-                    &default_bg,
-                    0.0,
-                    0.0,
-                    cc_1001,
-                    DrawTextureParams {
-                        dest_size: None,
-                        source: None,
-                        rotation: 0.0,
-                        flip_x: false,
-                        flip_y: false,
-                        pivot: None
-                    }
-                );
+                for i in -1..2 {
+                    draw_texture_ex(
+                        &default_bg,
+                        (i * 1920) as f32 - (cam_pos_x % 1920.0),
+                        0.0,
+                        cc_1001,
+                        DrawTextureParams {
+                            dest_size: None,
+                            source: None,
+                            rotation: 0.0,
+                            flip_x: false,
+                            flip_y: false,
+                            pivot: None
+                        }
+                    );
+                }
 
                 // Draws the ground
                 for i in -1..screen_width() as i32 / 160 + 2 {
