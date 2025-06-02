@@ -2075,9 +2075,9 @@ async fn main() {
             GameState::LevelPage => {
                 draw_text_pro(
                     &online_level_name,
-                    screen_width() / 2.0 - measure_text_ex(&online_level_name, 50, &font) / 2.0,
+                    screen_width() / 2.0 - measure_text_ex(&online_level_name, 30, &font) / 2.0,
                     150.0,
-                    50,
+                    30,
                     WHITE,
                     &font
                 );
