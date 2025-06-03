@@ -945,7 +945,7 @@ async fn main() {
                     on_pad = false;
                 }
 
-                if level_mode == 2 {
+                if level_mode == 2 || current_gamemode == GameMode::Wave {
                     player_trail.push(vec2(
                         player.x + world_offset,
                         player.y - player_cam_y
@@ -1749,10 +1749,19 @@ async fn main() {
                     );
                 }
 
-                if level_mode == 2 {
+                if level_mode == 2 || current_gamemode == GameMode::Wave {
                     for point in &player_trail {
                         if point.x - world_offset > -10.0 {
-                            draw_circle(point.x - world_offset, point.y + player_cam_y, 5.0, LIME);
+                            draw_circle(
+                                point.x - world_offset,
+                                point.y + player_cam_y,
+                                5.0,
+                                if level_mode != 2 {
+                                    Color::from_rgba(0, 0, 255, 255)
+                                } else {
+                                    LIME
+                                }
+                            );
                         }
                     }
                 }

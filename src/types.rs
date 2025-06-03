@@ -75,6 +75,7 @@ pub struct MainLevel {
     pub data: String
 }
 
+#[derive(PartialEq)]
 pub enum GameMode {
     Cube,
     Ship,
