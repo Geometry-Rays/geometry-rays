@@ -506,6 +506,7 @@ impl GameState {
             GameState::LevelPage => return "LevelPage".to_string(),
             GameState::AccountPage => return "AccountPage".to_string(),
             GameState::LevelUpload => return "LevelUpload".to_string(),
+            GameState::EditorKeybinds => return "EditorKeybinds".to_string(),
         }
     }
 }

@@ -105,6 +105,16 @@ async fn main() {
         false
     );
 
+    let mut editor_keybinds_button = Button::new(
+        || screen_width() - 210.0,
+        || 10.0,
+        || 200.0,
+        || 100.0,
+        "Editor Keybinds",
+        15,
+        false
+    );
+
     let mut build_tab_button = Button::new(
         || 15.0,
         || screen_height() - 190.0,
@@ -994,6 +1004,7 @@ async fn main() {
 
             GameState::CreatorMenu => {
                 back_button.update(delta_time);
+                editor_keybinds_button.update(delta_time);
 
                 featured_button.update(delta_time);
                 create_button.update(delta_time);
@@ -1001,6 +1012,10 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu)
+                }
+
+                if editor_keybinds_button.is_clicked() {
+                    game_state.0.set(GameState::EditorKeybinds);
                 }
 
                 if create_button.is_clicked() {
@@ -1511,6 +1526,14 @@ async fn main() {
                 level_name_textbox.input();
                 level_desc_textbox.input();
             }
+
+            GameState::EditorKeybinds => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::CreatorMenu);
+                }
+            }
         }
 
         // Drawing
@@ -1779,6 +1802,7 @@ async fn main() {
 
             GameState::CreatorMenu => {
                 back_button.draw(false, None, 1.0, false, &font);
+                editor_keybinds_button.draw(false, None, 1.0, false, &font);
                 featured_button.draw(false, None, 1.0, false, &font);
                 create_button.draw(false, None, 1.0, false, &font);
                 search_button.draw(false, None, 1.0, false, &font);
@@ -2224,6 +2248,10 @@ async fn main() {
                 upload_button.draw(false, None, 1.0, false, &font);
                 level_name_textbox.draw(&font);
                 level_desc_textbox.draw(&font);
+            }
+
+            GameState::EditorKeybinds => {
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
