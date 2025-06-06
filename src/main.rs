@@ -2252,6 +2252,33 @@ async fn main() {
 
             GameState::EditorKeybinds => {
                 back_button.draw(false, None, 1.0, false, &font);
+
+                draw_text_pro(
+                    "Use WASD to move objects one gridspace",
+                    screen_width() / 2.0 - measure_text_ex("Use WASD to move objects one gridspace!", 20, &font) / 2.0,
+                    200.0,
+                    20,
+                    RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    "Use Shift + WASD to move objects off grid",
+                    screen_width() / 2.0 - measure_text_ex("Use Shift + WASD to move objects off grid!", 20, &font) / 2.0,
+                    250.0,
+                    20,
+                    RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    "Use Q and E to rotate objects 90 degrees",
+                    screen_width() / 2.0 - measure_text_ex("Use Q and E to rotate objects 90 degrees", 20, &font) / 2.0,
+                    300.0,
+                    20,
+                    RED,
+                    &font
+                );
             }
         }
 
