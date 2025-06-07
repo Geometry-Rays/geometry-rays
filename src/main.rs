@@ -2279,6 +2279,24 @@ async fn main() {
                     RED,
                     &font
                 );
+
+                draw_text_pro(
+                    "Use Ctrl + D to duplicate objects",
+                    screen_width() / 2.0 - measure_text_ex("Use Ctrl + D to duplicate objects", 20, &font) / 2.0,
+                    350.0,
+                    20,
+                    RED,
+                    &font
+                );
+
+                draw_text_pro(
+                    "Use Alt + D to deselect all objects",
+                    screen_width() / 2.0 - measure_text_ex("Use Alt + D to deselect all objects", 20, &font) / 2.0,
+                    400.0,
+                    20,
+                    RED,
+                    &font
+                );
             }
         }
 
