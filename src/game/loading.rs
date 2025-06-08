@@ -42,6 +42,7 @@ pub fn load_level(
         "F-ALPHA"
     ];
 
+    *current_mode = "1".to_string();
     obj_grid.clear();
     for pair in metadata_pairs {
         let key: &str = pair.split(":").collect::<Vec<&str>>()[0];
