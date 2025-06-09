@@ -747,7 +747,7 @@ async fn main() {
         let snapped_cam_x = cam_pos_x as i32;
         let snapped_cam_y = cam_pos_y as i32;
         let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
-        let screen_height_range = (screen_height() - 600.0) * (40.0 / (1005.0 - 600.0));
+        let screen_height_range = (screen_height() - 600.0) * (60.0 / (1005.0 - 600.0));
         let snapped_y_bugged = (((mouse_y - (snapped_cam_y * 5)) - (screen_height() - (600.0 + screen_height_range)) as i32) / grid_size as i32) * grid_size as i32;
         let snapped_y: i32 = snapped_y_bugged - if snapped_y_bugged <= -40 { 40 } else { 0 };
 
