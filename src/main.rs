@@ -542,6 +542,8 @@ async fn main() {
     let mut current_mode: String = "1".to_string();
     let mut online_levels_beaten: Vec<u16> = vec![];
     let mut chats: String = "".to_string();
+    let mut chat_timer: Timer = Timer::new(5.0);
+    let (sender, receiver) = crossbeam::channel::bounded::<String>(1);
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -1564,6 +1566,33 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu);
+                }
+
+                if chat_timer.update() {
+                    println!("Thread started");
+
+                    let get_chat_url_clone = get_chat_url.clone();
+                    let thread_sender = sender.clone();
+                    std::thread::spawn(move || {
+                        let chat = ureq::get(get_chat_url_clone)
+                            .call()
+                            .unwrap()
+                            .into_body()
+                            .read_to_string()
+                            .unwrap();
+
+                        thread_sender.send(chat).unwrap();
+                    });
+
+                    match receiver.try_recv() {
+                        Ok(result) => {
+                            chats = result
+                        },
+                        Err(crossbeam::channel::TryRecvError::Empty) => {}
+                        Err(crossbeam::channel::TryRecvError::Disconnected) => {
+                            eprintln!("Channel disconnected");
+                        }
+                    }
                 }
             }
         }
