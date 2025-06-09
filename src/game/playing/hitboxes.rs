@@ -409,6 +409,17 @@ pub fn hitbox_draw(
                 Color::from_rgba(0, 255, 255, 255)
             );
         }
+
+        if object.id == 23 {
+            draw_rectangle_lines(
+                object.x as f32 - world_offset,
+                obj_y + player_cam_y,
+                40.0,
+                40.0,
+                2.0,
+                Color::from_rgba(0, 255, 255, 255)
+            )
+        }
     }
 
     draw_rectangle_lines(player.x, player.y, 40.0, 40.0, 2.0, WHITE);
