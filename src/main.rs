@@ -1987,9 +1987,10 @@ async fn main() {
                         &font
                     );
 
+                    let correct_snapped_y = (screen_height() / 1.15 - 25.0) + (snapped_y as f32 - 500.0) as f32;
                     draw_rectangle_lines(
                         snapped_x as f32 - cam_pos_x * 5.0,
-                        snapped_y as f32 + cam_pos_y * 5.0,
+                        correct_snapped_y + cam_pos_y * 5.0,
                         grid_size as f32,
                         grid_size as f32,
                         2.0,
