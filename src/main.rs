@@ -414,6 +414,7 @@ async fn main() {
     let download_url: String = format!("{}download-level.php", main_url);
     let upload_url: String = format!("{}upload-level.php", main_url).to_string();
     let login_url: String = format!("{}login.php", main_url);
+    let get_chat_url: String = format!("{}get-chats.php", main_url);
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
@@ -540,6 +541,7 @@ async fn main() {
     let mut bg_offset: f32 = 0.0;
     let mut current_mode: String = "1".to_string();
     let mut online_levels_beaten: Vec<u16> = vec![];
+    let mut chats: String = "".to_string();
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -792,6 +794,13 @@ async fn main() {
                 }
 
                 if chat_button.is_clicked() {
+                    chats = ureq::get(&get_chat_url)
+                        .call()
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap();
+
                     game_state.0.set(GameState::ChatMenu);
                 }
 
@@ -2326,6 +2335,22 @@ async fn main() {
 
             GameState::ChatMenu => {
                 back_button.draw(false, None, 1.0, false, &font);
+
+                let lines: Vec<&str> = chats.split('\n').collect();
+                let font_size = 20;
+                let mut y = 150.0;
+
+                for line in lines {
+                    draw_text_pro(
+                        line,
+                        screen_width() / 2.0 - measure_text_ex(line, font_size, &font) / 2.0,
+                        y,
+                        font_size,
+                        WHITE,
+                        &font
+                    );
+                    y += font_size as f32 + 20.0;
+                }
             }
         }
 
