@@ -295,11 +295,21 @@ async fn main() {
     );
 
     let mut account_button = Button::new(
-        || screen_width() as f32 - 210.0,
+        || screen_width() - 210.0,
         || 10.0,
         || 200.0,
         || 100.0,
         "Account",
+        20,
+        false
+    );
+
+    let mut chat_button = Button::new(
+        || screen_width() - 210.0,
+        || screen_height() - 110.0,
+        || 200.0,
+        || 100.0,
+        "Chat",
         20,
         false
     );
@@ -767,6 +777,7 @@ async fn main() {
                 play_button.update(delta_time);
                 creator_button.update(delta_time);
                 account_button.update(delta_time);
+                chat_button.update(delta_time);
 
                 if play_button.is_clicked() {
                     game_state.0.set(GameState::LevelSelect)
@@ -778,6 +789,10 @@ async fn main() {
 
                 if account_button.is_clicked() {
                     game_state.0.set(GameState::AccountPage);
+                }
+
+                if chat_button.is_clicked() {
+                    game_state.0.set(GameState::ChatMenu);
                 }
 
                 if is_key_pressed(KeyCode::Slash) {
@@ -1534,6 +1549,14 @@ async fn main() {
                     game_state.0.set(GameState::CreatorMenu);
                 }
             }
+
+            GameState::ChatMenu => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::Menu);
+                }
+            }
         }
 
         // Drawing
@@ -1618,6 +1641,7 @@ async fn main() {
                 play_button.draw(false, None, 1.0, false, &font);
                 creator_button.draw(false, None, 1.0, false, &font);
                 account_button.draw(false, None, 1.0, false, &font);
+                chat_button.draw(false, None, 1.0, false, &font);
             }
 
             GameState::LevelSelect => {
@@ -2298,6 +2322,10 @@ async fn main() {
                     RED,
                     &font
                 );
+            }
+
+            GameState::ChatMenu => {
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
