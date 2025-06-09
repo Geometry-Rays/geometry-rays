@@ -363,7 +363,8 @@ pub fn hitbox_draw(
         }
 
         if object.id == 4
-        || object.id == 22 {
+        || object.id == 22
+        || object.id == 26 {
             draw_rectangle_lines(
                 object.x as f32 - 10.0 - world_offset,
                 obj_y as f32 - 10.0 + player_cam_y as f32,
