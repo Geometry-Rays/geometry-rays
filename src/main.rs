@@ -47,7 +47,7 @@ async fn main() {
         || screen_width() as f32 / 2.0 - 100.0,
         || screen_height() as f32 / 2.0 - 50.0,
         || 200.0,
-        || 100.0,
+        || 70.0,
         "Play",
         20,
         false
@@ -55,9 +55,9 @@ async fn main() {
 
     let mut creator_button = Button::new(
         || screen_width() as f32 / 2.0 - 100.0,
-        || screen_height() as f32 / 2.0 + 70.0,
+        || screen_height() as f32 / 2.0 + 30.0,
         || 200.0,
-        || 100.0,
+        || 70.0,
         "Custom Levels",
         15,
         false
@@ -298,17 +298,17 @@ async fn main() {
         || screen_width() - 210.0,
         || 10.0,
         || 200.0,
-        || 100.0,
+        || 70.0,
         "Account",
         20,
         false
     );
 
     let mut chat_button = Button::new(
-        || screen_width() - 210.0,
-        || screen_height() - 110.0,
+        || 10.0,
+        || screen_height() - 80.0,
         || 200.0,
-        || 100.0,
+        || 70.0,
         "Chat",
         20,
         false
