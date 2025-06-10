@@ -544,6 +544,8 @@ async fn main() {
     let mut chats: String = "".to_string();
     let mut chat_timer: Timer = Timer::new(5.0);
     let (sender, receiver) = crossbeam::channel::bounded::<String>(1);
+    let old_theme: bool = false;
+    let menu_text_color: Color = if old_theme { WHITE } else { RED };
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
     let mut cc_1002: Color = Color::new(0.0, 0.0, 0.3, 1.0);
@@ -1604,7 +1606,11 @@ async fn main() {
             &default_bg_no_gradient,
             -50.0,
             -75.0,
-            Color::from_rgba(20, 20, 20, 255),
+            if old_theme {
+                Color::from_rgba(50, 50, 50, 255)
+            } else {
+                Color::from_rgba(20, 20, 20, 255)
+            },
             DrawTextureParams {
                 dest_size: Some(Vec2 {
                     x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
@@ -1625,25 +1631,27 @@ async fn main() {
                     screen_width() as f32 / 2.0 - measure_text_ex("Geometry Rays", 40, &font) / 2.0,
                     100.0 + screen_height() as f32 / 7.0,
                     40,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
-                draw_text_pro(
-                    "Fyre",
-                    screen_width() as f32 / 2.0 - measure_text_ex("Fyre", 20, &font) / 2.0,
-                    150.0 + screen_height() as f32 / 7.0,
-                    20,
-                    ORANGE,
-                    &font
-                );
+                if !old_theme {
+                    draw_text_pro(
+                        "Fyre",
+                        screen_width() as f32 / 2.0 - measure_text_ex("Fyre", 20, &font) / 2.0,
+                        150.0 + screen_height() as f32 / 7.0,
+                        20,
+                        ORANGE,
+                        &font
+                    );
+                }
 
                 draw_text_pro(
                     &format!("Version: {}", version),
                     20.0,
                     40.0,
                     15,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -1652,7 +1660,7 @@ async fn main() {
                     20.0,
                     70.0,
                     15,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -1661,7 +1669,7 @@ async fn main() {
                     20.0,
                     100.0,
                     15,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -1688,7 +1696,7 @@ async fn main() {
                     10.0,
                     screen_height() - 35.0,
                     15,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -1697,7 +1705,7 @@ async fn main() {
                     10.0,
                     screen_height() - 10.0,
                     15,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -1710,7 +1718,7 @@ async fn main() {
                     ) / 2.0,
                     100.0,
                     25,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -1719,7 +1727,7 @@ async fn main() {
                     200.0,
                     350.0,
                     40,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2102,7 +2110,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex("Level Complete!", 40, &font) / 2.0,
                     200.0,
                     40,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2160,7 +2168,7 @@ async fn main() {
                         screen_width() / 2.0 - measure_text_ex(&level_download_response, 30, &font) / 2.0,
                         screen_height() / 2.0,
                         30,
-                        RED,
+                        WHITE,
                         &font
                     );
                 }
@@ -2269,7 +2277,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
                     200.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2285,7 +2293,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex(&level_upload_response, 20, &font) / 2.0,
                     100.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2321,7 +2329,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex("Use WASD to move objects one gridspace!", 20, &font) / 2.0,
                     200.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2330,7 +2338,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex("Use Shift + WASD to move objects off grid!", 20, &font) / 2.0,
                     250.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2339,7 +2347,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex("Use Q and E to rotate objects 90 degrees", 20, &font) / 2.0,
                     300.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2348,7 +2356,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex("Use Ctrl + D to duplicate objects", 20, &font) / 2.0,
                     350.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
 
@@ -2357,7 +2365,7 @@ async fn main() {
                     screen_width() / 2.0 - measure_text_ex("Use Alt + D to deselect all objects", 20, &font) / 2.0,
                     400.0,
                     20,
-                    RED,
+                    menu_text_color,
                     &font
                 );
             }
@@ -2375,7 +2383,7 @@ async fn main() {
                         screen_width() / 2.0 - measure_text_ex(line, font_size, &font) / 2.0,
                         y,
                         font_size,
-                        WHITE,
+                        menu_text_color,
                         &font
                     );
                     y += font_size as f32 + 20.0;
