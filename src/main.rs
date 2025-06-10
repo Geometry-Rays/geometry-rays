@@ -1642,7 +1642,7 @@ async fn main() {
                     &format!("Version: {}", version),
                     20.0,
                     40.0,
-                    20,
+                    15,
                     RED,
                     &font
                 );
@@ -1650,8 +1650,8 @@ async fn main() {
                 draw_text_pro(
                     &format!("Latest Version: {}", latest_version),
                     20.0,
-                    80.0,
-                    20,
+                    70.0,
+                    15,
                     RED,
                     &font
                 );
@@ -1659,8 +1659,8 @@ async fn main() {
                 draw_text_pro(
                     &format!("Stars: {}", stars),
                     20.0,
-                    120.0,
-                    20,
+                    100.0,
+                    15,
                     RED,
                     &font
                 );
