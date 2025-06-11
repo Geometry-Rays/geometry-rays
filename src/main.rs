@@ -1582,7 +1582,7 @@ async fn main() {
                 }
 
                 if chat_timer.update() {
-                    println!("Thread started");
+                    // println!("Thread started");
 
                     let get_chat_url_clone = get_chat_url.clone();
                     let thread_sender = sender.clone();
