@@ -418,6 +418,17 @@ async fn main() {
         false
     );
 
+    let mut chat_textbox = TextBox::new(
+        || 10.0,
+        || screen_height() - 80.0,
+        || screen_width() - 150.0,
+        || 70.0,
+        "Message",
+        13,
+        50,
+        true
+    );
+
     // Url's for server requests
     let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
@@ -1576,6 +1587,7 @@ async fn main() {
             GameState::ChatMenu => {
                 back_button.update(delta_time);
                 send_chat_button.update(delta_time);
+                chat_textbox.input();
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu);
@@ -2384,6 +2396,7 @@ async fn main() {
             GameState::ChatMenu => {
                 back_button.draw(false, None, 1.0, false, &font);
                 send_chat_button.draw(false, None, 1.0, false, &font);
+                chat_textbox.draw(&font);
 
                 let lines: Vec<&str> = chats.split('\n').collect();
                 let font_size = 20;
