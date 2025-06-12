@@ -109,7 +109,7 @@ async fn main() {
         || screen_width() - 210.0,
         || 10.0,
         || 200.0,
-        || 100.0,
+        || 70.0,
         "Editor Keybinds",
         15,
         false
