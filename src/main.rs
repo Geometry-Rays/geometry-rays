@@ -136,49 +136,49 @@ async fn main() {
     );
 
     let mut editor_back_button = Button::new(
-        || screen_width() - 160.0,
+        || screen_width() - 120.0,
         || 20.0,
-        || 150.0,
-        || 75.0,
+        || 100.0,
+        || 100.0,
         "Back",
         15,
         false
     );
 
     let mut editor_save_button = Button::new(
-        || screen_width() - 160.0,
-        || 105.0,
-        || 150.0,
-        || 75.0,
+        || screen_width() - 240.0,
+        || 20.0,
+        || 100.0,
+        || 100.0,
         "Save",
         15,
         false
     );
 
     let mut editor_options_button = Button::new(
-        || screen_width() - 160.0,
-        || 190.0,
-        || 150.0,
-        || 75.0,
+        || screen_width() - 120.0,
+        || 140.0,
+        || 100.0,
+        || 100.0,
         "Options",
         15,
         false
     );
 
     let mut editor_upload_button = Button::new(
-        || screen_width() - 160.0,
-        || 275.0,
-        || 150.0,
-        || 75.0,
+        || screen_width() - 240.0,
+        || 140.0,
+        || 100.0,
+        || 100.0,
         "Upload",
         15,
         false
     );
 
     let mut edit_obj_button = Button::new(
-        || screen_width() - 329.0,
-        || 20.0,
-        || 150.0,
+        || screen_width() - 240.0,
+        || 260.0,
+        || 220.0,
         || 75.0,
         "Edit Obj",
         15,
