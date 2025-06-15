@@ -436,6 +436,7 @@ async fn main() {
     let upload_url: String = format!("{}upload-level.php", main_url).to_string();
     let login_url: String = format!("{}login.php", main_url);
     let get_chat_url: String = format!("{}get-chats.php", main_url);
+    let send_chat_url: String = format!("{}send-chat.php", main_url);
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
@@ -638,6 +639,7 @@ async fn main() {
     let mut show_level_not_found: bool = false;
     let mut login_response: String = "".to_string();
     let mut level_upload_response: String = "".to_string();
+    let mut send_chat_response: String = "".to_string();
 
     let save_file: String = std::fs::read_to_string("./save-data/save.txt")
         .expect("Failed to load save file");
@@ -1593,7 +1595,19 @@ async fn main() {
                     game_state.0.set(GameState::Menu);
                 }
 
-                if send_chat_button.is_clicked() {
+                if send_chat_button.is_clicked()
+                && chat_textbox.input.len() > 0
+                && logged_in {
+                    send_chat_response = ureq::post(&send_chat_url)
+                        .send_form([
+                            ("user", username.clone()),
+                            ("msg", chat_textbox.input)
+                        ])
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap();
+
                     chat_textbox.input = "".to_string();
                 }
 
@@ -2401,6 +2415,17 @@ async fn main() {
                 back_button.draw(false, None, 1.0, false, &font);
                 send_chat_button.draw(false, None, 1.0, false, &font);
                 chat_textbox.draw(&font);
+
+                if debug_mode {
+                    draw_text_pro(
+                        &send_chat_response,
+                        20.0,
+                        105.0,
+                        20,
+                        GREEN,
+                        &font
+                    );
+                }
 
                 let lines: Vec<&str> = chats.split('\n').collect();
                 let font_size = 20;
