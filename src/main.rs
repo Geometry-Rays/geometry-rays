@@ -1593,6 +1593,10 @@ async fn main() {
                     game_state.0.set(GameState::Menu);
                 }
 
+                if send_chat_button.is_clicked() {
+                    chat_textbox.input = "".to_string();
+                }
+
                 if chat_timer.update() {
                     // println!("Thread started");
 
