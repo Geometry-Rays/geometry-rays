@@ -187,7 +187,7 @@ async fn main() {
 
     let mut editor_playtest_button = Button::new(
         || 20.0,
-        || screen_height() / 2.0 - 65.0,
+        || 50.0,
         || 130.0,
         || 130.0,
         "Playtest",
