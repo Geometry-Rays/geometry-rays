@@ -2429,7 +2429,7 @@ async fn main() {
 
                 let lines: Vec<&str> = chats.split('\n').collect();
                 let font_size = 20;
-                let mut y = 150.0;
+                let mut y = 100.0;
 
                 for line in lines {
                     draw_text_pro(
