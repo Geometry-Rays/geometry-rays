@@ -485,7 +485,7 @@ async fn main() {
     let mut level_options_type: u8 = 1;
 
     println!("Getting latest version...");
-    let version: &str = "F-1.0.2";
+    let version: &str = "F-1.1.0";
     let level_version: &str = "F-ALPHA";
     let latest_version: String = ureq::get(latest_version_url)
         .query("fyre", "fyre")
@@ -566,7 +566,7 @@ async fn main() {
     let mut chats: String = "".to_string();
     let mut chat_timer: Timer = Timer::new(5.0);
     let (sender, receiver) = crossbeam::channel::bounded::<String>(1);
-    let old_theme: bool = false;
+    let old_theme: bool = true;
     let menu_text_color: Color = if old_theme { WHITE } else { RED };
 
     let mut cc_1001: Color = Color::new(0.0, 0.0, 0.2, 1.0);
