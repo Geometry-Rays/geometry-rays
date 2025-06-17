@@ -2420,7 +2420,7 @@ async fn main() {
                     draw_text_pro(
                         &send_chat_response,
                         20.0,
-                        105.0,
+                        115.0,
                         20,
                         GREEN,
                         &font
