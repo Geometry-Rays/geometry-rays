@@ -1601,6 +1601,7 @@ async fn main() {
                     send_chat_response = ureq::post(&send_chat_url)
                         .send_form([
                             ("user", username.clone()),
+                            ("pass", password.clone()),
                             ("msg", chat_textbox.input)
                         ])
                         .unwrap()
