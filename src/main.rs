@@ -1627,15 +1627,15 @@ async fn main() {
 
                         thread_sender.send(chat).unwrap();
                     });
+                }
 
-                    match receiver.try_recv() {
-                        Ok(result) => {
-                            chats = result
-                        },
-                        Err(crossbeam::channel::TryRecvError::Empty) => {}
-                        Err(crossbeam::channel::TryRecvError::Disconnected) => {
-                            eprintln!("Channel disconnected");
-                        }
+                match receiver.try_recv() {
+                    Ok(result) => {
+                        chats = result
+                    },
+                    Err(crossbeam::channel::TryRecvError::Empty) => {}
+                    Err(crossbeam::channel::TryRecvError::Disconnected) => {
+                        eprintln!("Channel disconnected");
                     }
                 }
             }
