@@ -4,27 +4,17 @@ set -euo pipefail
 echo Deleting old builds
 cargo clean
 
-echo Building for Linux
-cargo build --target x86_64-unknown-linux-gnu --release
-
-echo Building for Windows
-cargo build --target x86_64-pc-windows-gnu --release
+echo Building...
+cargo build --release
 
 echo Creating folders
 rm -rf Geometry-Rays
 mkdir Geometry-Rays
 
-echo Copying compiled executables
-cp ./target/x86_64-unknown-linux-gnu/release/geometry-rays-fyre ./Geometry-Rays
-cp ./target/x86_64-pc-windows-gnu/release/geometry-rays-fyre.exe ./Geometry-Rays
+echo Copying executable
+cp ./target/release/geometry-rays-fyre ./Geometry-Rays
 
 echo Copying required folders
 cp -r ./Resources ./Geometry-Rays
 cp -r ./mods ./Geometry-Rays
 cp -r ./save-data ./Geometry-Rays
-
-echo Zipping the package
-7z a -tzip Geometry-Rays.zip Geometry-Rays
-
-echo Removing temporary directory
-rm -rf ./Geometry-Rays
