@@ -1,11 +1,10 @@
-# Geometry Rays Fyre
- Geometry Rays Fyre is the official rewrite of geometry rays.
+# Geometry Rays
+ Geometry Rays is a geometry dash fan game made in rust and macroquad.
 
- The geometry rays codebase is a mess and its like impossible to make it fullscreen.
-
- So in a desperate attempt to make the codebase better I'm just starting from the ground up.
-
- The name for the old geometry rays client is now Geometry Rays Legacy.
+# Features
+ - Level editor
+ - Community made levels
+ - Modding support 
 
 # Modding api
  Geometry rays provides an official lua modding api!
