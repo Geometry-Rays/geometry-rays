@@ -39,6 +39,7 @@ async fn main() {
     // This just loads the font used for the game.
     let font: Font = load_ttf_font("./Resources/Acme 9 Regular.ttf").await.unwrap();
 
+    // This sets up audio output
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
     let sink = rodio_raw::Sink::try_new(&stream_handle).unwrap();
 
