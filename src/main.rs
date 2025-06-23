@@ -712,23 +712,23 @@ async fn main() {
 
     println!("Loading mods...");
     let mod_paths_kinda = std::fs::read_dir("./mods").unwrap();
-    let mut mod_contents: Vec<String> = vec![];
     let mut mods: Vec<Table> = vec![];
 
     // Change this to false to disable the mod loader
     let load_mods: bool = true;
 
-    // This just puts the contents of all the lua files in a vec
-    // TODO: Combine the for loops for this and actually loading the mods
+    let lua = mlua::Lua::new();
+
+    // This loads all the mods
     for path in mod_paths_kinda {
         let path_str = path.unwrap().path().to_str().unwrap().to_string();
 
         let mod_content: String = std::fs::read_to_string(path_str).unwrap();
 
-        mod_contents.push(mod_content.clone());
-    }
+        let lua_mod: Table = lua.load(mod_content).eval().unwrap();
 
-    let lua = mlua::Lua::new();
+        mods.push(lua_mod);
+    }
 
     // Exposing stuff to lua
     lua.globals().set("velocity_y", velocity_y.clone()).unwrap();
@@ -751,13 +751,6 @@ async fn main() {
     }).unwrap();
 
     lua.globals().set("draw_text", draw_text_lua_func).unwrap();
-
-    // Loads the lua mods
-    for mod_data in mod_contents {
-        let lua_mod: Table = lua.load(mod_data).eval().unwrap();
-
-        mods.push(lua_mod);
-    }
 
     // This runs all of the setup functions of all the mods
     for lua_mod in mods.clone() {
