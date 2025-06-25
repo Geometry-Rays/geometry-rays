@@ -13,7 +13,7 @@ return {
 
     draw = function ()
         if game_state:get() == "Menu" then
-            draw_text("Low gravity mod!", 10.0, 590.0, 30, 255, 255, 255, 255)
+            draw_text("Low gravity mod!", 10.0, 500.0, 30, 255, 255, 255, 255)
         end
     end
 }
