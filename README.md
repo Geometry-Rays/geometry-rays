@@ -20,4 +20,4 @@
 
  I'm not saying I won't come back but I'm not saying I will.
 
- I don't know how much lncvrt is going to work on georays.
+ I don't know how much lncvrt is going to work on georays if at all.
