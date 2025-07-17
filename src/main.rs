@@ -492,10 +492,6 @@ async fn main() {
     let latest_version_result: Result<Response<ureq::Body>, ureq::Error> = ureq::get(latest_version_url)
         .query("fyre", "fyre")
         .call();
-        // .unwrap()
-        // .into_body()
-        // .read_to_string()
-        // .unwrap();
     let mut latest_version: String = "".to_string();
     println!("{}", latest_version);
 
