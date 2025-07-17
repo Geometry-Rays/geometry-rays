@@ -3,6 +3,7 @@ use std::{cell::Cell, collections::HashMap, rc::Rc};
 use game::{loading::load_level, parsing::parse_level_download_response};
 use macroquad::prelude::*;
 use miniquad::conf::Icon;
+use ureq::http::Response;
 use std::convert::TryInto;
 
 use gr_rodio::rodio_raw::OutputStream;
@@ -488,13 +489,28 @@ async fn main() {
     println!("Getting latest version...");
     let version: &str = "1.1.2";
     let level_version: &str = "F-ALPHA";
-    let latest_version: String = ureq::get(latest_version_url)
+    let latest_version_result: Result<Response<ureq::Body>, ureq::Error> = ureq::get(latest_version_url)
         .query("fyre", "fyre")
-        .call()
-        .unwrap()
-        .into_body()
-        .read_to_string()
-        .unwrap();
+        .call();
+        // .unwrap()
+        // .into_body()
+        // .read_to_string()
+        // .unwrap();
+    let mut latest_version: String = "".to_string();
+    println!("{}", latest_version);
+
+    match latest_version_result {
+        Ok(value) => {
+            latest_version = value.into_body().read_to_string().unwrap();
+        }
+
+        Err(error) => {
+            latest_version = error.to_string();
+
+            println!("{}", latest_version);
+        }
+    }
+
     println!("Preparing more values...");
     let default_level: &str = &format!(
         "version:{};song:./Resources/Music/main-level-songs/0.mp3;mode:1;cc_1001:0,0,0.392;cc_1002:0,0,0.392;;;x:400;y:480;rot:0;id:1",
