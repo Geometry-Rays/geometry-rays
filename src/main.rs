@@ -487,7 +487,7 @@ async fn main() {
     let mut level_options_type: u8 = 1;
 
     println!("Getting latest version...");
-    let version: &str = "1.1.2";
+    let version: &str = "1.1.3";
     let level_version: &str = "F-ALPHA";
     let latest_version_result: Result<Response<ureq::Body>, ureq::Error> = ureq::get(latest_version_url)
         .query("fyre", "fyre")
