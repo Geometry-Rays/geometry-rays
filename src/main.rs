@@ -432,7 +432,7 @@ async fn main() {
     );
 
     // Url's for server requests
-    let main_url = "http://georays.puppet57.xyz/php-code/".to_string();
+    let main_url = "https://georays.puppet57.xyz/php-code/".to_string();
     let latest_version_url: String = format!("{}get-latest-version.php", main_url).to_string();
     let download_url: String = format!("{}download-level.php", main_url);
     let upload_url: String = format!("{}upload-level.php", main_url).to_string();
