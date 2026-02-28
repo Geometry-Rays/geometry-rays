@@ -131,6 +131,7 @@ pub fn keybind_handler(
     }
 }
 
+// PED stands for Place, Edit, Delete
 pub fn object_ped(
     object_grid: &mut Vec<ObjectStruct>,
 
