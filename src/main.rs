@@ -30,6 +30,8 @@ fn window_conf() -> Conf {
 
     Conf {
         window_title: "Geometry Rays".into(),
+        window_width: 1280,
+        window_height: 720,
         icon: Some(Icon { small, medium, big }),
         ..Default::default()
     }
@@ -46,8 +48,8 @@ async fn main() {
 
     // Buttons
     let mut play_button = Button::new(
-        || screen_width() as f32 / 2.0 - 100.0,
-        || screen_height() as f32 / 2.0 - 50.0,
+        || game_width() as f32 / 2.0 - 100.0,
+        || game_height() as f32 / 2.0 - 50.0,
         || 200.0,
         || 70.0,
         "Play",
@@ -56,8 +58,8 @@ async fn main() {
     );
 
     let mut creator_button = Button::new(
-        || screen_width() as f32 / 2.0 - 100.0,
-        || screen_height() as f32 / 2.0 + 30.0,
+        || game_width() as f32 / 2.0 - 100.0,
+        || game_height() as f32 / 2.0 + 30.0,
         || 200.0,
         || 70.0,
         "Custom Levels",
@@ -78,8 +80,8 @@ async fn main() {
     let creator_menu_button_gap: f32 = 115.0;
 
     let mut featured_button = Button::new(
-        || screen_width() / 2.0 - 100.0,
-        || screen_height() / 2.0 - 100.0,
+        || game_width() / 2.0 - 100.0,
+        || game_height() / 2.0 - 100.0,
         || 200.0,
         || 200.0,
         "Featured",
@@ -88,8 +90,8 @@ async fn main() {
     );
 
     let mut create_button = Button::new(
-        move || screen_width() / 2.0 - creator_menu_button_gap - 200.0,
-        || screen_height() / 2.0 - 100.0,
+        move || game_width() / 2.0 - creator_menu_button_gap - 200.0,
+        || game_height() / 2.0 - 100.0,
         || 200.0,
         || 200.0,
         "Create",
@@ -98,8 +100,8 @@ async fn main() {
     );
 
     let mut search_button = Button::new(
-        move || screen_width() / 2.0 + creator_menu_button_gap,
-        || screen_height() / 2.0 - 100.0,
+        move || game_width() / 2.0 + creator_menu_button_gap,
+        || game_height() / 2.0 - 100.0,
         || 200.0,
         || 200.0,
         "Search",
@@ -108,7 +110,7 @@ async fn main() {
     );
 
     let mut editor_keybinds_button = Button::new(
-        || screen_width() - 210.0,
+        || game_width() - 210.0,
         || 10.0,
         || 200.0,
         || 70.0,
@@ -119,7 +121,7 @@ async fn main() {
 
     let mut build_tab_button = Button::new(
         || 15.0,
-        || screen_height() - 190.0,
+        || game_height() - 190.0,
         || 170.0,
         || 80.0,
         "Build",
@@ -129,7 +131,7 @@ async fn main() {
 
     let mut edit_tab_button = Button::new(
         || 15.0,
-        || screen_height() - 100.0,
+        || game_height() - 100.0,
         || 170.0,
         || 80.0,
         "Edit",
@@ -138,7 +140,7 @@ async fn main() {
     );
 
     let mut editor_back_button = Button::new(
-        || screen_width() - 120.0,
+        || game_width() - 120.0,
         || 20.0,
         || 100.0,
         || 100.0,
@@ -148,7 +150,7 @@ async fn main() {
     );
 
     let mut editor_save_button = Button::new(
-        || screen_width() - 240.0,
+        || game_width() - 240.0,
         || 20.0,
         || 100.0,
         || 100.0,
@@ -158,7 +160,7 @@ async fn main() {
     );
 
     let mut editor_options_button = Button::new(
-        || screen_width() - 120.0,
+        || game_width() - 120.0,
         || 140.0,
         || 100.0,
         || 100.0,
@@ -168,7 +170,7 @@ async fn main() {
     );
 
     let mut editor_upload_button = Button::new(
-        || screen_width() - 240.0,
+        || game_width() - 240.0,
         || 140.0,
         || 100.0,
         || 100.0,
@@ -178,7 +180,7 @@ async fn main() {
     );
 
     let mut edit_obj_button = Button::new(
-        || screen_width() - 240.0,
+        || game_width() - 240.0,
         || 260.0,
         || 220.0,
         || 75.0,
@@ -198,7 +200,7 @@ async fn main() {
     );
 
     let mut bg_red_textbox = TextBox::new(
-        || screen_width() - 360.0,
+        || game_width() - 360.0,
         || 10.0,
         || 110.0,
         || 50.0,
@@ -209,7 +211,7 @@ async fn main() {
     );
 
     let mut bg_green_textbox = TextBox::new(
-        || screen_width() - 240.0,
+        || game_width() - 240.0,
         || 10.0,
         || 110.0,
         || 50.0,
@@ -220,7 +222,7 @@ async fn main() {
     );
 
     let mut bg_blue_textbox = TextBox::new(
-        || screen_width() - 120.0,
+        || game_width() - 120.0,
         || 10.0,
         || 110.0,
         || 50.0,
@@ -231,7 +233,7 @@ async fn main() {
     );
 
     let mut grnd_red_textbox = TextBox::new(
-        || screen_width() - 360.0,
+        || game_width() - 360.0,
         || 80.0,
         || 110.0,
         || 50.0,
@@ -242,7 +244,7 @@ async fn main() {
     );
 
     let mut grnd_green_textbox = TextBox::new(
-        || screen_width() - 240.0,
+        || game_width() - 240.0,
         || 80.0,
         || 110.0,
         || 50.0,
@@ -253,7 +255,7 @@ async fn main() {
     );
 
     let mut grnd_blue_textbox = TextBox::new(
-        || screen_width() - 120.0,
+        || game_width() - 120.0,
         || 80.0,
         || 110.0,
         || 50.0,
@@ -264,7 +266,7 @@ async fn main() {
     );
 
     let mut level_download_button = Button::new(
-        || screen_width() - 140.0,
+        || game_width() - 140.0,
         || 75.0,
         || 130.0,
         || 75.0,
@@ -274,7 +276,7 @@ async fn main() {
     );
 
     let mut level_id_textbox = TextBox::new(
-        || screen_width() - 140.0,
+        || game_width() - 140.0,
         || 10.0,
         || 130.0,
         || 55.0,
@@ -287,8 +289,8 @@ async fn main() {
 
 
     let mut level_play_button = Button::new(
-        || screen_width() as f32 / 2.0 - 100.0,
-        || screen_height() as f32 / 2.0 - 50.0,
+        || game_width() as f32 / 2.0 - 100.0,
+        || game_height() as f32 / 2.0 - 50.0,
         || 200.0,
         || 100.0,
         "Play",
@@ -297,7 +299,7 @@ async fn main() {
     );
 
     let mut account_button = Button::new(
-        || screen_width() - 210.0,
+        || game_width() - 210.0,
         || 10.0,
         || 200.0,
         || 70.0,
@@ -308,7 +310,7 @@ async fn main() {
 
     let mut chat_button = Button::new(
         || 10.0,
-        || screen_height() - 80.0,
+        || game_height() - 80.0,
         || 200.0,
         || 70.0,
         "Chat",
@@ -317,8 +319,8 @@ async fn main() {
     );
 
     let mut username_textbox = TextBox::new(
-        || screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
-        || screen_height() / 2.0 - 27.5 - 32.5,
+        || game_width() / 2.0 - (20.0 * 18.0) / 2.0,
+        || game_height() / 2.0 - 27.5 - 32.5,
         || 20.0 * 18.0,
         || 55.0,
         "Username",
@@ -328,8 +330,8 @@ async fn main() {
     );
 
     let mut password_textbox = TextBox::new(
-        || screen_width() / 2.0 - (20.0 * 18.0) / 2.0,
-        || screen_height() / 2.0 - 27.5 + 32.5,
+        || game_width() / 2.0 - (20.0 * 18.0) / 2.0,
+        || game_height() / 2.0 - 27.5 + 32.5,
         || 20.0 * 18.0,
         || 55.0,
         "Password",
@@ -339,8 +341,8 @@ async fn main() {
     );
 
     let mut login_button: Button = Button::new(
-        || screen_width() / 2.0 - 100.0,
-        || screen_height() - 200.0,
+        || game_width() / 2.0 - 100.0,
+        || game_height() - 200.0,
         || 200.0,
         || 100.0,
         "Login",
@@ -349,8 +351,8 @@ async fn main() {
     );
 
     let mut level_name_textbox = TextBox::new(
-        || screen_width() as f32 / 2.0 - 20.0 * 30.0 / 1.9 / 2.0,
-        || screen_height() as f32 / 2.0 - 50.0,
+        || game_width() as f32 / 2.0 - 20.0 * 30.0 / 1.9 / 2.0,
+        || game_height() as f32 / 2.0 - 50.0,
         || 20.0 * 30.0 / 1.9,
         || 50.0,
         "Name",
@@ -360,8 +362,8 @@ async fn main() {
     );
 
     let mut level_desc_textbox = TextBox::new(
-        || screen_width() as f32 / 2.0 - 50.0 * 30.0 / 1.9 / 2.0,
-        || screen_height() as f32 / 2.0 + 50.0,
+        || game_width() as f32 / 2.0 - 50.0 * 30.0 / 1.9 / 2.0,
+        || game_height() as f32 / 2.0 + 50.0,
         || 50.0 * 30.0 / 1.9,
         || 50.0,
         "Description",
@@ -371,8 +373,8 @@ async fn main() {
     );
 
     let mut upload_button: Button = Button::new(
-        || screen_width() / 2.0 - 100.0,
-        || screen_height() - 150.0,
+        || game_width() / 2.0 - 100.0,
+        || game_height() - 150.0,
         || 200.0,
         || 100.0,
         "Upload",
@@ -382,7 +384,7 @@ async fn main() {
 
     let mut plat_classic_button = Button::new(
         || 20.0,
-        || screen_height() - 170.0,
+        || game_height() - 170.0,
         || 150.0,
         || 150.0,
         "Classic",
@@ -392,7 +394,7 @@ async fn main() {
 
     let mut bg_color_button = Button::new(
         || 20.0,
-        || screen_height() - 170.0,
+        || game_height() - 170.0,
         || 150.0,
         || 150.0,
         "Bg",
@@ -402,7 +404,7 @@ async fn main() {
 
     let mut grnd_color_button = Button::new(
         || 180.0,
-        || screen_height() - 170.0,
+        || game_height() - 170.0,
         || 150.0,
         || 150.0,
         "Ground",
@@ -411,8 +413,8 @@ async fn main() {
     );
 
     let mut send_chat_button = Button::new(
-        || screen_width() - 130.0,
-        || screen_height() - 80.0,
+        || game_width() - 130.0,
+        || game_height() - 80.0,
         || 120.0,
         || 70.0,
         "Send",
@@ -422,8 +424,8 @@ async fn main() {
 
     let mut chat_textbox = TextBox::new(
         || 10.0,
-        || screen_height() - 80.0,
-        || screen_width() - 150.0,
+        || game_height() - 80.0,
+        || game_width() - 150.0,
         || 70.0,
         "Message",
         13,
@@ -442,7 +444,7 @@ async fn main() {
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
-    let mut player: Rect = Rect { x: 200.0, y: screen_height() / 1.15, w: 40.0, h: 40.0 };
+    let mut player: Rect = Rect { x: 200.0, y: game_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
     let mut small_player = player;
     let mut on_ground: bool = true;
@@ -777,8 +779,19 @@ async fn main() {
 
     println!("Preparing main loop...");
     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
+    let mut fullscreen: bool = false;
     loop {
         let frame_start = std::time::Instant::now();
+
+        // F11 toggles fullscreen, the game stays letterboxed to 16:9 either way
+        if is_key_pressed(KeyCode::F11) {
+            fullscreen = !fullscreen;
+            set_fullscreen(fullscreen);
+        }
+
+        // Draw everything into the centered 16:9 canvas, so the window's aspect
+        // ratio never stretches or squashes the game
+        set_camera(&game_camera());
 
         // This is so if you hit escape in the game then the game loop stops
         if is_key_pressed(KeyCode::Escape) {
@@ -787,13 +800,13 @@ async fn main() {
 
         let delta_time: f32 = get_frame_time();
 
-        let mouse_x = mouse_position().0 as i32;
-        let mouse_y = mouse_position().1 as i32;
+        let mouse_x = game_mouse_position().0 as i32;
+        let mouse_y = game_mouse_position().1 as i32;
         let snapped_cam_x = cam_pos_x as i32;
         let snapped_cam_y = cam_pos_y as i32;
         let snapped_x = ((mouse_x + (snapped_cam_x * 5)) / grid_size as i32) * grid_size as i32;
-        let screen_height_range = (screen_height() - 600.0) * (60.0 / (1005.0 - 600.0));
-        let snapped_y_bugged = (((mouse_y - (snapped_cam_y * 5)) - (screen_height() - (600.0 + screen_height_range)) as i32) / grid_size as i32) * grid_size as i32;
+        let screen_height_range = (game_height() - 600.0) * (60.0 / (1005.0 - 600.0));
+        let snapped_y_bugged = (((mouse_y - (snapped_cam_y * 5)) - (game_height() - (600.0 + screen_height_range)) as i32) / grid_size as i32) * grid_size as i32;
         let snapped_y: i32 = snapped_y_bugged - if snapped_y_bugged <= -40 { 40 } else { 0 };
 
         // This runs the loop function of all the loaded mods
@@ -988,7 +1001,7 @@ async fn main() {
                 }
 
                 if kill_player {
-                    player.y = screen_height() / 1.15;
+                    player.y = game_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
                     cc_1003 = GREEN;
@@ -1020,7 +1033,7 @@ async fn main() {
                 }
 
                 if is_key_pressed(KeyCode::Backspace) {
-                    player.y = screen_height() / 1.15;
+                    player.y = game_height() / 1.15;
                     world_offset = 0.0;
                     current_gamemode = GameMode::Cube;
                     cc_1003 = GREEN;
@@ -1208,14 +1221,14 @@ async fn main() {
                     }
                 }
 
-                if mouse_position().1 < screen_height() - 200.0
+                if game_mouse_position().1 < game_height() - 200.0
                 && is_mouse_button_pressed(MouseButton::Left)
-                && !editor_back_button.rect.contains(mouse_position().into())
-                && !editor_playtest_button.rect.contains(mouse_position().into())
-                && !editor_save_button.rect.contains(mouse_position().into())
-                && !editor_options_button.rect.contains(mouse_position().into())
-                && !editor_upload_button.rect.contains(mouse_position().into())
-                && !edit_obj_button.rect.contains(mouse_position().into()) {
+                && !editor_back_button.rect.contains(game_mouse_position().into())
+                && !editor_playtest_button.rect.contains(game_mouse_position().into())
+                && !editor_save_button.rect.contains(game_mouse_position().into())
+                && !editor_options_button.rect.contains(game_mouse_position().into())
+                && !editor_upload_button.rect.contains(game_mouse_position().into())
+                && !edit_obj_button.rect.contains(game_mouse_position().into()) {
                     editor::object_ped(
                         &mut obj_grid,
                         snapped_x,
@@ -1648,6 +1661,14 @@ async fn main() {
         }
 
         // Drawing
+        // Gameplay is drawn zoomed in so the player and obstacles are bigger,
+        // every other screen uses the plain design space camera
+        if matches!(game_state.0.get(), GameState::Playing) {
+            set_camera(&gameplay_camera());
+        } else {
+            set_camera(&game_camera());
+        }
+
         clear_background(BLACK);
 
         draw_texture_ex(
@@ -1661,8 +1682,8 @@ async fn main() {
             },
             DrawTextureParams {
                 dest_size: Some(Vec2 {
-                    x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                    y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                    x: default_bg_no_gradient.width() * game_width() as f32 * 0.0008,
+                    y: default_bg_no_gradient.height() * game_width() as f32 * 0.0008
                 }),
                 source: None,
                 rotation: 0.0,
@@ -1676,8 +1697,8 @@ async fn main() {
             GameState::Menu => {
                 draw_text_pro(
                     "Geometry Rays",
-                    screen_width() as f32 / 2.0 - measure_text_ex("Geometry Rays", 40, &font) / 2.0,
-                    100.0 + screen_height() as f32 / 7.0,
+                    game_width() as f32 / 2.0 - measure_text_ex("Geometry Rays", 40, &font) / 2.0,
+                    100.0 + game_height() as f32 / 7.0,
                     40,
                     menu_text_color,
                     &font
@@ -1686,8 +1707,8 @@ async fn main() {
                 if !old_theme {
                     draw_text_pro(
                         "Fyre",
-                        screen_width() as f32 / 2.0 - measure_text_ex("Fyre", 20, &font) / 2.0,
-                        150.0 + screen_height() as f32 / 7.0,
+                        game_width() as f32 / 2.0 - measure_text_ex("Fyre", 20, &font) / 2.0,
+                        150.0 + game_height() as f32 / 7.0,
                         20,
                         ORANGE,
                         &font
@@ -1724,8 +1745,8 @@ async fn main() {
                 if cfg!(debug_assertions) {
                     draw_text_pro(
                         "Developer Build",
-                        screen_width() - measure_text_ex("Developer Build", 30, &font) - 10.0,
-                        screen_height() - 10.0,
+                        game_width() - measure_text_ex("Developer Build", 30, &font) - 10.0,
+                        game_height() - 10.0,
                         30,
                         GREEN,
                         &font
@@ -1742,7 +1763,7 @@ async fn main() {
                 draw_text_pro(
                     &format!("Creator: {}", &main_levels[current_level as usize].creator),
                     10.0,
-                    screen_height() - 35.0,
+                    game_height() - 35.0,
                     15,
                     menu_text_color,
                     &font
@@ -1751,7 +1772,7 @@ async fn main() {
                 draw_text_pro(
                     &format!("Artist: {}", &main_levels[current_level as usize].artist),
                     10.0,
-                    screen_height() - 10.0,
+                    game_height() - 10.0,
                     15,
                     menu_text_color,
                     &font
@@ -1759,7 +1780,7 @@ async fn main() {
 
                 draw_text_pro(
                     &main_levels[current_level as usize].name,
-                    screen_width() / 2.0 - measure_text_ex(
+                    game_width() / 2.0 - measure_text_ex(
                         &main_levels[current_level as usize].name,
                         25,
                         &font
@@ -1831,7 +1852,7 @@ async fn main() {
                 );
 
                 for object in &obj_grid {
-                    let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+                    let obj_y = (game_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
 
                     if !hidden_obj_types.contains(&object.id) {
                         let rotation_f32: f32 = object.rotation as f32;
@@ -1870,11 +1891,11 @@ async fn main() {
                 }
 
                 // Draws the ground
-                for i in -1..screen_width() as i32 / 160 + 2 {
+                for i in -1..game_width() as i32 / 160 + 2 {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0 - (world_offset % 155.0),
-                        screen_height() / 1.15 + player_cam_y,
+                        game_height() / 1.15 + player_cam_y,
                         cc_1002,
                         DrawTextureParams {
                             dest_size: Some(vec2(
@@ -1946,11 +1967,11 @@ async fn main() {
                 }
 
                 // Draws the ground
-                for i in -1..screen_width() as i32 / 160 + 2 {
+                for i in -1..game_width() as i32 / 160 + 2 {
                     draw_texture_ex(
                         &grnd_texture,
                         i as f32 * 155.0 - (cam_pos_x*5.0 % 155.0),
-                        screen_height() / 1.15 + cam_pos_y * 5.0 - 7.0,
+                        game_height() / 1.15 + cam_pos_y * 5.0 - 7.0,
                         cc_1002,
                         DrawTextureParams {
                             dest_size: Some(vec2(
@@ -1967,7 +1988,7 @@ async fn main() {
                 }
 
                 for object in &obj_grid {
-                    let obj_y = (screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
+                    let obj_y = (game_height() / 1.15 - 25.0) + (object.y as f32 - 500.0);
 
                     let rotation_f32: f32 = object.rotation as f32;
                     draw_texture_ex(
@@ -2014,24 +2035,24 @@ async fn main() {
 
                 for point in &player_trail {
                     if point.x - cam_pos_x * 5.0 > -10.0
-                    && point.x - cam_pos_x * 5.0 < screen_width() + 10.0 {
+                    && point.x - cam_pos_x * 5.0 < game_width() + 10.0 {
                         draw_circle(point.x - cam_pos_x * 5.0, point.y + cam_pos_y * 5.0, 5.0, LIME);
                     }
                 }
 
                 draw_rectangle(
                     0.0,
-                    screen_height() - 200.0,
-                    screen_width(),
+                    game_height() - 200.0,
+                    game_width(),
                     200.0,
                     Color::from_rgba(10, 10, 10, 100)
                 );
 
                 draw_line(
                     200.0,
-                    screen_height() - 200.0,
+                    game_height() - 200.0,
                     200.0,
-                    screen_height(),
+                    game_height(),
                     3.0,
                     WHITE
                 );
@@ -2051,8 +2072,8 @@ async fn main() {
                 if current_tab == 2 {
                     draw_text_pro(
                         "Click on an object to select it!",
-                        screen_width() / 2.0 - measure_text_ex("Click on an object to select it!", 20, &font) / 2.0 + 50.0,
-                        screen_height() - 100.0,
+                        game_width() / 2.0 - measure_text_ex("Click on an object to select it!", 20, &font) / 2.0 + 50.0,
+                        game_height() - 100.0,
                         20,
                         WHITE,
                         &font
@@ -2105,7 +2126,7 @@ async fn main() {
                         &font
                     );
 
-                    let correct_snapped_y = (screen_height() / 1.15 - 25.0) + (snapped_y as f32 - 500.0) as f32;
+                    let correct_snapped_y = (game_height() / 1.15 - 25.0) + (snapped_y as f32 - 500.0) as f32;
                     draw_rectangle_lines(
                         snapped_x as f32 - cam_pos_x * 5.0,
                         correct_snapped_y + cam_pos_y * 5.0,
@@ -2116,8 +2137,8 @@ async fn main() {
                     );
 
                     draw_rectangle(
-                        mouse_position().0 - grid_size as f32 / 2.0,
-                        mouse_position().1 - grid_size as f32 / 2.0,
+                        game_mouse_position().0 - grid_size as f32 / 2.0,
+                        game_mouse_position().1 - grid_size as f32 / 2.0,
                         grid_size as f32,
                         grid_size as f32,
                         Color::from_rgba(0, 255, 0, 150)
@@ -2142,8 +2163,8 @@ async fn main() {
                     Color::from_rgba(0, 50, 0, 255),
                     DrawTextureParams {
                         dest_size: Some(Vec2 {
-                            x: default_bg_no_gradient.width() * screen_width() as f32 * 0.0008,
-                            y: default_bg_no_gradient.height() * screen_width() as f32 * 0.0008
+                            x: default_bg_no_gradient.width() * game_width() as f32 * 0.0008,
+                            y: default_bg_no_gradient.height() * game_width() as f32 * 0.0008
                         }),
                         source: None,
                         rotation: 0.0,
@@ -2155,7 +2176,7 @@ async fn main() {
 
                 draw_text_pro(
                     "Level Complete!",
-                    screen_width() / 2.0 - measure_text_ex("Level Complete!", 40, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex("Level Complete!", 40, &font) / 2.0,
                     200.0,
                     40,
                     menu_text_color,
@@ -2169,8 +2190,8 @@ async fn main() {
                 if level_options_type == 1 {
                     draw_text_pro(
                         &main_levels[current_song_index as usize].name,
-                        screen_width() / 2.0 - measure_text_ex(&main_levels[current_song_index as usize].name, 30, &font) / 2.0,
-                        screen_height() - 30.0,
+                        game_width() / 2.0 - measure_text_ex(&main_levels[current_song_index as usize].name, 30, &font) / 2.0,
+                        game_height() - 30.0,
                         30,
                         WHITE,
                         &font
@@ -2213,8 +2234,8 @@ async fn main() {
                 if show_level_not_found {
                     draw_text_pro(
                         &level_download_response,
-                        screen_width() / 2.0 - measure_text_ex(&level_download_response, 30, &font) / 2.0,
-                        screen_height() / 2.0,
+                        game_width() / 2.0 - measure_text_ex(&level_download_response, 30, &font) / 2.0,
+                        game_height() / 2.0,
                         30,
                         WHITE,
                         &font
@@ -2229,7 +2250,7 @@ async fn main() {
             GameState::LevelPage => {
                 draw_text_pro(
                     &online_level_name,
-                    screen_width() / 2.0 - measure_text_ex(&online_level_name, 30, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex(&online_level_name, 30, &font) / 2.0,
                     150.0,
                     30,
                     WHITE,
@@ -2237,8 +2258,8 @@ async fn main() {
                 );
 
                 draw_rectangle(
-                    screen_width() / 2.0 - 394.0,
-                    screen_height() / 2.0 + 100.0,
+                    game_width() / 2.0 - 394.0,
+                    game_height() / 2.0 + 100.0,
                     789.0,
                     50.0,
                     Color::from_rgba(
@@ -2251,8 +2272,8 @@ async fn main() {
 
                 draw_text_pro(
                     &online_level_desc,
-                    screen_width() / 2.0 - measure_text_ex(&online_level_desc, 20, &font) / 2.0,
-                    screen_height() / 2.0 + 100.0 + 35.0,
+                    game_width() / 2.0 - measure_text_ex(&online_level_desc, 20, &font) / 2.0,
+                    game_height() / 2.0 + 100.0 + 35.0,
                     20,
                     WHITE,
                     &font
@@ -2308,7 +2329,7 @@ async fn main() {
 
                 draw_text_pro(
                     &online_level_creator,
-                    screen_width() / 2.0 - measure_text_ex(&online_level_creator, 50, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex(&online_level_creator, 50, &font) / 2.0,
                     80.0,
                     50,
                     WHITE,
@@ -2322,7 +2343,7 @@ async fn main() {
             GameState::AccountPage => {
                 draw_text_pro(
                     &login_response,
-                    screen_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex(&login_response, 20, &font) / 2.0,
                     200.0,
                     20,
                     menu_text_color,
@@ -2338,7 +2359,7 @@ async fn main() {
             GameState::LevelUpload => {
                 draw_text_pro(
                     &level_upload_response,
-                    screen_width() / 2.0 - measure_text_ex(&level_upload_response, 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex(&level_upload_response, 20, &font) / 2.0,
                     100.0,
                     20,
                     menu_text_color,
@@ -2347,7 +2368,7 @@ async fn main() {
 
                 draw_texture_ex(
                     &difficulties[current_difficulty as usize],
-                    screen_width() / 2.0 - 200.0,
+                    game_width() / 2.0 - 200.0,
                     -30.0,
                     WHITE,
                     DrawTextureParams {
@@ -2374,7 +2395,7 @@ async fn main() {
 
                 draw_text_pro(
                     "Use WASD to move objects one gridspace",
-                    screen_width() / 2.0 - measure_text_ex("Use WASD to move objects one gridspace!", 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex("Use WASD to move objects one gridspace!", 20, &font) / 2.0,
                     200.0,
                     20,
                     menu_text_color,
@@ -2383,7 +2404,7 @@ async fn main() {
 
                 draw_text_pro(
                     "Use Shift + WASD to move objects off grid",
-                    screen_width() / 2.0 - measure_text_ex("Use Shift + WASD to move objects off grid!", 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex("Use Shift + WASD to move objects off grid!", 20, &font) / 2.0,
                     250.0,
                     20,
                     menu_text_color,
@@ -2392,7 +2413,7 @@ async fn main() {
 
                 draw_text_pro(
                     "Use Q and E to rotate objects 90 degrees",
-                    screen_width() / 2.0 - measure_text_ex("Use Q and E to rotate objects 90 degrees", 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex("Use Q and E to rotate objects 90 degrees", 20, &font) / 2.0,
                     300.0,
                     20,
                     menu_text_color,
@@ -2401,7 +2422,7 @@ async fn main() {
 
                 draw_text_pro(
                     "Use Ctrl + D to duplicate objects",
-                    screen_width() / 2.0 - measure_text_ex("Use Ctrl + D to duplicate objects", 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex("Use Ctrl + D to duplicate objects", 20, &font) / 2.0,
                     350.0,
                     20,
                     menu_text_color,
@@ -2410,7 +2431,7 @@ async fn main() {
 
                 draw_text_pro(
                     "Use Alt + D to deselect all objects",
-                    screen_width() / 2.0 - measure_text_ex("Use Alt + D to deselect all objects", 20, &font) / 2.0,
+                    game_width() / 2.0 - measure_text_ex("Use Alt + D to deselect all objects", 20, &font) / 2.0,
                     400.0,
                     20,
                     menu_text_color,
@@ -2441,7 +2462,7 @@ async fn main() {
                 for line in lines {
                     draw_text_pro(
                         line,
-                        screen_width() / 2.0 - measure_text_ex(line, font_size, &font) / 2.0,
+                        game_width() / 2.0 - measure_text_ex(line, font_size, &font) / 2.0,
                         y,
                         font_size,
                         menu_text_color,

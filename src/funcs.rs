@@ -3,6 +3,229 @@ use image::ImageReader;
 
 use crate::types::*;
 
+// The game is always rendered inside a 16:9 canvas. If the window isn't 16:9
+// the canvas is centered and the leftover space becomes black bars, so the
+// layout never stretches and the aspect ratio never changes.
+pub const GAME_ASPECT_RATIO: f32 = 16.0 / 9.0;
+
+// Everything in the game (buttons, text, spacing, gameplay) is laid out at
+// this design resolution and then scaled onto the canvas, so the UI grows and
+// shrinks with the window instead of overlapping in a small window.
+pub const GAME_DESIGN_WIDTH: f32 = 1280.0;
+pub const GAME_DESIGN_HEIGHT: f32 = GAME_DESIGN_WIDTH / GAME_ASPECT_RATIO;
+
+pub fn game_canvas() -> Rect {
+    fit_canvas(screen_width(), screen_height())
+}
+
+fn fit_canvas(window_width: f32, window_height: f32) -> Rect {
+    let mut canvas_width = window_width;
+    let mut canvas_height = window_width / GAME_ASPECT_RATIO;
+
+    if canvas_height > window_height {
+        canvas_height = window_height;
+        canvas_width = window_height * GAME_ASPECT_RATIO;
+    }
+
+    let canvas_width = canvas_width.floor().max(1.0);
+    let canvas_height = canvas_height.floor().max(1.0);
+
+    Rect::new(
+        ((window_width - canvas_width) / 2.0).floor(),
+        ((window_height - canvas_height) / 2.0).floor(),
+        canvas_width,
+        canvas_height
+    )
+}
+
+// Width of the game in design units. Use this instead of screen_width().
+pub fn game_width() -> f32 {
+    GAME_DESIGN_WIDTH
+}
+
+// Height of the game in design units. Use this instead of screen_height().
+pub fn game_height() -> f32 {
+    GAME_DESIGN_HEIGHT
+}
+
+pub fn game_mouse_position() -> (f32, f32) {
+    mouse_to_game(mouse_position(), game_canvas())
+}
+
+fn mouse_to_game(mouse: (f32, f32), canvas: Rect) -> (f32, f32) {
+    let scale = canvas.w / GAME_DESIGN_WIDTH;
+
+    ((mouse.0 - canvas.x) / scale, (mouse.1 - canvas.y) / scale)
+}
+
+// Camera that draws in canvas space and clips the game to the canvas, which is
+// what makes the black bars around the game.
+pub fn game_camera() -> Camera2D {
+    canvas_camera(game_canvas(), screen_dpi_scale())
+}
+
+pub const GAMEPLAY_ZOOM: f32 = 1.5;
+
+const GAMEPLAY_ANCHOR_X: f32 = 200.0;
+
+pub fn gameplay_camera() -> Camera2D {
+    canvas_camera_zoomed(
+        game_canvas(),
+        screen_dpi_scale(),
+        GAMEPLAY_ZOOM,
+        vec2(GAMEPLAY_ANCHOR_X, GAME_DESIGN_HEIGHT / 1.15)
+    )
+}
+
+fn canvas_camera(canvas: Rect, dpi_scale: f32) -> Camera2D {
+    canvas_camera_zoomed(
+        canvas,
+        dpi_scale,
+        1.0,
+        vec2(GAME_DESIGN_WIDTH / 2.0, GAME_DESIGN_HEIGHT / 2.0)
+    )
+}
+
+fn canvas_camera_zoomed(
+    canvas: Rect,
+    dpi_scale: f32,
+    zoom: f32,
+    anchor: Vec2
+) -> Camera2D {
+    let center = vec2(GAME_DESIGN_WIDTH / 2.0, GAME_DESIGN_HEIGHT / 2.0);
+
+    let target = anchor - (anchor - center) / zoom;
+
+    Camera2D {
+        target,
+        // macroquad flips the Y axis of on screen 2D cameras, so a positive
+        // zoom here keeps Y going down and puts the origin in the top left
+        // corner of the canvas, just like the default camera
+        zoom: vec2(
+            2.0 / GAME_DESIGN_WIDTH * zoom,
+            2.0 / GAME_DESIGN_HEIGHT * zoom
+        ),
+        offset: Vec2::ZERO,
+        rotation: 0.0,
+        render_target: None,
+        viewport: Some((
+            (canvas.x * dpi_scale).round() as i32,
+            (canvas.y * dpi_scale).round() as i32,
+            (canvas.w * dpi_scale).round() as i32,
+            (canvas.h * dpi_scale).round() as i32
+        ))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const WINDOW_SIZES: [(f32, f32); 6] = [
+        (1280.0, 720.0),
+        (1920.0, 1080.0),
+        (2560.0, 1080.0),
+        (1920.0, 1200.0),
+        (800.0, 600.0),
+        (1000.0, 1000.0)
+    ];
+
+    #[test]
+    fn canvas_is_always_sixteen_by_nine_and_fits_inside_the_window() {
+        for (window_width, window_height) in WINDOW_SIZES {
+            let canvas = fit_canvas(window_width, window_height);
+
+            assert!(
+                (canvas.w / canvas.h - GAME_ASPECT_RATIO).abs() < 0.01,
+                "{}x{} gave a {}x{} canvas",
+                window_width, window_height, canvas.w, canvas.h
+            );
+
+            assert!(canvas.w <= window_width);
+            assert!(canvas.h <= window_height);
+        }
+    }
+
+    #[test]
+    fn canvas_is_centered_so_the_bars_are_even() {
+        for (window_width, window_height) in WINDOW_SIZES {
+            let canvas = fit_canvas(window_width, window_height);
+
+            assert!((canvas.x * 2.0 + canvas.w - window_width).abs() <= 1.0);
+            assert!((canvas.y * 2.0 + canvas.h - window_height).abs() <= 1.0);
+        }
+    }
+
+    #[test]
+    fn camera_stretches_the_design_space_over_the_canvas() {
+        let camera = canvas_camera(Rect::new(160.0, 90.0, 1280.0, 720.0), 1.0);
+        let matrix = camera.matrix();
+
+        let top_left = matrix.transform_point3(vec3(0.0, 0.0, 0.0));
+        let bottom_right = matrix.transform_point3(vec3(
+            GAME_DESIGN_WIDTH,
+            GAME_DESIGN_HEIGHT,
+            0.0
+        ));
+
+        // The design space has to fill the whole canvas exactly
+        assert!((top_left.x + 1.0).abs() < 1e-4);
+        assert!((bottom_right.x - 1.0).abs() < 1e-4);
+
+        // Y has to go down, so (0, 0) must be the top left corner
+        assert!((top_left.y - 1.0).abs() < 1e-4);
+        assert!((bottom_right.y + 1.0).abs() < 1e-4);
+    }
+
+    #[test]
+    fn gameplay_zoom_keeps_the_player_and_ground_in_place() {
+        let canvas = Rect::new(0.0, 0.0, GAME_DESIGN_WIDTH, GAME_DESIGN_HEIGHT);
+        let anchor = vec2(GAMEPLAY_ANCHOR_X, GAME_DESIGN_HEIGHT / 1.15);
+
+        let ui_matrix = canvas_camera(canvas, 1.0).matrix();
+        let play_matrix = canvas_camera_zoomed(canvas, 1.0, GAMEPLAY_ZOOM, anchor).matrix();
+
+        let ui_anchor = ui_matrix.transform_point3(vec3(anchor.x, anchor.y, 0.0));
+        let play_anchor = play_matrix.transform_point3(vec3(anchor.x, anchor.y, 0.0));
+
+        // The player/ground line must not move when the zoom kicks in
+        assert!((ui_anchor.x - play_anchor.x).abs() < 1e-4);
+        assert!((ui_anchor.y - play_anchor.y).abs() < 1e-4);
+
+        // And things next to the anchor have to appear GAMEPLAY_ZOOM times bigger
+        let ui_point = ui_matrix.transform_point3(vec3(anchor.x + 64.0, anchor.y, 0.0));
+        let play_point = play_matrix.transform_point3(vec3(anchor.x + 64.0, anchor.y, 0.0));
+
+        assert!(
+            (play_point.x - play_anchor.x - (ui_point.x - ui_anchor.x) * GAMEPLAY_ZOOM).abs() < 1e-4
+        );
+    }
+
+    #[test]
+    fn mouse_position_maps_back_into_design_space() {
+        let canvas = fit_canvas(1920.0, 1200.0);
+        let scale = canvas.w / GAME_DESIGN_WIDTH;
+
+        let game_position = mouse_to_game(
+            (canvas.x + 10.0 * scale, canvas.y + 20.0 * scale),
+            canvas
+        );
+
+        assert!((game_position.0 - 10.0).abs() < 1e-3);
+        assert!((game_position.1 - 20.0).abs() < 1e-3);
+    }
+
+    #[test]
+    fn sixteen_by_nine_windows_have_no_bars() {
+        let canvas = fit_canvas(1920.0, 1080.0);
+
+        assert_eq!(canvas.x, 0.0);
+        assert_eq!(canvas.y, 0.0);
+        assert_eq!(canvas.w, 1920.0);
+        assert_eq!(canvas.h, 1080.0);
+    }
+}
+
 pub fn draw_text_pro(
     text: &str,
     x: f32,
@@ -171,7 +394,7 @@ impl Button {
     }
 
     pub fn is_hovered(&self) -> bool {
-        self.rect.contains(mouse_position().into())
+        self.rect.contains(game_mouse_position().into())
     }
 
     pub fn is_clicked(&self) -> bool {
@@ -206,7 +429,7 @@ impl ObjectType {
                 .await.expect("Failed to load name texture"),
             button: Button::new(
                 move || 140.0 + (x_sort as f32 * obj_btn_offset),
-                move || screen_height() - (190.0 - (y_sort as f32 * obj_btn_offset)),
+                move || game_height() - (190.0 - (y_sort as f32 * obj_btn_offset)),
                 || 55.0,
                 || 55.0,
                 name,
@@ -256,12 +479,12 @@ impl TextBox {
     }
 
     pub fn is_clicked(&self) -> bool {
-        let mouse_pos = mouse_position();
+        let mouse_pos = game_mouse_position();
         self.rect.contains(mouse_pos.into()) && is_mouse_button_pressed(MouseButton::Left)
     }
 
     pub fn is_not_clicked(&self) -> bool {
-        let mouse_pos = mouse_position();
+        let mouse_pos = game_mouse_position();
         !self.rect.contains(mouse_pos.into()) && is_mouse_button_pressed(MouseButton::Left)
     }
 

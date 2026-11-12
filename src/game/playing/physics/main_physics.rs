@@ -2,6 +2,8 @@ use std::cell::Cell;
 
 use macroquad::prelude::*;
 
+use crate::funcs::*;
+
 pub fn physics_handle(
     player: &mut Rect,
     velocity_y: &Cell<f32>,
@@ -20,12 +22,12 @@ pub fn physics_handle(
     //     *on_ground = false;
     // }
 
-    if player.y > screen_height() / 1.15 - 20.0 + *player_cam_y {
-        player.y = screen_height() / 1.15 - 20.0;
+    if player.y > game_height() / 1.15 - 20.0 + *player_cam_y {
+        player.y = game_height() / 1.15 - 20.0;
         velocity_y.set(0.0);
         *on_ground = true;
         *rotation = 0.0
-    } else if player.y < screen_height() / 1.15 - 21.0 + *player_cam_y {
+    } else if player.y < game_height() / 1.15 - 21.0 + *player_cam_y {
         if is_key_down(KeyCode::Right) || current_mode == "1" {
             *rotation += 0.1
         } else if is_key_down(KeyCode::Left) {
@@ -48,8 +50,8 @@ pub fn physics_handle(
     if player.y < 20.0 {
         *player_cam_y -= velocity_y.get();
         player.y = 20.0
-    } else if player.y > screen_height() / 1.15 - 20.0 {
+    } else if player.y > game_height() / 1.15 - 20.0 {
         *player_cam_y -= velocity_y.get();
-        player.y = screen_height() / 1.15 - 20.0
+        player.y = game_height() / 1.15 - 20.0
     }
 }

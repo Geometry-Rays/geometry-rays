@@ -1,5 +1,6 @@
 use macroquad::prelude::*;
 use crate::types::ObjectStruct;
+use crate::funcs::*;
 
 pub fn keybind_handler(
     cam_pos_y: &mut f32,
@@ -170,15 +171,15 @@ pub fn object_ped(
         });
     } else if current_tab == 2 {
         let mouse_radius: Rect = Rect {
-            x: mouse_position().0 - grid_size as f32 / 2.0,
-            y: mouse_position().1 - grid_size as f32 / 2.0,
+            x: game_mouse_position().0 - grid_size as f32 / 2.0,
+            y: game_mouse_position().1 - grid_size as f32 / 2.0,
             w: grid_size as f32,
             h: grid_size as f32
         };
 
         let mut obj_index = 0;
         while obj_index < object_grid.len() {
-            let obj_y = (screen_height() / 1.15 - 25.0) + (object_grid[obj_index].y as f32 - 500.0);
+            let obj_y = (game_height() / 1.15 - 25.0) + (object_grid[obj_index].y as f32 - 500.0);
             if mouse_radius.contains(Vec2 {
                 x: object_grid[obj_index].x as f32 - cam_pos_x * 5.0 + grid_size as f32 / 2.0,
                 y: obj_y + cam_pos_y * 5.0 + grid_size as f32 / 2.0
@@ -209,9 +210,10 @@ pub fn panning(
     cam_pos_y: &mut f32
 ) {
     let mouse_delta = mouse_delta_position();
+    let canvas = game_canvas();
 
-    *cam_pos_x += mouse_delta.x * 70.0;
-    *cam_pos_y -= mouse_delta.y * 60.0;
+    *cam_pos_x += mouse_delta.x * screen_width() * 70.0 / canvas.w;
+    *cam_pos_y -= mouse_delta.y * screen_height() * 60.0 / canvas.h;
 }
 
 pub fn draw_color_preview_boxes(
@@ -228,7 +230,7 @@ pub fn draw_color_preview_boxes(
     match (bg_red.parse::<u8>(), bg_green.parse::<u8>(), bg_blue.parse::<u8>()) {
         (Ok(bg_red), Ok(bg_green), Ok(bg_blue)) => {
             draw_rectangle(
-                screen_width() - 450.0,
+                game_width() - 450.0,
                 10.0,
                 50.0,
                 50.0,
@@ -248,7 +250,7 @@ pub fn draw_color_preview_boxes(
         match (grnd_red.parse::<u8>(), grnd_green.parse::<u8>(), grnd_blue.parse::<u8>()) {
             (Ok(grnd_red), Ok(grnd_green), Ok(grnd_blue)) => {
                 draw_rectangle(
-                    screen_width() - 450.0,
+                    game_width() - 450.0,
                     80.0,
                     50.0,
                     50.0,

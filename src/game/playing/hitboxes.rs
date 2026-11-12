@@ -3,6 +3,7 @@ use std::cell::Cell;
 use macroquad::prelude::*;
 
 use crate::types::{GameMode, GameState, MainLevel, ObjectStruct};
+use crate::funcs::*;
 
 pub fn hitbox_collision(
     player: &mut Rect,
@@ -40,7 +41,7 @@ pub fn hitbox_collision(
     level_id: u16
 ) {
     for object in obj_grid {
-        let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
+        let obj_y = ((game_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
 
         match object.id {
             1 => {
@@ -296,7 +297,7 @@ pub fn hitbox_draw(
     player_cam_y: f32,
 ) {
     for object in obj_grid {
-        let obj_y = ((screen_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
+        let obj_y = ((game_height() / 1.15 - 25.0) + (object.y as f32 - 500.0)) + 6.0;
         if object.id == 1 {
             draw_rectangle_lines(
                 object.x as f32 - world_offset + 15.0,
