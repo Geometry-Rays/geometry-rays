@@ -342,10 +342,20 @@ async fn main() {
 
     let mut login_button: Button = Button::new(
         || game_width() / 2.0 - 100.0,
-        || game_height() - 200.0,
+        || game_height() - 250.0,
         || 200.0,
         || 100.0,
         "Login",
+        20,
+        false
+    );
+
+    let mut register_button: Button = Button::new(
+        || game_width() / 2.0 - 100.0,
+        || game_height() - 130.0,
+        || 200.0,
+        || 100.0,
+        "Register",
         20,
         false
     );
@@ -439,6 +449,7 @@ async fn main() {
     let download_url: String = format!("{}download-level.php", main_url);
     let upload_url: String = format!("{}upload-level.php", main_url).to_string();
     let login_url: String = format!("{}login.php", main_url);
+    let register_url: String = format!("{}register.php", main_url).to_string();
     let get_chat_url: String = format!("{}get-chats.php", main_url);
     let send_chat_url: String = format!("{}send-chat.php", main_url);
 
@@ -1526,6 +1537,7 @@ async fn main() {
             GameState::AccountPage => {
                 back_button.update(delta_time);
                 login_button.update(delta_time);
+                register_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu);
@@ -1547,6 +1559,18 @@ async fn main() {
                         password = password_textbox.input.clone();
                         logged_in = true;
                     }
+                }
+
+                if register_button.is_clicked() {
+                    login_response = ureq::post(&register_url)
+                        .send_form([
+                            ("user", username_textbox.input.clone().as_str()),
+                            ("pass", password_textbox.input.clone().as_str()),
+                        ])
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap();
                 }
 
                 username_textbox.input();
@@ -1627,6 +1651,7 @@ async fn main() {
                         .into_body()
                         .read_to_string()
                         .unwrap();
+                    println!("Send chat response: {}", send_chat_response);
 
                     chat_textbox.input = "".to_string();
                 }
@@ -2352,6 +2377,7 @@ async fn main() {
 
                 back_button.draw(false, None, 1.0, false, &font);
                 login_button.draw(false, None, 1.0, false, &font);
+                register_button.draw(false, None, 1.0, false, &font);
                 username_textbox.draw(&font);
                 password_textbox.draw(&font);
             }
