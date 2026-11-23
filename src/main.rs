@@ -77,36 +77,53 @@ async fn main() {
         false
     );
 
-    let creator_menu_button_gap: f32 = 115.0;
+    let creator_menu_button_width: f32 = 200.0;
+    let creator_menu_button_gap = 50.0;
+    let creator_menu_button_count: f32 = 4.0;
+    let creator_menu_button_step = creator_menu_button_width + creator_menu_button_gap;                  // 315.0
+    let creator_menu_button_total_width = creator_menu_button_count * creator_menu_button_width + (creator_menu_button_count - 1.0) * creator_menu_button_gap; // 1145.0
 
-    let mut featured_button = Button::new(
-        || game_width() / 2.0 - 100.0,
-        || game_height() / 2.0 - 100.0,
-        || 200.0,
-        || 200.0,
-        "Featured",
-        20,
-        true
-    );
+    // Left edge of the leftmost button, so the whole group is centered
+    let first_x = move || game_width() / 2.0 - creator_menu_button_total_width / 2.0;
 
     let mut create_button = Button::new(
-        move || game_width() / 2.0 - creator_menu_button_gap - 200.0,
+        first_x,
         || game_height() / 2.0 - 100.0,
         || 200.0,
         || 200.0,
         "Create",
         20,
-        false
+        false,
+    );
+
+    let mut featured_button = Button::new(
+        move || first_x() + creator_menu_button_step,
+        || game_height() / 2.0 - 100.0,
+        || 200.0,
+        || 200.0,
+        "Featured",
+        20,
+        true,
     );
 
     let mut search_button = Button::new(
-        move || game_width() / 2.0 + creator_menu_button_gap,
+        move || first_x() + creator_menu_button_step * 2.0,
         || game_height() / 2.0 - 100.0,
         || 200.0,
         || 200.0,
         "Search",
         20,
-        false
+        false,
+    );
+
+    let mut level_packs_button = Button::new(
+        move || first_x() + creator_menu_button_step * 3.0,
+        || game_height() / 2.0 - 100.0,
+        || 200.0,
+        || 200.0,
+        "Level Packs",
+        20,
+        false,
     );
 
     let mut editor_keybinds_button = Button::new(
@@ -1090,6 +1107,7 @@ async fn main() {
                 featured_button.update(delta_time);
                 create_button.update(delta_time);
                 search_button.update(delta_time);
+                level_packs_button.update(delta_time);
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu)
@@ -1970,6 +1988,7 @@ async fn main() {
                 featured_button.draw(false, None, 1.0, false, &font);
                 create_button.draw(false, None, 1.0, false, &font);
                 search_button.draw(false, None, 1.0, false, &font);
+                level_packs_button.draw(false, None, 1.0, false, &font);
             }
 
             GameState::Editor => {
