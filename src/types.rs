@@ -19,7 +19,8 @@ pub enum GameState {
     AccountPage,
     LevelUpload,
     EditorKeybinds,
-    ChatMenu
+    ChatMenu,
+    LevelPacksMenu
 }
 
 pub struct Button {

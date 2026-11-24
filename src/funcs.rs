@@ -731,6 +731,7 @@ impl GameState {
             GameState::LevelUpload => return "LevelUpload".to_string(),
             GameState::EditorKeybinds => return "EditorKeybinds".to_string(),
             GameState::ChatMenu => return "ChatMenu".to_string(),
+            GameState::LevelPacksMenu => return "LevelPacksMenu".to_string()
         }
     }
 }

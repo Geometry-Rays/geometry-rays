@@ -1137,6 +1137,10 @@ async fn main() {
                 if search_button.is_clicked() {
                     game_state.0.set(GameState::SearchPage);
                 }
+
+                if level_packs_button.is_clicked() {
+                    game_state.0.set(GameState::LevelPacksMenu)
+                }
             }
 
             GameState::Editor => {
@@ -1699,6 +1703,14 @@ async fn main() {
                     Err(crossbeam::channel::TryRecvError::Disconnected) => {
                         eprintln!("Channel disconnected");
                     }
+                }
+            }
+
+            GameState::LevelPacksMenu => {
+                back_button.update(delta_time);
+
+                if back_button.is_clicked() {
+                    game_state.0.set(GameState::CreatorMenu);
                 }
             }
         }
@@ -2515,6 +2527,10 @@ async fn main() {
                     );
                     y += font_size as f32 + 20.0;
                 }
+            }
+
+            GameState::LevelPacksMenu => {
+                back_button.draw(false, None, 1.0, false, &font);
             }
         }
 
