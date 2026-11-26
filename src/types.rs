@@ -20,7 +20,8 @@ pub enum GameState {
     LevelUpload,
     EditorKeybinds,
     ChatMenu,
-    LevelPacksMenu
+    LevelPacksMenu,
+    LevelList,
 }
 
 pub struct Button {
@@ -83,6 +84,15 @@ pub struct LevelPack {
     pub id: String,
     pub name: String,
     pub difficulty: u8,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct OnlineLevelSummary {
+    pub id: String,
+    pub name: String,
+    pub creator: String,
+    pub difficulty: u8,
+    pub rated: bool,
 }
 
 #[derive(PartialEq)]

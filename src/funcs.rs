@@ -26,6 +26,37 @@ pub fn parse_level_packs_response(response: &str) -> Vec<LevelPack> {
         .collect()
 }
 
+pub fn parse_level_list_response(response: &str) -> Vec<OnlineLevelSummary> {
+    let response = response.trim();
+    if response.is_empty() || response == "invalid_request" || response == "Level pack doesn't exist!" {
+        return Vec::new();
+    }
+
+    response
+        .split(';')
+        .filter_map(|entry| {
+            let mut fields = entry.splitn(5, ':');
+            let id = fields.next()?.trim();
+            let name = fields.next()?.trim();
+            let creator = fields.next()?.trim();
+            let difficulty = fields.next()?.trim().parse::<u8>().ok()?;
+            let rated = fields.next()?.trim() != "0";
+
+            if id.is_empty() || name.is_empty() || creator.is_empty() || difficulty > 10 {
+                return None;
+            }
+
+            Some(OnlineLevelSummary {
+                id: id.to_string(),
+                name: name.to_string(),
+                creator: creator.to_string(),
+                difficulty,
+                rated,
+            })
+        })
+        .collect()
+}
+
 // The game is always rendered inside a 16:9 canvas. If the window isn't 16:9
 // the canvas is centered and the leftover space becomes black bars, so the
 // layout never stretches and the aspect ratio never changes.
@@ -754,7 +785,8 @@ impl GameState {
             GameState::LevelUpload => return "LevelUpload".to_string(),
             GameState::EditorKeybinds => return "EditorKeybinds".to_string(),
             GameState::ChatMenu => return "ChatMenu".to_string(),
-            GameState::LevelPacksMenu => return "LevelPacksMenu".to_string()
+            GameState::LevelPacksMenu => return "LevelPacksMenu".to_string(),
+            GameState::LevelList => return "LevelList".to_string()
         }
     }
 }

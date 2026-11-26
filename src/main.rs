@@ -470,9 +470,12 @@ async fn main() {
     let get_chat_url: String = format!("{}get-chats.php", main_url);
     let send_chat_url: String = format!("{}send-chat.php", main_url);
     let level_packs_url: String = format!("{}level-packs.php", main_url);
+    let get_level_pack_url: String = format!("{}get-level-pack.php", main_url);
+    let get_level_list_url: String = format!("{}get-level-list.php", main_url);
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
+    let mut previous_game_state: GameState = GameState::Menu;
     let mut player: Rect = Rect { x: 200.0, y: game_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
     let mut small_player = player;
@@ -611,11 +614,19 @@ async fn main() {
     let mut chat_timer: Timer = Timer::new(5.0);
     let (sender, receiver) = crossbeam::channel::bounded::<String>(1);
     let (level_packs_sender, level_packs_receiver) = crossbeam::channel::bounded::<String>(1);
+    let (pack_ids_sender, pack_ids_receiver) = crossbeam::channel::bounded::<(String, String)>(1);
+    let (level_list_sender, level_list_receiver) = crossbeam::channel::bounded::<String>(1);
     let mut level_packs: Vec<LevelPack> = Vec::new();
     let mut level_packs_loading = false;
     let mut level_packs_refresh_requested = false;
     let mut level_packs_scroll = 0.0_f32;
     let mut level_pack_play_buttons: Vec<Button> = Vec::new();
+    let mut level_pack_view_request: Option<String> = None;
+    let mut level_pack_view_error: Option<String> = None;
+    let mut level_list: Vec<OnlineLevelSummary> = Vec::new();
+    let mut level_list_loading = false;
+    let mut level_list_scroll = 0.0_f32;
+    let mut level_list_buttons: Vec<Button> = Vec::new();
     let old_theme: bool = true;
     let menu_text_color: Color = if old_theme { WHITE } else { RED };
 
@@ -914,6 +925,7 @@ async fn main() {
                     );
 
                     if load_level_result == "ok" {
+                        previous_game_state = GameState::LevelSelect;
                         game_state.0.set(GameState::Playing)
                     } else {
                         println!("Problem loading level: {}", load_level_result);
@@ -1081,7 +1093,7 @@ async fn main() {
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
-                    game_state.0.set(GameState::LevelSelect)
+                    game_state.0.set(previous_game_state)
                 }
 
                 if movement_speed.0.get() > default_movement_speed.0.get() * 1.3 {
@@ -1534,6 +1546,7 @@ async fn main() {
                         );
 
                         show_level_not_found = false;
+                        previous_game_state = GameState::SearchPage;
                         game_state.0.set(GameState::LevelPage);
                     } else {
                         show_level_not_found = true;
@@ -1548,7 +1561,7 @@ async fn main() {
                 level_play_button.update(delta_time);
 
                 if back_button.is_clicked() {
-                    game_state.0.set(GameState::SearchPage);
+                    game_state.0.set(previous_game_state);
                 }
 
                 if level_play_button.is_clicked() {
@@ -1573,6 +1586,7 @@ async fn main() {
 
                     if load_level_result == "ok" {
                         level_mode = 3;
+                        previous_game_state = GameState::LevelPage;
                         game_state.0.set(GameState::Playing);
                     } else {
                         println!("Problem loading level: {}", load_level_result);
@@ -1756,6 +1770,34 @@ async fn main() {
                     level_packs_refresh_requested = false;
                 }
 
+                if let Some(requested_pack_id) = level_pack_view_request.clone() {
+                    if let Ok((response_pack_id, ids_response)) = pack_ids_receiver.try_recv() {
+                        if response_pack_id == requested_pack_id {
+                            level_pack_view_request = None;
+                            let ids = ids_response.trim().to_string();
+                            if ids.is_empty() || ids == "invalid_request" || ids == "Level pack doesn't exist!" {
+                                level_pack_view_error = Some(ids_response);
+                            } else {
+                                level_list.clear();
+                                level_list_scroll = 0.0;
+                                level_list_loading = true;
+                                let url = get_level_list_url.clone();
+                                let sender = level_list_sender.clone();
+                                std::thread::spawn(move || {
+                                    let result = ureq::get(url)
+                                        .query("ids", &ids)
+                                        .call()
+                                        .and_then(|response| response.into_body().read_to_string())
+                                        .unwrap_or_else(|error| format!("request_error:{error}"));
+                                    let _ = sender.send(result);
+                                });
+                                previous_game_state = GameState::LevelPacksMenu;
+                                game_state.0.set(GameState::LevelList);
+                            }
+                        }
+                    }
+                }
+
                 let viewport_y = 125.0;
                 let viewport_height = game_height() - viewport_y - 25.0;
                 let row_height = 90.0;
@@ -1790,8 +1832,74 @@ async fn main() {
                     level_pack_play_buttons.push(button);
                 }
 
+                if level_pack_view_request.is_none() {
+                    if let Some((_index, pack)) = level_packs.iter().enumerate()
+                        .find(|(index, _)| level_pack_play_buttons.get(*index)
+                            .map(|button| button.is_clicked()).unwrap_or(false)) {
+                        let pack_id = pack.id.clone();
+                        level_pack_view_error = None;
+                        level_pack_view_request = Some(pack_id.clone());
+                        let url = get_level_pack_url.clone();
+                        let sender = pack_ids_sender.clone();
+                        std::thread::spawn(move || {
+                            let result = ureq::get(url)
+                                .query("id", &pack_id)
+                                .call()
+                                .and_then(|response| response.into_body().read_to_string())
+                                .unwrap_or_else(|error| format!("request_error:{error}"));
+                            let _ = sender.send((pack_id, result));
+                        });
+                    }
+                }
+
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::CreatorMenu);
+                }
+            },
+
+            GameState::LevelList => {
+                back_button.update(delta_time);
+
+                if let Ok(response) = level_list_receiver.try_recv() {
+                    level_list = parse_level_list_response(&response);
+                    level_list_loading = false;
+                }
+
+                let viewport_y = 125.0;
+                let viewport_height = game_height() - viewport_y - 25.0;
+                let row_height = 120.0;
+                let row_gap = 14.0;
+                let content_height = level_list.len() as f32 * (row_height + row_gap);
+                let max_scroll = (content_height - viewport_height).max(0.0);
+                if mouse_wheel().1 != 0.0 {
+                    let (mouse_x, mouse_y) = game_mouse_position();
+                    if mouse_x >= 170.0 && mouse_x <= game_width() - 40.0
+                    && mouse_y >= viewport_y && mouse_y <= viewport_y + viewport_height {
+                        level_list_scroll = (level_list_scroll - mouse_wheel().1 * 35.0)
+                            .clamp(0.0, max_scroll);
+                    }
+                }
+
+                level_list_buttons.clear();
+                for (index, _level) in level_list.iter().enumerate() {
+                    let y = viewport_y + index as f32 * (row_height + row_gap) - level_list_scroll;
+                    let mut button = Button::new(
+                        || game_width() - 190.0,
+                        move || y + 15.0,
+                        || 130.0,
+                        || 60.0,
+                        "View",
+                        18,
+                        false,
+                    );
+                    if y + row_height >= viewport_y && y <= viewport_y + viewport_height {
+                        button.update(delta_time);
+                    }
+                    level_list_buttons.push(button);
+                }
+
+                if back_button.is_clicked() {
+                    game_state.0.set(previous_game_state);
                 }
             }
         }
@@ -2653,6 +2761,72 @@ async fn main() {
                         &font,
                     );
                     if let Some(button) = level_pack_play_buttons.get(index) {
+                        button.draw(false, None, 1.0, false, &font);
+                    }
+                }
+
+                if let Some(error) = &level_pack_view_error {
+                    draw_text_pro(error, 180.0, 115.0, 15, RED, &font);
+                } else if level_pack_view_request.is_some() {
+                    draw_text_pro("Loading pack...", 180.0, 115.0, 15, menu_text_color, &font);
+                }
+
+                back_button.draw(false, None, 1.0, false, &font);
+            }
+
+            GameState::LevelList => {
+                let viewport_y = 125.0;
+                let viewport_height = game_height() - viewport_y - 25.0;
+                let row_height = 120.0;
+                let row_gap = 14.0;
+                draw_text_pro(
+                    if level_list_loading { "Loading levels..." }
+                    else if level_list.is_empty() { "No levels found" }
+                    else { "Levels" },
+                    180.0,
+                    95.0,
+                    25,
+                    menu_text_color,
+                    &font,
+                );
+
+                for (index, level) in level_list.iter().enumerate() {
+                    let y = viewport_y + index as f32 * (row_height + row_gap) - level_list_scroll;
+                    if y + row_height < viewport_y || y > viewport_y + viewport_height {
+                        continue;
+                    }
+
+                    draw_rectangle(170.0, y, game_width() - 210.0, row_height, GRAY);
+                    draw_rectangle_lines(170.0, y, game_width() - 210.0, row_height, 2.0, BLACK);
+                    draw_texture_ex(
+                        &difficulties[level.difficulty as usize],
+                        70.0,
+                        y - 105.0,
+                        WHITE,
+                        DrawTextureParams {
+                            dest_size: Some(vec2(300.0, 300.0)),
+                            ..Default::default()
+                        },
+                    );
+                    draw_text_pro(&level.name, 300.0, y + 52.0, 21, BLACK, &font);
+                    draw_text_pro(&level.creator, 300.0, y + 80.0, 14, BLACK, &font);
+
+                    // Match LevelPage: rated levels show the difficulty number and star.
+                    if level.rated {
+                        draw_text_pro(&level.difficulty.to_string(), 230.0, y + 114.0, 19, BLACK, &font);
+                        draw_texture_ex(
+                            &star_texture,
+                            120.0,
+                            y + 20.0,
+                            WHITE,
+                            DrawTextureParams {
+                                dest_size: Some(vec2(star_texture.width() * 0.1, star_texture.height() * 0.1)),
+                                ..Default::default()
+                            },
+                        );
+                    }
+
+                    if let Some(button) = level_list_buttons.get(index) {
                         button.draw(false, None, 1.0, false, &font);
                     }
                 }
