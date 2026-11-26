@@ -78,6 +78,13 @@ pub struct MainLevel {
     pub data: String
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct LevelPack {
+    pub id: String,
+    pub name: String,
+    pub difficulty: u8,
+}
+
 #[derive(PartialEq)]
 pub enum GameMode {
     Cube,

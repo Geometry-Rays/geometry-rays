@@ -3,6 +3,29 @@ use image::ImageReader;
 
 use crate::types::*;
 
+pub fn parse_level_packs_response(response: &str) -> Vec<LevelPack> {
+    let response = response.trim();
+    if response.is_empty() || response == "No packs found!" || response == "invalid_request" {
+        return Vec::new();
+    }
+
+    response
+        .split(';')
+        .filter_map(|entry| {
+            let mut fields = entry.splitn(3, ':');
+            let id = fields.next()?.trim();
+            let name = fields.next()?.trim();
+            let difficulty = fields.next()?.trim().parse::<u8>().ok()?;
+
+            if id.is_empty() || name.is_empty() || difficulty > 10 {
+                return None;
+            }
+
+            Some(LevelPack { id: id.to_string(), name: name.to_string(), difficulty })
+        })
+        .collect()
+}
+
 // The game is always rendered inside a 16:9 canvas. If the window isn't 16:9
 // the canvas is centered and the leftover space becomes black bars, so the
 // layout never stretches and the aspect ratio never changes.
