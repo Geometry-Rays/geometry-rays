@@ -4,10 +4,10 @@ version = "1.2.0"
 edition = "2024"
 
 [dependencies]
-macroquad = "0.4.14"
+macroquad = "0.4.16"
 gr-rodio = "1.1.1"
-ureq = "3.2.0"
-mlua = { version = "0.11.6", features = ["lua54", "vendored"] }
-futures = "0.3.32"
-image = "0.25.9"
-crossbeam = "0.8.4"
+ureq = "3.5.2"
+mlua = { version = "0.12.3", features = ["lua54", "vendored"] }
+futures = "0.3.34"
+image = "0.25.10"
+crossbeam = "0.8.5"
