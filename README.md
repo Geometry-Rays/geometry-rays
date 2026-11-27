@@ -16,14 +16,6 @@ Check out [the docs](https://github.com/Geometry-Rays/modding-docs) to get start
 
 ## State of Development
 
-I (Puppet) have resigned as lead dev of georays.
+I (Puppet) have returned to the role of lead dev.
 
-I have just lost most of my motivation for working on georays and I have started moving on to new projects.
-
-Lncvrt has commit access so he will be taking over development.
-
-I'm not saying I won't come back but I'm not saying I will.
-
-I don't know how much lncvrt is going to work on georays if at all.
-
-If I were to ever come back I would probably rewrite the game in godot.
+I can't guarantee I'll work on geometry rays much but yeah I'm back.
