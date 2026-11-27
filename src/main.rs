@@ -475,7 +475,8 @@ async fn main() {
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
-    let mut previous_game_state: GameState = GameState::Menu;
+    let mut back_button_destination: GameState = GameState::Menu;
+    let mut backspace_destination: GameState = GameState::LevelSelect;
     let mut player: Rect = Rect { x: 200.0, y: game_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
     let mut small_player = player;
@@ -925,7 +926,7 @@ async fn main() {
                     );
 
                     if load_level_result == "ok" {
-                        previous_game_state = GameState::LevelSelect;
+                        backspace_destination = GameState::LevelSelect;
                         game_state.0.set(GameState::Playing)
                     } else {
                         println!("Problem loading level: {}", load_level_result);
@@ -1093,7 +1094,7 @@ async fn main() {
 
                     stop_audio(&sink);
                     play_audio_path("Resources/Music/menu-music.mp3", master_volume, true, &sink);
-                    game_state.0.set(previous_game_state)
+                    game_state.0.set(backspace_destination)
                 }
 
                 if movement_speed.0.get() > default_movement_speed.0.get() * 1.3 {
@@ -1546,7 +1547,7 @@ async fn main() {
                         );
 
                         show_level_not_found = false;
-                        previous_game_state = GameState::SearchPage;
+                        back_button_destination = GameState::SearchPage;
                         game_state.0.set(GameState::LevelPage);
                     } else {
                         show_level_not_found = true;
@@ -1561,7 +1562,7 @@ async fn main() {
                 level_play_button.update(delta_time);
 
                 if back_button.is_clicked() {
-                    game_state.0.set(previous_game_state);
+                    game_state.0.set(back_button_destination);
                 }
 
                 if level_play_button.is_clicked() {
@@ -1586,7 +1587,7 @@ async fn main() {
 
                     if load_level_result == "ok" {
                         level_mode = 3;
-                        previous_game_state = GameState::LevelPage;
+                        backspace_destination = GameState::LevelPage;
                         game_state.0.set(GameState::Playing);
                     } else {
                         println!("Problem loading level: {}", load_level_result);
@@ -1791,7 +1792,7 @@ async fn main() {
                                         .unwrap_or_else(|error| format!("request_error:{error}"));
                                     let _ = sender.send(result);
                                 });
-                                previous_game_state = GameState::LevelPacksMenu;
+                                back_button_destination = GameState::LevelPacksMenu;
                                 game_state.0.set(GameState::LevelList);
                             }
                         }
@@ -1898,8 +1899,39 @@ async fn main() {
                     level_list_buttons.push(button);
                 }
 
+                if let Some((_, level)) = level_list.iter().enumerate()
+                    .find(|(index, _)| level_list_buttons.get(*index)
+                        .map(|button| button.is_clicked()).unwrap_or(false)) {
+                    level_id_textbox.input = level.id.clone();
+                    level_download_response = ureq::get(download_url.clone())
+                        .query("id", &level_id_textbox.input)
+                        .call()
+                        .unwrap()
+                        .into_body()
+                        .read_to_string()
+                        .unwrap();
+
+                    if level_download_response.contains(";;;;;") {
+                        parse_level_download_response(
+                            level_download_response.clone(),
+                            &mut online_level_name,
+                            &mut online_level_desc,
+                            &mut online_level_diff,
+                            &mut online_level_rated,
+                            &mut online_level_creator,
+                            &mut online_level_data
+                        );
+
+                        show_level_not_found = false;
+                        back_button_destination = GameState::LevelList;
+                        game_state.0.set(GameState::LevelPage);
+                    } else {
+                        show_level_not_found = true;
+                    }
+                }
+
                 if back_button.is_clicked() {
-                    game_state.0.set(previous_game_state);
+                    game_state.0.set(GameState::LevelPacksMenu);
                 }
             }
         }
