@@ -103,7 +103,7 @@ async fn main() {
         || 200.0,
         "Featured",
         20,
-        true,
+        false,
     );
 
     let mut search_button = Button::new(
@@ -472,10 +472,12 @@ async fn main() {
     let level_packs_url: String = format!("{}level-packs.php", main_url);
     let get_level_pack_url: String = format!("{}get-level-pack.php", main_url);
     let get_level_list_url: String = format!("{}get-level-list.php", main_url);
+    let get_featured_url: String = format!("{}get-featured.php", main_url);
 
     println!("Defining important game variables..");
     let game_state: Shared<GameState> = Shared::<GameState>(Rc::new(Cell::new(GameState::Menu)));
     let mut back_button_destination: GameState = GameState::Menu;
+    let mut level_list_back_destination: GameState = GameState::CreatorMenu;
     let mut backspace_destination: GameState = GameState::LevelSelect;
     let mut player: Rect = Rect { x: 200.0, y: game_height() / 1.15, w: 40.0, h: 40.0 };
     let mut centered_player: Rect = Rect { x: 0.0, y: 0.0, w: 40.0, h: 40.0 };
@@ -1131,6 +1133,35 @@ async fn main() {
 
                 if back_button.is_clicked() {
                     game_state.0.set(GameState::Menu)
+                }
+
+                if featured_button.is_clicked() && !level_list_loading {
+                    level_list.clear();
+                    level_list_scroll = 0.0;
+                    level_list_loading = true;
+                    let url = get_featured_url.clone();
+                    let level_list_url = get_level_list_url.clone();
+                    let sender = level_list_sender.clone();
+                    std::thread::spawn(move || {
+                        let ids = ureq::get(url)
+                            .call()
+                            .and_then(|response| response.into_body().read_to_string())
+                            .unwrap_or_else(|error| format!("request_error:{error}"));
+                        let ids = ids.trim().to_string();
+                        let result = if ids.is_empty() || ids == "invalid_request" {
+                            ids
+                        } else {
+                            ureq::get(level_list_url)
+                                .query("ids", &ids)
+                                .call()
+                                .and_then(|response| response.into_body().read_to_string())
+                                .unwrap_or_else(|error| format!("request_error:{error}"))
+                        };
+                        let _ = sender.send(result);
+                    });
+                    back_button_destination = GameState::CreatorMenu;
+                    level_list_back_destination = GameState::CreatorMenu;
+                    game_state.0.set(GameState::LevelList);
                 }
 
                 if editor_keybinds_button.is_clicked() {
@@ -1792,7 +1823,7 @@ async fn main() {
                                         .unwrap_or_else(|error| format!("request_error:{error}"));
                                     let _ = sender.send(result);
                                 });
-                                back_button_destination = GameState::LevelPacksMenu;
+                                level_list_back_destination = GameState::LevelPacksMenu;
                                 game_state.0.set(GameState::LevelList);
                             }
                         }
@@ -1931,7 +1962,7 @@ async fn main() {
                 }
 
                 if back_button.is_clicked() {
-                    game_state.0.set(GameState::LevelPacksMenu);
+                    game_state.0.set(level_list_back_destination);
                 }
             }
         }
